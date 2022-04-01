@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      padding-top: 48px;
+      font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      background-color: #22222b;
+      color: #ffffff;
+      height: 48px;
+      padding: 0 24px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+    }
+
+    nav {
+      margin-left: 24px;
+    }
+
+    #links_container {
+      margin: 0;
+      padding: 0;
+    }
+
+    #links_container li {
+      display: inline-block;
+      padding: 0 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <svg width="111" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1189.566 214.007">
+      <path fill="currentColor"
+        d="M557.586 461.984c-20.073-17.273-48.63-26.033-84.886-26.033H365.218c1.38 50.337 1.38 82.176 1.38 105.527 0 23.353 0 52.32-1.377 102.566h107.48c71.696 0 116.236-39.867 116.236-104.045 0-33.863-10.549-60.11-31.35-78.015M472.7 612.596h-60.38V467.105h60.38c45.832 0 69.068 24.524 69.068 72.894 0 47.49-23.885 72.597-69.068 72.597M1196.87 432.996c-70.614 0-116.241 42.002-116.241 107.002 0 68 42.369 107.005 116.24 107.005 70.609 0 116.236-42.001 116.236-107.005 0-68.001-42.365-107.002-116.236-107.002m0 182.559c-45.83 0-69.07-25.421-69.07-75.557 0-47.497 25.821-75.854 69.07-75.854 45.831 0 69.067 25.52 69.067 75.854 0 48.019-25.172 75.557-69.067 75.557M1455.115 523.534c-35.854-1.957-66.817-3.643-66.817-27.327 0-15.975 10.322-35.02 59.508-35.02 39.27 0 58.358 12.231 58.358 37.388 0 2.432-.154 4.693-.352 6.997h41.48a113.127 113.127 0 0 0 .83-14.396c0-38.606-34.236-58.18-101.76-58.18-48.01 0-105.233 11.118-105.233 64.097 0 51.213 52.785 54.535 99.355 57.471 36.021 2.268 67.128 4.228 67.128 28.338 0 24.631-20.226 35.612-65.589 35.612-44.918 0-66.757-12.713-66.757-38.867 0-1.387 0-2.993.08-4.626h-41.205a64.951 64.951 0 0 0-.254 6.994c0 45.55 33.465 64.988 111.9 64.988 73.342 0 108.997-21.933 108.997-67.058 0-50.975-52.952-53.866-99.669-56.41M952.583 523.325h-21.386c-19.01 0-41.286-2.676-41.286-39.242v-18.132h62.672c27.919 0 47.524 4.756 47.524 28.24 0 19.92-14.554 29.134-47.524 29.134m107.226 61.833c-.89-25.564-17.528-46.079-43.366-47.564l-5.35-.297v-3.268l5.052-.596c18.714-2.973 31.782-20.812 31.782-43.7 0-36.268-23.467-54.4-70.99-54.4h-133.66v43.104c0 65.697 35.94 76.698 84.353 76.698h31.489c29.997 0 48.708 6.54 50.196 29.427-1.188 19.92-20.2 28.242-51.387 28.242h-68.91v-37.457h-39.801l-11.881 68.075h115.063c53.167 0 107.41-8.025 107.41-58.264M803.45 644.044l5.044-31.214H667.88v-58.267h112.728l4.155-31.51H667.88v-55.888h135.57V435.95H621.012c1.482 50.537 1.482 82.347 1.482 105.83 0 23.188 0 52.322-1.482 102.263Z"
+        transform="translate(-365.218 -432.996)" />
+    </svg>
+    <nav>
+      <ul id="links_container"></ul>
+    </nav>
+  </header>
+
+  <redoc scroll-y-offset="body > nav"></redoc>
+
+  <script src="https://cdn.jsdelivr.net/npm/redoc@2.0.0-alpha.17/bundles/redoc.standalone.js"></script>
+  <script type="text/javascript" src="apis.json"></script>
+  <script>
+    // list of APIS
+    var apis = getJson('https://raw.githubusercontent.com/ljharb/json-file-plus/main/package.json');
+
+    // initially render first API
+    Redoc.init(apis[0].url);
+
+    function onClick() {
+      var url = this.getAttribute('data-link');
+      Redoc.init(url);
+    }
+
+    // dynamically building navigation items
+    var $list = document.getElementById('links_container');
+    apis.forEach(function (api) {
+      var $listitem = document.createElement('li');
+      $listitem.setAttribute('data-link', api.url);
+      $listitem.innerText = api.name;
+      $listitem.addEventListener('click', onClick);
+      $list.appendChild($listitem);
+    });
+
+    async function getJson() {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    }
+  </script>
+</body>
+
+</html>
