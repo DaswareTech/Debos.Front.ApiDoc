@@ -1,6 +1,6 @@
 [
     {
-      "name": "PetStore",
-      "url": "https://petstore.swagger.io/v2/swagger.json"
+      "name": "Debos.Service.Users",
+      "url": "https://raw.githubusercontent.com/DaswareTech/Debos.Front.ApiDoc/master/api/debos.service.users.json"
     }
 ]
