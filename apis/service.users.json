@@ -1,16 +1,18 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Host, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-    "version": "1.0"
+    "title": "Debos Users API",
+    "version": "v1"
   },
   "paths": {
     "/users/v1/addToGroup": {
       "post": {
         "tags": [
-          "AddUserToGroup"
+          "UserEndpoints"
         ],
-        "operationId": "AddUserToGroup",
+        "summary": "Adds a user to an existing group",
+        "description": "Adds a user to an existing group",
+        "operationId": "User.Create",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -45,9 +47,11 @@
     "/users/v1/group": {
       "post": {
         "tags": [
-          "CreateGroup"
+          "UserEndpoints"
         ],
-        "operationId": "CreateGroupRequest",
+        "summary": "Creates a group",
+        "description": "Creates a group",
+        "operationId": "Group.Create",
         "requestBody": {
           "content": {
             "application/json-patch+json": {
@@ -99,9 +103,11 @@
     "/users/v1/{UserId}": {
       "delete": {
         "tags": [
-          "DeleteUser"
+          "UserEndpoints"
         ],
-        "operationId": "DeleteUser",
+        "summary": "Deletes a user",
+        "description": "Deletes a user",
+        "operationId": "User.Delete",
         "parameters": [
           {
             "name": "UserId",
@@ -121,9 +127,11 @@
       },
       "get": {
         "tags": [
-          "GetUser"
+          "UserEndpoints"
         ],
-        "operationId": "GetUser",
+        "summary": "Returns a User",
+        "description": "Returns a User",
+        "operationId": "User.Get",
         "parameters": [
           {
             "name": "UserId",
@@ -160,9 +168,11 @@
       },
       "patch": {
         "tags": [
-          "UpdateUser"
+          "UserEndpoints"
         ],
-        "operationId": "UpdateUser",
+        "summary": "Updates user's info",
+        "description": "Updates user's info",
+        "operationId": "User.Update",
         "parameters": [
           {
             "name": "UserId",
@@ -225,9 +235,11 @@
     "/users/v1/list/{groupId}": {
       "get": {
         "tags": [
-          "GetAllUsers"
+          "UserEndpoints"
         ],
-        "operationId": "GetAllUsers",
+        "summary": "Returns a list of users",
+        "description": "Returns a list of users",
+        "operationId": "User.List",
         "parameters": [
           {
             "name": "GroupId",
@@ -275,9 +287,11 @@
     "/users/v1/me": {
       "get": {
         "tags": [
-          "GetMe"
+          "UserEndpoints"
         ],
-        "operationId": "GetMe",
+        "summary": "Returns the user indicated in token",
+        "description": "Returns the user indicated in token",
+        "operationId": "User.GetMe",
         "responses": {
           "200": {
             "description": "Success",
@@ -305,8 +319,9 @@
     "/users/v1/getByEmail/{Email}": {
       "get": {
         "tags": [
-          "GetUserByEmail"
+          "UserEndpoints"
         ],
+        "summary": "Returns a user based on email",
         "operationId": "GetUserByEmail",
         "parameters": [
           {

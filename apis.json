@@ -1,6 +1,10 @@
 [
     {
-      "name": "Debos.Service.Users",
-      "url": "https://raw.githubusercontent.com/DaswareTech/Debos.Front.ApiDoc/master/apis/debos.service.users.json"
-    }
+      "name": "Authentication API",
+      "url": "https://raw.githubusercontent.com/DaswareTech/Debos.Front.ApiDoc/master/apis/service.authentication.json"
+    },
+    {
+        "name": "Users API",
+        "url": "https://raw.githubusercontent.com/DaswareTech/Debos.Front.ApiDoc/master/apis/service.users.json"
+      }
 ]
