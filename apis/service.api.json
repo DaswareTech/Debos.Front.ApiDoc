@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.dev.debos.ai"
+      "url": "https://localhost:7081"
     }
   ],
   "paths": {
@@ -1132,16 +1132,26 @@
       "TokenRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "code",
+          "codeVerifier",
+          "grantType"
+        ],
         "properties": {
           "code": {
             "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "nullable": false
           },
           "codeVerifier": {
             "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "nullable": false
           },
           "grantType": {
+            "minLength": 1,
+            "nullable": false,
             "$ref": "#/components/schemas/AppConstants_GrantType"
           },
           "refreshToken": {
@@ -1206,27 +1216,27 @@
           "Unspecified",
           "NotAuthorized",
           "InvalidPassword",
-          "UserNameExists"
+          "UserNameExists",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
           "NotAuthorized",
           "InvalidPassword",
-          "UserNameExists"
+          "UserNameExists",
+          "InvalidParameter"
         ]
       },
       "SignUpRequest": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "password",
           "email"
         ],
         "properties": {
           "password": {
             "type": "string",
-            "minLength": 1,
-            "nullable": false
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
           },
           "email": {
             "type": "string",
@@ -1244,6 +1254,7 @@
           },
           "phoneNumber": {
             "type": "string",
+            "pattern": "^\\+{1}[0-9\\(\\)\\s\\+]+$",
             "nullable": true
           }
         }
@@ -1293,25 +1304,35 @@
           "NotAuthorized",
           "PasswordResetRequired",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
           "NotAuthorized",
           "PasswordResetRequired",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "SignInRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "email"
+        ],
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
           },
           "password": {
-            "type": "string"
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
           }
         }
       },
@@ -1357,11 +1378,13 @@
         "description": "",
         "x-enumNames": [
           "Unspecified",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ResendCodeRequest": {
@@ -1421,11 +1444,13 @@
         "description": "",
         "x-enumNames": [
           "Unspecified",
-          "MissingRefreshToken"
+          "MissingRefreshToken",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
-          "MissingRefreshToken"
+          "MissingRefreshToken",
+          "InvalidParameter"
         ]
       },
       "LogoutRequest": {
@@ -1557,19 +1582,27 @@
         "description": "",
         "x-enumNames": [
           "Unspecified",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ForgotPasswordRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
           }
         }
       },
@@ -1622,7 +1655,8 @@
           "PasswordResetRequired",
           "SoftwareTokenMFANotFound",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
@@ -1633,24 +1667,40 @@
           "PasswordResetRequired",
           "SoftwareTokenMFANotFound",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ConfirmMfaRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "userId",
+          "sessionId",
+          "challengeCode",
+          "challengeName"
+        ],
         "properties": {
           "userId": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
           },
           "sessionId": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
           },
           "challengeCode": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
           },
           "challengeName": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
           }
         }
       },
@@ -1684,7 +1734,8 @@
           "InvalidPassword",
           "TooManyFailedAttempts",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
@@ -1693,15 +1744,15 @@
           "InvalidPassword",
           "TooManyFailedAttempts",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ResetPasswordRequest": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "email",
-          "password"
+          "email"
         ],
         "properties": {
           "email": {
@@ -1712,8 +1763,7 @@
           },
           "password": {
             "type": "string",
-            "minLength": 1,
-            "nullable": false
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
           },
           "code": {
             "type": "string",
@@ -1751,7 +1801,8 @@
           "CodeMismatch",
           "ExpiredCode",
           "TooManyFailedAttempts",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
@@ -1759,7 +1810,8 @@
           "CodeMismatch",
           "ExpiredCode",
           "TooManyFailedAttempts",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ConfirmEmailRequest": {
@@ -1771,12 +1823,11 @@
         "properties": {
           "email": {
             "type": "string",
-            "maxLength": 200,
             "minLength": 1,
             "pattern": "^[^@]+@[^@]+$",
             "nullable": false
           },
-          "confirmationCode": {
+          "code": {
             "type": "string",
             "maxLength": 6,
             "minLength": 6
@@ -1811,33 +1862,29 @@
           "InvalidPassword",
           "PasswordResetRequired",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
           "InvalidPassword",
           "PasswordResetRequired",
           "UserNotConfirmed",
-          "UserNotFound"
+          "UserNotFound",
+          "InvalidParameter"
         ]
       },
       "ChangePasswordRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "currentPassword",
-          "newPassword"
-        ],
         "properties": {
           "currentPassword": {
             "type": "string",
-            "minLength": 1,
-            "nullable": false
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
           },
           "newPassword": {
             "type": "string",
-            "minLength": 1,
-            "nullable": false
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
           }
         }
       }
