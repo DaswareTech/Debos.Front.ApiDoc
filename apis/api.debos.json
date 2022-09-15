@@ -1,1854 +1,1901 @@
 {
-    "x-generator": "NSwag v13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))",
-    "openapi": "3.0.0",
-    "info": {
-      "title": "Debos Api",
-      "version": "v1.0"
-    },
-    "servers": [
-      {
-        "url": "https://localhost:7081"
-      }
-    ],
-    "paths": {
-      "/v1/users/{id}": {
-        "patch": {
-          "tags": [
-            "users"
-          ],
-          "summary": "Updates a user and return the updated info",
-          "operationId": "EndpointsFeaturesUsersEndpointsUpdateUserEndpoint",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "title": "Guid",
-                "type": "string",
-                "format": "guid"
-              }
-            }
-          ],
-          "requestBody": {
-            "x-name": "UpdateUserRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateUserRequest"
-                }
-              }
-            },
+  "x-generator": "NSwag v13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Debos Api",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7081"
+    }
+  ],
+  "paths": {
+    "/v1/users/{id}": {
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Updates a user and return the updated info",
+        "operationId": "EndpointsFeaturesUsersEndpointsUpdateUserEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
             "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateUserErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "Updated user information",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/GetUserResponse"
-                  }
-                }
-              }
-            }
-          },
-          "security": [
-            {
-              "JWTBearerAuth": []
-            }
-          ]
-        }
-      },
-      "/v1/users/me": {
-        "get": {
-          "tags": [
-            "users"
-          ],
-          "summary": "Get user information from user calling the endpoint",
-          "operationId": "EndpointsFeaturesUsersEndpointsGetMeEndpoint",
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMeErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "User information",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/GetUserResponse"
-                  }
-                }
-              }
-            }
-          },
-          "security": [
-            {
-              "JWTBearerAuth": []
-            }
-          ]
-        }
-      },
-      "/v1/users/users/{id}": {
-        "delete": {
-          "tags": [
-            "users"
-          ],
-          "summary": "Deletes a user",
-          "operationId": "EndpointsFeaturesUsersEndpointsDeleteUserEndpoint",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "schema": {
-                "title": "Guid",
-                "type": "string",
-                "format": "guid"
-              }
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteUserErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "User deleted"
-            }
-          },
-          "security": [
-            {
-              "JWTBearerAuth": []
-            }
-          ]
-        }
-      },
-      "/health": {
-        "get": {
-          "tags": [
-            "health"
-          ],
-          "operationId": "EndpointsFeaturesCommonHealthEndpoint",
-          "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "text/plain": {
-                  "schema": {}
-                },
-                "application/json": {
-                  "schema": {}
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/token": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Returns access token",
-          "operationId": "EndpointsFeaturesAuthEndpointsTokenEndpoint",
-          "parameters": [
-            {
-              "name": "x-application-type",
-              "in": "header",
-              "required": true,
-              "schema": {
-                "title": "String",
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "x-name": "TokenRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TokenRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfTokenErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "Returns JWT tokens",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AuthResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/signup": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Creates a new user account",
-          "operationId": "EndpointsFeaturesAuthEndpointsSignUpEndpoint",
-          "requestBody": {
-            "x-name": "SignUpRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SignUpRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignUpErrorCodes"
-                  }
-                }
-              }
-            },
-            "200": {
-              "description": "Returns tokens and user information or Mfa Challenge",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AuthResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/signin": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Authenticates a user",
-          "description": "Authenticates a user. Returns JWT tokens or Mfa Challenge",
-          "operationId": "EndpointsFeaturesAuthEndpointsSignInEndpoint",
-          "parameters": [
-            {
-              "name": "x-application-type",
-              "in": "header",
-              "required": true,
-              "schema": {
-                "title": "String",
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "x-name": "SignInRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SignInRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignInErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "Returns tokens and user information or Mfa Challenge",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AuthResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/resend-confirmation-code": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Resends email confirmation code",
-          "operationId": "EndpointsFeaturesAuthEndpointsResendConfirmationCodeEndpoint",
-          "requestBody": {
-            "x-name": "ResendCodeRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResendCodeRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode"
-                  }
-                }
-              }
-            },
-            "200": {
-              "description": "Code has been resent to the user"
-            }
-          }
-        }
-      },
-      "/v1/auth/logout": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Logout a user",
-          "description": "Logout a user. Refresh token should be sent in the request body or as a cookie",
-          "operationId": "EndpointsFeaturesAuthEndpointsLogoutEndpoint",
-          "requestBody": {
-            "x-name": "LogoutRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogoutRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfLogoutErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "User has been logged out successfully"
-            }
-          },
-          "security": [
-            {
-              "JWTBearerAuth": []
-            }
-          ]
-        }
-      },
-      "/v1/auth/idps": {
-        "get": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Returns the list of available identity providers",
-          "operationId": "EndpointsFeaturesAuthEndpointsIdpsEndpoint",
-          "parameters": [
-            {
-              "name": "x-application-type",
-              "in": "header",
-              "required": true,
-              "schema": {
-                "title": "String",
-                "type": "string"
-              }
-            }
-          ],
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfIdpsErrorCode"
-                  }
-                }
-              }
-            },
-            "200": {
-              "description": "List of available identity providers",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/IdpsResponse"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/forgot-password": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Starts a password reset process",
-          "operationId": "EndpointsFeaturesAuthEndpointsForgotPasswordEndpoint",
-          "requestBody": {
-            "x-name": "ForgotPasswordRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ForgotPasswordRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "Password recovery started successfully"
-            }
-          }
-        }
-      },
-      "/v1/auth/confirm-mfa": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Validates MFA code",
-          "operationId": "EndpointsFeaturesAuthEndpointsConfirmMfaEndpoint",
-          "parameters": [
-            {
-              "name": "x-application-type",
-              "in": "header",
-              "required": true,
-              "schema": {
-                "title": "String",
-                "type": "string"
-              }
-            }
-          ],
-          "requestBody": {
-            "x-name": "ConfirmMfaRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmMfaRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "MFA Code has been validated and tokens are returned in the response. Refresh token is returned in body or cookie",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/AuthResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "/v1/auth/confirm-forgot-password": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Confirm a recovery password procedure with provided code",
-          "operationId": "EndpointsFeaturesAuthEndpointsConfirmForgotPasswordEndpoint",
-          "requestBody": {
-            "x-name": "ResetPasswordRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResetPasswordRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfConfirmForgotPasswordErrorCode"
-                  }
-                }
-              }
-            },
-            "200": {
-              "description": "Password has been changed"
-            }
-          }
-        }
-      },
-      "/v1/auth/confirm-email": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Confirm the sign up of a user with a confirmation code.",
-          "operationId": "EndpointsFeaturesAuthEndpointsConfirmEmailEndpoint",
-          "requestBody": {
-            "x-name": "ConfirmEmailRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ConfirmEmailRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfConfirmEmailErrorCode"
-                  }
-                }
-              }
-            },
-            "200": {
-              "description": "Email confirmed."
-            }
-          }
-        }
-      },
-      "/v1/auth/change-password": {
-        "post": {
-          "tags": [
-            "auth"
-          ],
-          "summary": "Changes user's password",
-          "operationId": "EndpointsFeaturesAuthEndpointsChangePasswordEndpoint",
-          "requestBody": {
-            "x-name": "ChangePasswordRequest",
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ChangePasswordRequest"
-                }
-              }
-            },
-            "required": true,
-            "x-position": 1
-          },
-          "responses": {
-            "400": {
-              "description": "Bad Request. Either a validation or a general problem has occurred",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ErrorResponseOfChangePasswordErrorCode"
-                  }
-                }
-              }
-            },
-            "401": {
-              "description": "Not authenticated"
-            },
-            "403": {
-              "description": "Not authorized. The user doesn't have the required permissions for the operation."
-            },
-            "200": {
-              "description": "Password changed successfully"
-            }
-          },
-          "security": [
-            {
-              "JWTBearerAuth": []
-            }
-          ]
-        }
-      }
-    },
-    "components": {
-      "schemas": {
-        "ErrorResponseOfEndpointErrorOfUpdateUserErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfUpdateUserErrorCode"
-                }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
-              }
-            }
-          }
-        },
-        "EndpointErrorOfUpdateUserErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/UpdateUserErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "UpdateUserErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound"
-          ]
-        },
-        "ValidationFailure": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "propertyName": {
-              "type": "string",
-              "nullable": true
-            },
-            "errorMessage": {
-              "type": "string",
-              "nullable": true
-            },
-            "attemptedValue": {
-              "nullable": true
-            },
-            "customState": {
-              "nullable": true
-            },
-            "severity": {
-              "$ref": "#/components/schemas/Severity"
-            },
-            "errorCode": {
-              "type": "string",
-              "nullable": true
-            },
-            "formattedMessagePlaceholderValues": {
-              "type": "object",
-              "nullable": true,
-              "additionalProperties": {}
-            }
-          }
-        },
-        "Severity": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Error",
-            "Warning",
-            "Info"
-          ],
-          "enum": [
-            "Error",
-            "Warning",
-            "Info"
-          ]
-        },
-        "GetUserResponse": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "id": {
+            "schema": {
+              "title": "Guid",
               "type": "string",
               "format": "guid"
-            },
-            "name": {
-              "type": "string",
-              "nullable": true
-            },
-            "email": {
-              "type": "string"
-            },
-            "middleName": {
-              "type": "string",
-              "nullable": true
-            },
-            "lastName": {
-              "type": "string",
-              "nullable": true
-            },
-            "idCard": {
-              "type": "string",
-              "nullable": true
-            },
-            "passport": {
-              "type": "string",
-              "nullable": true
-            },
-            "mobilePhone": {
-              "type": "string",
-              "nullable": true
-            },
-            "landLinePhone": {
-              "type": "string",
-              "nullable": true
-            },
-            "facebook": {
-              "type": "string",
-              "nullable": true
-            },
-            "apple": {
-              "type": "string",
-              "nullable": true
-            },
-            "twitter": {
-              "type": "string",
-              "nullable": true
-            },
-            "google": {
-              "type": "string",
-              "nullable": true
-            },
-            "gitHub": {
-              "type": "string",
-              "nullable": true
             }
           }
-        },
-        "UpdateUserRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "id"
-          ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "nullable": true
-            },
-            "middleName": {
-              "type": "string",
-              "nullable": true
-            },
-            "lastName": {
-              "type": "string",
-              "nullable": true
-            },
-            "idCard": {
-              "type": "string",
-              "nullable": true
-            },
-            "passport": {
-              "type": "string",
-              "nullable": true
-            },
-            "mobilePhone": {
-              "type": "string",
-              "nullable": true
-            },
-            "landLinePhone": {
-              "type": "string",
-              "nullable": true
-            },
-            "facebook": {
-              "type": "string",
-              "nullable": true
-            },
-            "apple": {
-              "type": "string",
-              "nullable": true
-            },
-            "twitter": {
-              "type": "string",
-              "nullable": true
-            },
-            "google": {
-              "type": "string",
-              "nullable": true
-            },
-            "gitHub": {
-              "type": "string",
-              "nullable": true
+        ],
+        "requestBody": {
+          "x-name": "UpdateUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
             }
-          }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ErrorResponseOfEndpointErrorOfGetMeErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfGetMeErrorCode"
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateUserErrorCode"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
-          }
-        },
-        "EndpointErrorOfGetMeErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/GetMeErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "GetMeErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound",
-            "InvalidId"
-          ],
-          "enum": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound",
-            "InvalidId"
-          ]
-        },
-        "ErrorResponseOfEndpointErrorOfDeleteUserErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfDeleteUserErrorCode"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "Updated user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
           }
         },
-        "EndpointErrorOfDeleteUserErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/DeleteUserErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
+        "security": [
+          {
+            "JWTBearerAuth": []
           }
-        },
-        "DeleteUserErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound",
-            "FailedToDeleteUserInAuthorizationService"
-          ],
-          "enum": [
-            "Unspecified",
-            "DatabaseError",
-            "UserNotFound",
-            "FailedToDeleteUserInAuthorizationService"
-          ]
-        },
-        "ErrorResponseOfEndpointErrorOfTokenErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfTokenErrorCode"
+        ]
+      }
+    },
+    "/v1/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user information from user calling the endpoint",
+        "operationId": "EndpointsFeaturesUsersEndpointsGetMeEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMeErrorCode"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
-          }
-        },
-        "EndpointErrorOfTokenErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/TokenErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "TokenErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "MissingRefreshToken",
-            "NotAuthorized",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "MissingRefreshToken",
-            "NotAuthorized",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ]
-        },
-        "AuthResponse": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "challengeName": {
-              "type": "string"
-            },
-            "sessionId": {
-              "type": "string"
-            },
-            "userId": {
-              "type": "string"
-            },
-            "error": {
-              "type": "string"
-            },
-            "accessToken": {
-              "type": "string"
-            },
-            "idToken": {
-              "type": "string"
-            },
-            "tokenType": {
-              "type": "string"
-            },
-            "expiresIn": {
-              "type": "integer",
-              "format": "int32",
-              "nullable": true
-            },
-            "refreshToken": {
-              "type": "string",
-              "nullable": true
-            }
-          }
-        },
-        "TokenRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "code": {
-              "type": "string",
-              "nullable": true
-            },
-            "codeVerifier": {
-              "type": "string",
-              "nullable": true
-            },
-            "grantType": {
-              "$ref": "#/components/schemas/AppConstants_GrantType"
-            },
-            "refreshToken": {
-              "type": "string",
-              "nullable": true
-            }
-          }
-        },
-        "AppConstants_GrantType": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "AuthorizationCode",
-            "RefreshToken"
-          ],
-          "enum": [
-            "AuthorizationCode",
-            "RefreshToken"
-          ]
-        },
-        "ErrorResponseOfEndpointErrorOfSignUpErrorCodes": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfSignUpErrorCodes"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
           }
         },
-        "EndpointErrorOfSignUpErrorCodes": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/SignUpErrorCodes"
-            },
-            "errorMessage": {
-              "type": "string"
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/users/users/{id}": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Deletes a user",
+        "operationId": "EndpointsFeaturesUsersEndpointsDeleteUserEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
             }
           }
-        },
-        "SignUpErrorCodes": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "NotAuthorized",
-            "InvalidPassword",
-            "UserNameExists"
-          ],
-          "enum": [
-            "Unspecified",
-            "NotAuthorized",
-            "InvalidPassword",
-            "UserNameExists"
-          ]
-        },
-        "SignUpRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "password",
-            "email"
-          ],
-          "properties": {
-            "password": {
-              "type": "string",
-              "minLength": 1,
-              "nullable": false
-            },
-            "email": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^@]+@[^@]+$",
-              "nullable": false
-            },
-            "givenName": {
-              "type": "string",
-              "nullable": true
-            },
-            "familyName": {
-              "type": "string",
-              "nullable": true
-            },
-            "phoneNumber": {
-              "type": "string",
-              "nullable": true
-            }
-          }
-        },
-        "ErrorResponseOfEndpointErrorOfSignInErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfSignInErrorCode"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteUserErrorCode"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "User deleted"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "operationId": "EndpointsFeaturesCommonHealthEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
               }
             }
           }
-        },
-        "EndpointErrorOfSignInErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/SignInErrorCode"
-            },
-            "errorMessage": {
+        }
+      }
+    },
+    "/v1/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Returns access token",
+        "operationId": "EndpointsFeaturesAuthEndpointsTokenEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
               "type": "string"
             }
           }
-        },
-        "SignInErrorCode": {
-          "type": "string",
+        ],
+        "requestBody": {
+          "x-name": "TokenRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "NotAuthorized",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "NotAuthorized",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ]
-        },
-        "SignInRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "email": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
             }
-          }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfResendConfirmationCodeErrorCode"
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfTokenErrorCode"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
-          }
-        },
-        "EndpointErrorOfResendConfirmationCodeErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/ResendConfirmationCodeErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "ResendConfirmationCodeErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "UserNotFound"
-          ]
-        },
-        "ResendCodeRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "email"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^@]+@[^@]+$",
-              "nullable": false
-            }
-          }
-        },
-        "ErrorResponseOfEndpointErrorOfLogoutErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfLogoutErrorCode"
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "Returns JWT tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
           }
-        },
-        "EndpointErrorOfLogoutErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/LogoutErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "LogoutErrorCode": {
-          "type": "string",
+        }
+      }
+    },
+    "/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Creates a new user account",
+        "operationId": "EndpointsFeaturesAuthEndpointsSignUpEndpoint",
+        "requestBody": {
+          "x-name": "SignUpRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "MissingRefreshToken"
-          ],
-          "enum": [
-            "Unspecified",
-            "MissingRefreshToken"
-          ]
-        },
-        "LogoutRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "refreshToken": {
-              "type": "string",
-              "nullable": true
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              }
             }
-          }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ErrorResponseOfEndpointErrorOfIdpsErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfIdpsErrorCode"
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignUpErrorCodes"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
-          }
-        },
-        "EndpointErrorOfIdpsErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/IdpsErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "IdpsErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified"
-          ],
-          "enum": [
-            "Unspecified"
-          ]
-        },
-        "IdpsResponse": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "baseUrl": {
-              "type": "string"
-            },
-            "redirectUri": {
-              "type": "string"
-            },
-            "responseType": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            },
-            "clientId": {
-              "type": "string"
-            },
-            "scope": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfForgotPasswordErrorCode"
+          },
+          "200": {
+            "description": "Returns tokens and user information or Mfa Challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
               }
             }
           }
-        },
-        "EndpointErrorOfForgotPasswordErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/ForgotPasswordErrorCode"
-            },
-            "errorMessage": {
+        }
+      }
+    },
+    "/v1/auth/signin": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticates a user",
+        "description": "Authenticates a user. Returns JWT tokens or Mfa Challenge",
+        "operationId": "EndpointsFeaturesAuthEndpointsSignInEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
               "type": "string"
             }
           }
-        },
-        "ForgotPasswordErrorCode": {
-          "type": "string",
+        ],
+        "requestBody": {
+          "x-name": "SignInRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "UserNotFound"
-          ]
-        },
-        "ForgotPasswordRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "email": {
-              "type": "string"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequest"
+              }
             }
-          }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/EndpointErrorOfConfirmMfaErrorCode"
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignInErrorCode"
                 }
-              ]
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "Returns tokens and user information or Mfa Challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
               }
             }
           }
-        },
-        "EndpointErrorOfConfirmMfaErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "errorCode": {
-              "$ref": "#/components/schemas/ConfirmMfaErrorCode"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
-          }
-        },
-        "ConfirmMfaErrorCode": {
-          "type": "string",
+        }
+      }
+    },
+    "/v1/auth/resend-confirmation-code": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Resends email confirmation code",
+        "operationId": "EndpointsFeaturesAuthEndpointsResendConfirmationCodeEndpoint",
+        "requestBody": {
+          "x-name": "ResendCodeRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "AliasExists",
-            "CodeMismatch",
-            "InvalidPassword",
-            "MFAMethodNotFound",
-            "PasswordResetRequired",
-            "SoftwareTokenMFANotFound",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "AliasExists",
-            "CodeMismatch",
-            "InvalidPassword",
-            "MFAMethodNotFound",
-            "PasswordResetRequired",
-            "SoftwareTokenMFANotFound",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ]
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendCodeRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ConfirmMfaRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "userId": {
-              "type": "string"
-            },
-            "sessionId": {
-              "type": "string"
-            },
-            "challengeCode": {
-              "type": "string"
-            },
-            "challengeName": {
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Code has been resent to the user"
+          }
+        }
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout a user",
+        "description": "Logout a user. Refresh token should be sent in the request body or as a cookie",
+        "operationId": "EndpointsFeaturesAuthEndpointsLogoutEndpoint",
+        "requestBody": {
+          "x-name": "LogoutRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfLogoutErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "User has been logged out successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/auth/idps": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Returns the list of available identity providers",
+        "operationId": "EndpointsFeaturesAuthEndpointsIdpsEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
               "type": "string"
             }
           }
-        },
-        "ErrorResponseOfConfirmForgotPasswordErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "$ref": "#/components/schemas/ConfirmForgotPasswordErrorCode"
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfIdpsErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of available identity providers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IdpsResponse"
+                  }
+                }
               }
             }
           }
-        },
-        "ConfirmForgotPasswordErrorCode": {
-          "type": "string",
+        }
+      }
+    },
+    "/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Starts a password reset process",
+        "operationId": "EndpointsFeaturesAuthEndpointsForgotPasswordEndpoint",
+        "requestBody": {
+          "x-name": "ForgotPasswordRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "CodeMismatch",
-            "ExpiredCode",
-            "InvalidPassword",
-            "TooManyFailedAttempts",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "CodeMismatch",
-            "ExpiredCode",
-            "InvalidPassword",
-            "TooManyFailedAttempts",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ]
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ResetPasswordRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "email",
-            "password"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "minLength": 1,
-              "pattern": "^[^@]+@[^@]+$",
-              "nullable": false
-            },
-            "password": {
-              "type": "string",
-              "minLength": 1,
-              "nullable": false
-            },
-            "code": {
-              "type": "string",
-              "maxLength": 6,
-              "minLength": 6
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "Password recovery started successfully"
+          }
+        }
+      }
+    },
+    "/v1/auth/confirm-mfa": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Validates MFA code",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmMfaEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
             }
           }
+        ],
+        "requestBody": {
+          "x-name": "ConfirmMfaRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmMfaRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
         },
-        "ErrorResponseOfConfirmEmailErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "$ref": "#/components/schemas/ConfirmEmailErrorCode"
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "MFA Code has been validated and tokens are returned in the response. Refresh token is returned in body or cookie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
               }
             }
           }
-        },
-        "ConfirmEmailErrorCode": {
-          "type": "string",
+        }
+      }
+    },
+    "/v1/auth/confirm-forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Confirm a recovery password procedure with provided code",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmForgotPasswordEndpoint",
+        "requestBody": {
+          "x-name": "ResetPasswordRequest",
           "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "AliasExists",
-            "CodeMismatch",
-            "ExpiredCode",
-            "TooManyFailedAttempts",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "AliasExists",
-            "CodeMismatch",
-            "ExpiredCode",
-            "TooManyFailedAttempts",
-            "UserNotFound"
-          ]
-        },
-        "ConfirmEmailRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "email"
-          ],
-          "properties": {
-            "email": {
-              "type": "string",
-              "maxLength": 200,
-              "minLength": 1,
-              "pattern": "^[^@]+@[^@]+$",
-              "nullable": false
-            },
-            "confirmationCode": {
-              "type": "string",
-              "maxLength": 6,
-              "minLength": 6
-            }
-          }
-        },
-        "ErrorResponseOfChangePasswordErrorCode": {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "operationId": {
-              "type": "string",
-              "nullable": true
-            },
-            "operationError": {
-              "$ref": "#/components/schemas/ChangePasswordErrorCode"
-            },
-            "requestFormatErrors": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "$ref": "#/components/schemas/ValidationFailure"
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
               }
             }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfConfirmForgotPasswordErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Password has been changed"
+          }
+        }
+      }
+    },
+    "/v1/auth/confirm-email": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Confirm the sign up of a user with a confirmation code.",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmEmailEndpoint",
+        "requestBody": {
+          "x-name": "ConfirmEmailRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmEmailRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfConfirmEmailErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Email confirmed."
+          }
+        }
+      }
+    },
+    "/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Changes user's password",
+        "operationId": "EndpointsFeaturesAuthEndpointsChangePasswordEndpoint",
+        "requestBody": {
+          "x-name": "ChangePasswordRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfChangePasswordErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation."
+          },
+          "200": {
+            "description": "Password changed successfully"
           }
         },
-        "ChangePasswordErrorCode": {
-          "type": "string",
-          "description": "",
-          "x-enumNames": [
-            "Unspecified",
-            "InvalidPassword",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ],
-          "enum": [
-            "Unspecified",
-            "InvalidPassword",
-            "PasswordResetRequired",
-            "UserNotConfirmed",
-            "UserNotFound"
-          ]
-        },
-        "ChangePasswordRequest": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "currentPassword",
-            "newPassword"
-          ],
-          "properties": {
-            "currentPassword": {
-              "type": "string",
-              "minLength": 1,
-              "nullable": false
-            },
-            "newPassword": {
-              "type": "string",
-              "minLength": 1,
-              "nullable": false
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponseOfEndpointErrorOfUpdateUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateUserErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
             }
           }
         }
       },
-      "securitySchemes": {
-        "JWTBearerAuth": {
-          "type": "http",
-          "description": "Enter a JWT token to authorize the requests...",
-          "scheme": "Bearer",
-          "bearerFormat": "JWT"
+      "EndpointErrorOfUpdateUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateUserErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
         }
+      },
+      "UpdateUserErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ]
+      },
+      "ValidationFailure": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "propertyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "attemptedValue": {
+            "nullable": true
+          },
+          "customState": {
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "formattedMessagePlaceholderValues": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Severity": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Error",
+          "Warning",
+          "Info"
+        ],
+        "enum": [
+          "Error",
+          "Warning",
+          "Info"
+        ]
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "passport": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilePhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "landLinePhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebook": {
+            "type": "string",
+            "nullable": true
+          },
+          "apple": {
+            "type": "string",
+            "nullable": true
+          },
+          "twitter": {
+            "type": "string",
+            "nullable": true
+          },
+          "google": {
+            "type": "string",
+            "nullable": true
+          },
+          "gitHub": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "passport": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilePhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "landLinePhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebook": {
+            "type": "string",
+            "nullable": true
+          },
+          "apple": {
+            "type": "string",
+            "nullable": true
+          },
+          "twitter": {
+            "type": "string",
+            "nullable": true
+          },
+          "google": {
+            "type": "string",
+            "nullable": true
+          },
+          "gitHub": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetMeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMeErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMeErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMeErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "InvalidId"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "InvalidId"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteUserErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteUserErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "FailedToDeleteUserInAuthorizationService"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "FailedToDeleteUserInAuthorizationService"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfTokenErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfTokenErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfTokenErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/TokenErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "TokenErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound"
+        ]
+      },
+      "AuthResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "challengeName": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "idToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TokenRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "code",
+          "codeVerifier",
+          "grantType"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "codeVerifier": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "grantType": {
+            "minLength": 1,
+            "nullable": false,
+            "$ref": "#/components/schemas/AppConstants_GrantType"
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AppConstants_GrantType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "AuthorizationCode",
+          "RefreshToken"
+        ],
+        "enum": [
+          "AuthorizationCode",
+          "RefreshToken"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfSignUpErrorCodes": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSignUpErrorCodes"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSignUpErrorCodes": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SignUpErrorCodes"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SignUpErrorCodes": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "NotAuthorized",
+          "InvalidPassword",
+          "UserNameExists",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "NotAuthorized",
+          "InvalidPassword",
+          "UserNameExists",
+          "InvalidParameter"
+        ]
+      },
+      "SignUpRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
+          },
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "givenName": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "pattern": "^\\+{1}[0-9\\(\\)\\s\\+]+$",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfSignInErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSignInErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSignInErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SignInErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SignInErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "SignInRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfResendConfirmationCodeErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfResendConfirmationCodeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ResendConfirmationCodeErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ResendConfirmationCodeErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ResendCodeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfLogoutErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfLogoutErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfLogoutErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/LogoutErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "LogoutErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "InvalidParameter"
+        ]
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfIdpsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfIdpsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfIdpsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/IdpsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "IdpsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified"
+        ],
+        "enum": [
+          "Unspecified"
+        ]
+      },
+      "IdpsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "baseUrl": {
+            "type": "string"
+          },
+          "redirectUri": {
+            "type": "string"
+          },
+          "responseType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfForgotPasswordErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ForgotPasswordErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ForgotPasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfConfirmMfaErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfConfirmMfaErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ConfirmMfaErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmMfaErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "InvalidPassword",
+          "MFAMethodNotFound",
+          "PasswordResetRequired",
+          "SoftwareTokenMFANotFound",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "InvalidPassword",
+          "MFAMethodNotFound",
+          "PasswordResetRequired",
+          "SoftwareTokenMFANotFound",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ConfirmMfaRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "userId",
+          "sessionId",
+          "challengeCode",
+          "challengeName"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "sessionId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "challengeCode": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "challengeName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfConfirmForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ConfirmForgotPasswordErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ConfirmForgotPasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "CodeMismatch",
+          "ExpiredCode",
+          "InvalidPassword",
+          "TooManyFailedAttempts",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "CodeMismatch",
+          "ExpiredCode",
+          "InvalidPassword",
+          "TooManyFailedAttempts",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6
+          }
+        }
+      },
+      "ErrorResponseOfConfirmEmailErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ConfirmEmailErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ConfirmEmailErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "ExpiredCode",
+          "TooManyFailedAttempts",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "ExpiredCode",
+          "TooManyFailedAttempts",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ConfirmEmailRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6
+          }
+        }
+      },
+      "ErrorResponseOfChangePasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ChangePasswordErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ChangePasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "InvalidPassword",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "InvalidPassword",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
+          },
+          "newPassword": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWTBearerAuth": {
+        "type": "http",
+        "description": "Enter a JWT token to authorize the requests...",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
+}
