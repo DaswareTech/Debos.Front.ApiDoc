@@ -976,35 +976,29 @@
             }
           },
           {
-            "name": "Owner",
+            "name": "OwnerType",
             "in": "query",
             "schema": {
-              "title": "OwnerDto",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "type": {
-                  "$ref": "#/paths//v1/spaces/admin-query/get/parameters/2/schema/definitions/OwnerTypeEnum"
-                },
-                "id": {
-                  "type": "string",
-                  "format": "guid"
-                }
-              },
-              "definitions": {
-                "OwnerTypeEnum": {
-                  "type": "string",
-                  "description": "",
-                  "x-enumNames": [
-                    "User",
-                    "Organization"
-                  ],
-                  "enum": [
-                    "User",
-                    "Organization"
-                  ]
-                }
-              }
+              "title": "OwnerTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "User",
+                "Organization"
+              ],
+              "enum": [
+                "User",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "OwnerId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
             }
           },
           {
@@ -2342,35 +2336,29 @@
             }
           },
           {
-            "name": "Owner",
+            "name": "OwnerType",
             "in": "query",
             "schema": {
-              "title": "OwnerDto",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "type": {
-                  "$ref": "#/paths//v1/groups/admin-query/get/parameters/3/schema/definitions/OwnerTypeEnum"
-                },
-                "id": {
-                  "type": "string",
-                  "format": "guid"
-                }
-              },
-              "definitions": {
-                "OwnerTypeEnum": {
-                  "type": "string",
-                  "description": "",
-                  "x-enumNames": [
-                    "User",
-                    "Organization"
-                  ],
-                  "enum": [
-                    "User",
-                    "Organization"
-                  ]
-                }
-              }
+              "title": "OwnerTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "User",
+                "Organization"
+              ],
+              "enum": [
+                "User",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "OwnerId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
             }
           },
           {
@@ -4478,31 +4466,6 @@
           }
         }
       },
-      "OwnerDto2": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/OwnerTypeEnum2"
-          },
-          "id": {
-            "type": "string",
-            "format": "guid"
-          }
-        }
-      },
-      "OwnerTypeEnum2": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "User",
-          "Organization"
-        ],
-        "enum": [
-          "User",
-          "Organization"
-        ]
-      },
       "EndpointErrorOfAddServiceToSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -5845,6 +5808,31 @@
             ]
           }
         }
+      },
+      "OwnerDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/OwnerTypeEnum2"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "OwnerTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "User",
+          "Organization"
+        ],
+        "enum": [
+          "User",
+          "Organization"
+        ]
       },
       "ErrorResponseOfEndpointErrorOfAdminQueryGroupsErrorCode": {
         "type": "object",
