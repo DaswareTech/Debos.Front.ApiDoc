@@ -437,13 +437,13 @@
         ]
       }
     },
-    "/v1/spaces/{SpaceId}/services/{ServiceType}": {
+    "/v1/spaces/{SpaceId}/modules/{ModuleType}": {
       "patch": {
         "tags": [
           "spaces"
         ],
-        "summary": "Update service state in a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateServiceInSpaceEndpoint",
+        "summary": "Update module state in a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateModuleInSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -456,22 +456,30 @@
             }
           },
           {
-            "name": "ServiceType",
+            "name": "ModuleType",
             "in": "path",
             "required": true,
             "schema": {
-              "title": "ServiceTypeEnum",
+              "title": "ModuleTypeEnum",
               "type": "string",
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "Booking",
-                "Access"
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "Booking",
-                "Access"
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
               ]
             }
           }
@@ -495,7 +503,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateServiceInSpaceErrorCode"
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateModuleInSpaceErrorCode"
                 }
               }
             }
@@ -514,7 +522,7 @@
             }
           },
           "200": {
-            "description": "Service updated correctly"
+            "description": "Module updated correctly"
           }
         },
         "security": [
@@ -527,8 +535,8 @@
         "tags": [
           "spaces"
         ],
-        "summary": "Remove a new service from a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsRemoveServiceFromSpaceEndpoint",
+        "summary": "Remove an existing module from a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsRemoveModuleFromSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -541,22 +549,30 @@
             }
           },
           {
-            "name": "ServiceType",
+            "name": "ModuleType",
             "in": "path",
             "required": true,
             "schema": {
-              "title": "ServiceTypeEnum",
+              "title": "ModuleTypeEnum",
               "type": "string",
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "Booking",
-                "Access"
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "Booking",
-                "Access"
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
               ]
             }
           }
@@ -567,7 +583,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRemoveServiceFromSpaceErrorCode"
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode"
                 }
               }
             }
@@ -586,7 +602,7 @@
             }
           },
           "200": {
-            "description": "Service removed correctly"
+            "description": "Module removed correctly"
           }
         },
         "security": [
@@ -708,132 +724,6 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/spaces/{SpaceId}/services": {
-      "get": {
-        "tags": [
-          "spaces"
-        ],
-        "summary": "List visible services in a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsGetServicesFromSpaceEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfListServicesFromSpaceErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "List of services",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ListServicesFromSpaceResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "spaces"
-        ],
-        "summary": "Add a new service to a space. By default, the service will be added in disable state",
-        "operationId": "EndpointsFeaturesSpacesEndpointsAddServiceToSpaceEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "requestBody": {
-          "x-name": "AddServiceToSpaceRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddServiceToSpaceRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddServiceToSpaceErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Service added correctly"
           }
         },
         "security": [
@@ -1134,6 +1024,73 @@
                 }
               }
             }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Add a new module to a space. By default, the module will be added in disable state",
+        "operationId": "EndpointsFeaturesSpacesEndpointsAddModuleToSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddModuleToSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddModuleToSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddModuleToSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Module added correctly"
           }
         },
         "security": [
@@ -3643,7 +3600,7 @@
           }
         }
       },
-      "ErrorResponseOfEndpointErrorOfUpdateServiceInSpaceErrorCode": {
+      "ErrorResponseOfEndpointErrorOfUpdateModuleInSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3655,7 +3612,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/EndpointErrorOfUpdateServiceInSpaceErrorCode"
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateModuleInSpaceErrorCode"
               }
             ]
           },
@@ -3668,32 +3625,32 @@
           }
         }
       },
-      "EndpointErrorOfUpdateServiceInSpaceErrorCode": {
+      "EndpointErrorOfUpdateModuleInSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "errorCode": {
-            "$ref": "#/components/schemas/UpdateServiceInSpaceErrorCode"
+            "$ref": "#/components/schemas/UpdateModuleInSpaceErrorCode"
           },
           "errorMessage": {
             "type": "string"
           }
         }
       },
-      "UpdateServiceInSpaceErrorCode": {
+      "UpdateModuleInSpaceErrorCode": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceNotPresentInSpace"
+          "ModuleNotPresentInSpace"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceNotPresentInSpace"
+          "ModuleNotPresentInSpace"
         ]
       },
       "UpdateServiceInSpaceRequest": {
@@ -3701,31 +3658,39 @@
         "additionalProperties": false,
         "required": [
           "spaceId",
-          "serviceType",
-          "serviceStatus"
+          "moduleType",
+          "moduleStatus"
         ],
         "properties": {
-          "serviceStatus": {
+          "moduleStatus": {
             "nullable": false,
-            "$ref": "#/components/schemas/ServiceStatusEnum"
+            "$ref": "#/components/schemas/ModuleStatusEnum"
           }
         }
       },
-      "ServiceTypeEnum": {
+      "ModuleTypeEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "Booking",
-          "Access"
+          "AccessByCard",
+          "AccessByCode",
+          "AccessByFingerprint",
+          "AccessByBluetoothDongle",
+          "AccessByBluetoothSmartPhone",
+          "Bookings"
         ],
         "enum": [
           "Invalid",
-          "Booking",
-          "Access"
+          "AccessByCard",
+          "AccessByCode",
+          "AccessByFingerprint",
+          "AccessByBluetoothDongle",
+          "AccessByBluetoothSmartPhone",
+          "Bookings"
         ]
       },
-      "ServiceStatusEnum": {
+      "ModuleStatusEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -3739,7 +3704,7 @@
           "Disabled"
         ]
       },
-      "ErrorResponseOfEndpointErrorOfRemoveServiceFromSpaceErrorCode": {
+      "ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3751,7 +3716,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/EndpointErrorOfRemoveServiceFromSpaceErrorCode"
+                "$ref": "#/components/schemas/EndpointErrorOfRemoveModuleFromSpaceErrorCode"
               }
             ]
           },
@@ -3764,32 +3729,32 @@
           }
         }
       },
-      "EndpointErrorOfRemoveServiceFromSpaceErrorCode": {
+      "EndpointErrorOfRemoveModuleFromSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "errorCode": {
-            "$ref": "#/components/schemas/RemoveServiceFromSpaceErrorCode"
+            "$ref": "#/components/schemas/RemoveModuleFromSpaceErrorCode"
           },
           "errorMessage": {
             "type": "string"
           }
         }
       },
-      "RemoveServiceFromSpaceErrorCode": {
+      "RemoveModuleFromSpaceErrorCode": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceNotPresentInSpace"
+          "ModuleNotPresentInSpace"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceNotPresentInSpace"
+          "ModuleNotPresentInSpace"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetSpaceErrorCode": {
@@ -3878,10 +3843,17 @@
             "format": "guid",
             "nullable": true
           },
-          "services": {
+          "modules": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Service"
+              "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
             }
           },
           "securityGroupsIAm": {
@@ -3953,17 +3925,37 @@
           "StorageRoom"
         ]
       },
-      "Service": {
+      "ModuleDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "name": {
+            "type": "string"
+          },
           "type": {
-            "$ref": "#/components/schemas/ServiceTypeEnum"
+            "$ref": "#/components/schemas/ModuleTypeEnum"
           },
           "status": {
-            "$ref": "#/components/schemas/ServiceStatusEnum"
+            "$ref": "#/components/schemas/ModuleStatusEnum"
+          },
+          "associatedServiceType": {
+            "$ref": "#/components/schemas/ServiceTypeEnum"
           }
         }
+      },
+      "ServiceTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Booking",
+          "Access"
+        ],
+        "enum": [
+          "Invalid",
+          "Booking",
+          "Access"
+        ]
       },
       "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
         "type": "object",
@@ -4057,81 +4049,17 @@
             "format": "guid",
             "nullable": true
           },
-          "services": {
+          "modules": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Service"
+              "$ref": "#/components/schemas/ModuleDto"
             }
-          }
-        }
-      },
-      "ErrorResponseOfEndpointErrorOfListServicesFromSpaceErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "operationId": {
-            "type": "string",
-            "nullable": true
           },
-          "operationError": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/EndpointErrorOfListServicesFromSpaceErrorCode"
-              }
-            ]
-          },
-          "requestFormatErrors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ValidationFailure"
-            }
-          }
-        }
-      },
-      "EndpointErrorOfListServicesFromSpaceErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "errorCode": {
-            "$ref": "#/components/schemas/ListServicesFromSpaceErrorCode"
-          },
-          "errorMessage": {
-            "type": "string"
-          }
-        }
-      },
-      "ListServicesFromSpaceErrorCode": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Unspecified",
-          "DatabaseError",
-          "InvalidParameter",
-          "ServiceAlreadyAdded",
-          "PermissionServiceError"
-        ],
-        "enum": [
-          "Unspecified",
-          "DatabaseError",
-          "InvalidParameter",
-          "ServiceAlreadyAdded",
-          "PermissionServiceError"
-        ]
-      },
-      "ListServicesFromSpaceResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "spaceId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "data": {
+          "path": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Service"
+              "type": "string",
+              "format": "guid"
             }
           }
         }
@@ -4494,7 +4422,7 @@
           }
         }
       },
-      "ErrorResponseOfEndpointErrorOfAddServiceToSpaceErrorCode": {
+      "ErrorResponseOfEndpointErrorOfAddModuleToSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -4506,7 +4434,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/EndpointErrorOfAddServiceToSpaceErrorCode"
+                "$ref": "#/components/schemas/EndpointErrorOfAddModuleToSpaceErrorCode"
               }
             ]
           },
@@ -4519,45 +4447,45 @@
           }
         }
       },
-      "EndpointErrorOfAddServiceToSpaceErrorCode": {
+      "EndpointErrorOfAddModuleToSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "errorCode": {
-            "$ref": "#/components/schemas/AddServiceToSpaceErrorCode"
+            "$ref": "#/components/schemas/AddModuleToSpaceErrorCode"
           },
           "errorMessage": {
             "type": "string"
           }
         }
       },
-      "AddServiceToSpaceErrorCode": {
+      "AddModuleToSpaceErrorCode": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceAlreadyAdded"
+          "ModuleAlreadyAdded"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ServiceAlreadyAdded"
+          "ModuleAlreadyAdded"
         ]
       },
-      "AddServiceToSpaceRequest": {
+      "AddModuleToSpaceRequest": {
         "type": "object",
         "additionalProperties": false,
         "required": [
           "spaceId",
-          "serviceType"
+          "moduleType"
         ],
         "properties": {
-          "serviceType": {
+          "moduleType": {
             "nullable": false,
-            "$ref": "#/components/schemas/ServiceTypeEnum"
+            "$ref": "#/components/schemas/ModuleTypeEnum"
           }
         }
       },
