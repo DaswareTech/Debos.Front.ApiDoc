@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7081"
+      "url": "https://api.debos.ai"
     }
   ],
   "paths": {
@@ -465,20 +465,16 @@
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ]
             }
@@ -558,20 +554,16 @@
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ]
             }
@@ -603,6 +595,80 @@
           },
           "200": {
             "description": "Module removed correctly"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/favourite": {
+      "put": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Sets the favourite status of a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsSetFavouriteEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "SetFavouriteSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFavouriteSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSetFavouriteErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Space favourite status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SetFavouriteSpaceRequest"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -757,12 +823,15 @@
                 "Apartment",
                 "Pool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
               ],
               "enum": [
                 "Invalid",
@@ -773,12 +842,15 @@
                 "Apartment",
                 "Pool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
               ]
             }
           },
@@ -831,6 +903,158 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetMySpacesErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/favourites": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "List favourite spaces",
+        "description": "Returns a list of favourite spaces according to the specified criteria",
+        "operationId": "EndpointsFeaturesSpacesEndpointsGetMyFavouritesEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceType",
+            "in": "query",
+            "schema": {
+              "title": "SpaceTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Padel",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
+              ],
+              "enum": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Padel",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
+              ]
+            }
+          },
+          {
+            "name": "ParentSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "RootSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyFavouriteSpacesResponse"
                 }
               }
             }
@@ -912,12 +1136,15 @@
                 "Apartment",
                 "Pool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
               ],
               "enum": [
                 "Invalid",
@@ -928,12 +1155,15 @@
                 "Apartment",
                 "Pool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs"
               ]
             }
           },
@@ -1128,6 +1358,49 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The permissions were generated successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/regenerate-for-all": {
+      "post": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "Regenerates default permissions for all users",
+        "description": "Regenerates default permissions for all users",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsRegenerateForAllEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode2"
                 }
               }
             }
@@ -2507,7 +2780,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
       }
     },
     "/v1/auth/token": {
@@ -3067,6 +3345,129 @@
           },
           "200": {
             "description": "Password changed successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accesspoints": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "List of visible access points",
+        "description": "Returns a list of access points visible to the caller user in the specified space",
+        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessPointsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of access points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessPointsErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates Access Point",
+        "description": "Creates a new Access Point in a Space",
+        "operationId": "EndpointsFeaturesAccessEndpointsCreateAccessPointEndpoint",
+        "requestBody": {
+          "x-name": "CreateAccessPointRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccessPointRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateAccessPointErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "AccessPoint created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAccessPointResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3673,20 +4074,16 @@
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "AccessByCard",
-          "AccessByCode",
-          "AccessByFingerprint",
-          "AccessByBluetoothDongle",
-          "AccessByBluetoothSmartPhone",
+          "AccessMobile",
+          "AccessParking",
+          "AccessCardReader",
           "Bookings"
         ],
         "enum": [
           "Invalid",
-          "AccessByCard",
-          "AccessByCode",
-          "AccessByFingerprint",
-          "AccessByBluetoothDongle",
-          "AccessByBluetoothSmartPhone",
+          "AccessMobile",
+          "AccessParking",
+          "AccessCardReader",
           "Bookings"
         ]
       },
@@ -3703,6 +4100,70 @@
           "Enabled",
           "Disabled"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfSetFavouriteErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSetFavouriteErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSetFavouriteErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SetFavouriteErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SetFavouriteErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound"
+        ]
+      },
+      "SetFavouriteSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId"
+        ],
+        "properties": {
+          "favourite": {
+            "type": "boolean",
+            "default": "True"
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode": {
         "type": "object",
@@ -3838,6 +4299,9 @@
           "type": {
             "$ref": "#/components/schemas/SpaceType"
           },
+          "favourite": {
+            "type": "boolean"
+          },
           "rootSpaceId": {
             "type": "string",
             "format": "guid",
@@ -3847,6 +4311,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "accessPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointDto"
             }
           },
           "path": {
@@ -3902,12 +4372,15 @@
           "Apartment",
           "Pool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs"
         ],
         "enum": [
           "Undefined",
@@ -3917,12 +4390,15 @@
           "Apartment",
           "Pool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs"
         ]
       },
       "ModuleDto": {
@@ -3955,6 +4431,79 @@
           "Invalid",
           "Booking",
           "Access"
+        ]
+      },
+      "AccessPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum"
+            }
+          },
+          "ioTId": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessPointTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Gate",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Stair",
+          "Escalator",
+          "Lift",
+          "Ramp",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Gate",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Stair",
+          "Escalator",
+          "Lift",
+          "Ramp",
+          "Other"
+        ]
+      },
+      "AccessTechnologyEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
@@ -4044,6 +4593,9 @@
           "type": {
             "$ref": "#/components/schemas/SpaceType"
           },
+          "favourite": {
+            "type": "boolean"
+          },
           "rootSpaceId": {
             "type": "string",
             "format": "guid",
@@ -4053,6 +4605,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "accessPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointDto"
             }
           },
           "path": {
@@ -4181,12 +4739,15 @@
           "Apartment",
           "Pool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs"
         ],
         "enum": [
           "Invalid",
@@ -4197,13 +4758,83 @@
           "Apartment",
           "Pool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMyFavouriteSpacesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMyFavouriteSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMyFavouriteSpacesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMyFavouriteSpacesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "GetMyFavouriteSpacesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpaceDtoLite"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfCreateSpaceErrorCode": {
         "type": "object",
@@ -4249,13 +4880,15 @@
           "Unspecified",
           "DatabaseError",
           "ErrorGeneratingPermissions",
-          "ParentSpaceHasNoSecurityGroups"
+          "ParentSpaceHasNoSecurityGroups",
+          "GroupDoesNotExist"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "ErrorGeneratingPermissions",
-          "ParentSpaceHasNoSecurityGroups"
+          "ParentSpaceHasNoSecurityGroups",
+          "GroupDoesNotExist"
         ]
       },
       "CreateSpaceResponse": {
@@ -4328,6 +4961,14 @@
             "type": "boolean",
             "default": "True",
             "nullable": false
+          },
+          "parentsOfAdminsGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           },
           "parentsOfMembersGroup": {
             "type": "array",
@@ -4569,6 +5210,57 @@
           "User",
           "Group",
           "Space"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfRegeneratePermissionErrorCode2"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfRegeneratePermissionErrorCode2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/RegeneratePermissionErrorCode2"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "RegeneratePermissionErrorCode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
         ]
       },
       "ErrorResponseOfEndpointErrorOfListByGranteePermissionErrorCode": {
@@ -6934,6 +7626,234 @@
             "type": "string",
             "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
             "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetAccessPointsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetAccessPointsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetAccessPointsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessPointsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ]
+      },
+      "CreateAccessPointResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessPointId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateAccessPointRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "spaceId",
+          "accessPointType",
+          "accessPointCreationPermissionOptions"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerIdentificationCode": {
+            "type": "string",
+            "description": "This is an internal user id. It can be used to give a custom Id to this access point for identification inside a building etc.",
+            "nullable": true
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "accessPointType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            }
+          },
+          "accessPointCreationPermissionOptions": {
+            "description": "If not defined, No access will be granted by default",
+            "nullable": false,
+            "$ref": "#/components/schemas/AccessPointCreationPermissionOptions"
+          }
+        }
+      },
+      "AccessPointTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ]
+      },
+      "AccessTechnologyEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ]
+      },
+      "AccessPointCreationPermissionOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "securityGroupsWithPermanentAccess"
+        ],
+        "properties": {
+          "securityGroupsWithPermanentAccess": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "securityGroupsWithListPermission": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           }
         }
       }
