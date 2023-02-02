@@ -1,0 +1,6950 @@
+{
+  "x-generator": "NSwag v13.16.1.0 (NJsonSchema v10.7.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Debos Api",
+    "version": "v1.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7081"
+    }
+  ],
+  "paths": {
+    "/v1/users/{id}": {
+      "patch": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Updates a user and return the updated info",
+        "operationId": "EndpointsFeaturesUsersEndpointsUpdateUserEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateUserErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Updated user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Deletes a user",
+        "operationId": "EndpointsFeaturesUsersEndpointsDeleteUserEndpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteUserErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User deleted"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user information from user calling the endpoint",
+        "operationId": "EndpointsFeaturesUsersEndpointsGetMeEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMeErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Returns a list of users according to the specified criteria.",
+        "operationId": "EndpointsFeaturesUsersEndpointsAdminQueryUsersEndpoint",
+        "parameters": [
+          {
+            "name": "Name",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "LastName",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Email",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "PhoneNumber",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQueryUsersErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQueryUsersResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}": {
+      "patch": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Updates a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Space updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateSpaceRequest"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Returns a space as seen by the caller user",
+        "operationId": "EndpointsFeaturesSpacesEndpointsGetSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A space",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSpaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/{ModuleType}": {
+      "patch": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Update module state in a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateModuleInSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ModuleType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "ModuleTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
+              ],
+              "enum": [
+                "Invalid",
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateServiceInSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceInSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateModuleInSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Module updated correctly"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Remove an existing module from a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsRemoveModuleFromSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ModuleType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "ModuleTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
+              ],
+              "enum": [
+                "Invalid",
+                "AccessByCard",
+                "AccessByCode",
+                "AccessByFingerprint",
+                "AccessByBluetoothDongle",
+                "AccessByBluetoothSmartPhone",
+                "Bookings"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Module removed correctly"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Returns a list of spaces visible to the caller user",
+        "operationId": "EndpointsFeaturesSpacesEndpointsGetSpacesEndpoint",
+        "parameters": [
+          {
+            "name": "ParentSpaceId",
+            "in": "query",
+            "description": "Is Parent Space is null, only root spaces are returned",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetSpacesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSpacesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Creates a new space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsCreateSpaceEndpoint",
+        "requestBody": {
+          "x-name": "CreateSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Space created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSpaceResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/my-spaces": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Returns the list of spaces owned by the caller user or the referenced organization (is user is an admin of that organization)",
+        "operationId": "EndpointsFeaturesSpacesEndpointsGetMySpacesEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceType",
+            "in": "query",
+            "schema": {
+              "title": "SpaceTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Paddle",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom"
+              ],
+              "enum": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Paddle",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom"
+              ]
+            }
+          },
+          {
+            "name": "ParentSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "RootSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMySpacesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMySpacesErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/admin-query": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Returns a list of Spaces according to the specified criteria.",
+        "operationId": "EndpointsFeaturesSpacesEndpointsAdminQuerySpacesEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceName",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "MemberId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "OwnerType",
+            "in": "query",
+            "schema": {
+              "title": "OwnerTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "User",
+                "Organization"
+              ],
+              "enum": [
+                "Invalid",
+                "User",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "OwnerId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SpaceType",
+            "in": "query",
+            "schema": {
+              "title": "SpaceTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Paddle",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom"
+              ],
+              "enum": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "Pool",
+                "Tennis",
+                "Paddle",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom"
+              ]
+            }
+          },
+          {
+            "name": "ParentSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "RootSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQuerySpacesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQuerySpacesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Add a new module to a space. By default, the module will be added in disable state",
+        "operationId": "EndpointsFeaturesSpacesEndpointsAddModuleToSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddModuleToSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddModuleToSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddModuleToSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Module added correctly"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/regenerate": {
+      "post": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "Regenerates default permissions for a user",
+        "description": "Regenerates default permissions for a user",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsRegenerateEndpoint",
+        "requestBody": {
+          "x-name": "RegeneratePermissionsForUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegeneratePermissionsForUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The permissions were generated successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/by-grantee": {
+      "get": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "List permissions for a given grantee according to the given criteria",
+        "description": "List permissions for a given grantee",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsListByGranteeEndpoint",
+        "parameters": [
+          {
+            "name": "GranteeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AppHolder",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ContextType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "ContextTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "invalid",
+                "space",
+                "user",
+                "group"
+              ],
+              "enum": [
+                "invalid",
+                "space",
+                "user",
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "Context",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ResourceType",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Action",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfListByGranteePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List executed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/by-context": {
+      "get": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "List permissions for a given context according to the given criteria",
+        "description": "List permissions for a given context",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsListByContextEndpoint",
+        "parameters": [
+          {
+            "name": "ContextType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "ContextTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "invalid",
+                "space",
+                "user",
+                "group"
+              ],
+              "enum": [
+                "invalid",
+                "space",
+                "user",
+                "group"
+              ]
+            }
+          },
+          {
+            "name": "Context",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ResourceType",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Action",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ActionObject",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfListByContextPermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List executed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions": {
+      "delete": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "Deletes a permission",
+        "description": "Deletes a permission",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsDeleteEndpoint",
+        "requestBody": {
+          "x-name": "DeletePermissionRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeletePermissionRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeletePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The permission was deleted"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "Creates a permission as admin",
+        "description": "Creates a permission as admin",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsCreateEndpoint",
+        "requestBody": {
+          "x-name": "CreatePermissionRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePermissionRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreatePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The permission was created"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/organizations/{OrganizationId}": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Returns an organization by id",
+        "operationId": "EndpointsFeaturesOrganizationsEndpointsGetOrganizationEndpoint",
+        "parameters": [
+          {
+            "name": "OrganizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetOrganizationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Organization found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetOrganizationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Deletes an organization",
+        "operationId": "EndpointsFeaturesOrganizationsEndpointsDeleteOrganizationEndpoint",
+        "parameters": [
+          {
+            "name": "OrganizationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteOrganizationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Organization deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/organizations/my-organizations": {
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Returns a list of organizations belonging to the caller user",
+        "operationId": "EndpointsFeaturesOrganizationsEndpointsGetMyOrganizationsEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMyOrganizationsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of organizations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyOrganizationsErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/organizations": {
+      "post": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Creates a new organization",
+        "operationId": "EndpointsFeaturesOrganizationsEndpointsCreateOrganizationEndpoint",
+        "requestBody": {
+          "x-name": "CreateOrganizationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrganizationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateOrganizationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Organization created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateOrganizationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "organizations"
+        ],
+        "summary": "Returns a list of organizations according to the specified criteria.",
+        "operationId": "EndpointsFeaturesOrganizationsEndpointsAdminQueryOrganizationsEndpoint",
+        "parameters": [
+          {
+            "name": "OrganizationName",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "OwnerId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQueryOrganizationsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of organizations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQueryOrganizationsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/groups/{GroupId}/members": {
+      "delete": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Removes a member from a group",
+        "operationId": "EndpointsFeaturesGroupsEndpointsRemoveMemberFromGroupEndpoint",
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "RemoveMemberFromGroupRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMemberFromGroupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRemoveMemberFromGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Member removed successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "List members of a group",
+        "operationId": "EndpointsFeaturesGroupsEndpointsListMembersOfGroupEndpoint",
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "MemberType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "MemberTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Group",
+                "User"
+              ],
+              "enum": [
+                "Invalid",
+                "Group",
+                "User"
+              ]
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfListMembersOfGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMembersOfGroupResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Adds a member to a group",
+        "operationId": "EndpointsFeaturesGroupsEndpointsAddMemberToGroupEndpoint",
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddMemberToGroupRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMemberToGroupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddMemberToGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Member added successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/groups/{GroupId}": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Returns a group by id",
+        "operationId": "EndpointsFeaturesGroupsEndpointsGetGroupEndpoint",
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Group found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGroupResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Deletes a group",
+        "operationId": "EndpointsFeaturesGroupsEndpointsDeleteGroupEndpoint",
+        "parameters": [
+          {
+            "name": "GroupId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Group deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/groups": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Returns a list of groups visible to the caller user",
+        "operationId": "EndpointsFeaturesGroupsEndpointsGetGroupsEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetGroupsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGroupsErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Creates a new group",
+        "operationId": "EndpointsFeaturesGroupsEndpointsCreateGroupEndpoint",
+        "requestBody": {
+          "x-name": "CreateGroupRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateGroupErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Group created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateGroupResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/groups/admin-query": {
+      "get": {
+        "tags": [
+          "groups"
+        ],
+        "summary": "Returns a list of groups according to the specified criteria.",
+        "operationId": "EndpointsFeaturesGroupsEndpointsAdminQueryGroupsEndpoint",
+        "parameters": [
+          {
+            "name": "GroupName",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "MemberType",
+            "in": "query",
+            "schema": {
+              "title": "MemberTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Group",
+                "User"
+              ],
+              "enum": [
+                "Invalid",
+                "Group",
+                "User"
+              ]
+            }
+          },
+          {
+            "name": "MemberId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "OwnerType",
+            "in": "query",
+            "schema": {
+              "title": "OwnerTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "User",
+                "Organization"
+              ],
+              "enum": [
+                "Invalid",
+                "User",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "OwnerId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQueryGroupsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of groups",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQueryGroupsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "operationId": "EndpointsFeaturesCommonEndpointsHealthEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/debug": {
+      "get": {
+        "tags": [
+          "debug"
+        ],
+        "operationId": "EndpointsFeaturesCommonEndpointsDebugEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Returns access token",
+        "operationId": "EndpointsFeaturesAuthEndpointsTokenEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "TokenRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfTokenErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns JWT tokens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Creates a new user account",
+        "operationId": "EndpointsFeaturesAuthEndpointsSignUpEndpoint",
+        "requestBody": {
+          "x-name": "SignUpRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignUpErrorCodes"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns tokens and user information or Mfa Challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/signin": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Authenticates a user",
+        "description": "Authenticates a user. Returns JWT tokens or Mfa Challenge",
+        "operationId": "EndpointsFeaturesAuthEndpointsSignInEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "SignInRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSignInErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Returns tokens and user information or Mfa Challenge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/resend-confirmation-code": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Resends email confirmation code",
+        "operationId": "EndpointsFeaturesAuthEndpointsResendConfirmationCodeEndpoint",
+        "requestBody": {
+          "x-name": "ResendCodeRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendCodeRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Code has been resent to the user"
+          }
+        }
+      }
+    },
+    "/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout a user",
+        "description": "Logout a user. Refresh token should be sent in the request body or as a cookie",
+        "operationId": "EndpointsFeaturesAuthEndpointsLogoutEndpoint",
+        "requestBody": {
+          "x-name": "LogoutRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfLogoutErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User has been logged out successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/auth/idps": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Returns the list of available identity providers",
+        "operationId": "EndpointsFeaturesAuthEndpointsIdpsEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfIdpsErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of available identity providers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IdpsResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Starts a password reset process",
+        "operationId": "EndpointsFeaturesAuthEndpointsForgotPasswordEndpoint",
+        "requestBody": {
+          "x-name": "ForgotPasswordRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Password recovery started successfully"
+          }
+        }
+      }
+    },
+    "/v1/auth/confirm-mfa": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Validates MFA code",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmMfaEndpoint",
+        "parameters": [
+          {
+            "name": "x-application-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ConfirmMfaRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmMfaRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "MFA Code has been validated and tokens are returned in the response. Refresh token is returned in body or cookie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/confirm-forgot-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Confirm a recovery password procedure with provided code",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmForgotPasswordEndpoint",
+        "requestBody": {
+          "x-name": "ResetPasswordRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfConfirmForgotPasswordErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Password has been changed"
+          }
+        }
+      }
+    },
+    "/v1/auth/confirm-email": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Confirm the sign up of a user with a confirmation code.",
+        "operationId": "EndpointsFeaturesAuthEndpointsConfirmEmailEndpoint",
+        "requestBody": {
+          "x-name": "ConfirmEmailRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmEmailRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfConfirmEmailErrorCode"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Email confirmed."
+          }
+        }
+      }
+    },
+    "/v1/auth/change-password": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Changes user's password",
+        "operationId": "EndpointsFeaturesAuthEndpointsChangePasswordEndpoint",
+        "requestBody": {
+          "x-name": "ChangePasswordRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfChangePasswordErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Password changed successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ErrorResponseOfEndpointErrorOfUpdateUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateUserErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfUpdateUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateUserErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateUserErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ]
+      },
+      "ValidationFailure": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "propertyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "attemptedValue": {
+            "nullable": true
+          },
+          "customState": {
+            "nullable": true
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "errorCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "formattedMessagePlaceholderValues": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Severity": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Error",
+          "Warning",
+          "Info"
+        ],
+        "enum": [
+          "Error",
+          "Warning",
+          "Info"
+        ]
+      },
+      "UnAuthorizedResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "missingPermission": {
+            "$ref": "#/components/schemas/MissingPermission"
+          },
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MissingPermission": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "contextType": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actionObject": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "GetUserResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "passport": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilePhone": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilePhoneCountryISOCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebook": {
+            "type": "string",
+            "nullable": true
+          },
+          "apple": {
+            "type": "string",
+            "nullable": true
+          },
+          "twitter": {
+            "type": "string",
+            "nullable": true
+          },
+          "google": {
+            "type": "string",
+            "nullable": true
+          },
+          "gitHub": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "middleName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "idCard": {
+            "type": "string",
+            "nullable": true
+          },
+          "passport": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobilePhone": {
+            "type": "string",
+            "pattern": "^\\+[1-9]\\d{1,14}$",
+            "nullable": true
+          },
+          "mobilePhoneCountryISOCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "facebook": {
+            "type": "string",
+            "nullable": true
+          },
+          "apple": {
+            "type": "string",
+            "nullable": true
+          },
+          "twitter": {
+            "type": "string",
+            "nullable": true
+          },
+          "google": {
+            "type": "string",
+            "nullable": true
+          },
+          "gitHub": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetMeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMeErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMeErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMeErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "InvalidId"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "InvalidId"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteUserErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteUserErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteUserErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "FailedToDeleteUserInAuthorizationService"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "FailedToDeleteUserInAuthorizationService"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfAdminQueryUsersErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQueryUsersErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQueryUsersErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQueryUsersErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQueryUsersErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQueryUsersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserDtoLite"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UserDtoLite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfUpdateSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "CursorDirectionEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "After",
+          "Before"
+        ],
+        "enum": [
+          "After",
+          "Before"
+        ]
+      },
+      "EndpointErrorOfUpdateSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "ParentSpaceHasNoSecurityGroups"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "ParentSpaceHasNoSecurityGroups"
+        ]
+      },
+      "UpdateSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfUpdateModuleInSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateModuleInSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfUpdateModuleInSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateModuleInSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateModuleInSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleNotPresentInSpace"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleNotPresentInSpace"
+        ]
+      },
+      "UpdateServiceInSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "moduleType",
+          "moduleStatus"
+        ],
+        "properties": {
+          "moduleStatus": {
+            "nullable": false,
+            "$ref": "#/components/schemas/ModuleStatusEnum"
+          }
+        }
+      },
+      "ModuleTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "AccessByCard",
+          "AccessByCode",
+          "AccessByFingerprint",
+          "AccessByBluetoothDongle",
+          "AccessByBluetoothSmartPhone",
+          "Bookings"
+        ],
+        "enum": [
+          "Invalid",
+          "AccessByCard",
+          "AccessByCode",
+          "AccessByFingerprint",
+          "AccessByBluetoothDongle",
+          "AccessByBluetoothSmartPhone",
+          "Bookings"
+        ]
+      },
+      "ModuleStatusEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Enabled",
+          "Disabled"
+        ],
+        "enum": [
+          "Invalid",
+          "Enabled",
+          "Disabled"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfRemoveModuleFromSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfRemoveModuleFromSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/RemoveModuleFromSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "RemoveModuleFromSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleNotPresentInSpace"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleNotPresentInSpace"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "GetSpaceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "securityGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/SpaceType"
+          },
+          "rootSpaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "securityGroupsIAm": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite"
+            }
+          },
+          "securityGroupsIManageMembersOf": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite"
+            }
+          }
+        }
+      },
+      "GroupDtoLite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SpaceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "Pool",
+          "Tennis",
+          "Paddle",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom"
+        ],
+        "enum": [
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "Pool",
+          "Tennis",
+          "Paddle",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom"
+        ]
+      },
+      "ModuleDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ModuleTypeEnum"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ModuleStatusEnum"
+          },
+          "associatedServiceType": {
+            "$ref": "#/components/schemas/ServiceTypeEnum"
+          }
+        }
+      },
+      "ServiceTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Booking",
+          "Access"
+        ],
+        "enum": [
+          "Invalid",
+          "Booking",
+          "Access"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetSpacesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetSpacesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetSpacesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "GetSpacesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpaceDtoLite"
+            }
+          }
+        }
+      },
+      "SpaceDtoLite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/SpaceType"
+          },
+          "rootSpaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetMySpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMySpacesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMySpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMySpacesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMySpacesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "OwnerAndRequestUserMismatch",
+          "UserNotInOrganizationAdminGroup",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "OwnerAndRequestUserMismatch",
+          "UserNotInOrganizationAdminGroup",
+          "InvalidParameter"
+        ]
+      },
+      "GetMySpacesRequest": {
+        "type": "object",
+        "description": "Get my owned spaces only by type",
+        "additionalProperties": false,
+        "properties": {
+          "owner": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto"
+              }
+            ]
+          }
+        }
+      },
+      "OwnerDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "id"
+        ],
+        "properties": {
+          "type": {
+            "nullable": false,
+            "$ref": "#/components/schemas/OwnerTypeEnum"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "OwnerTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "User",
+          "Organization"
+        ],
+        "enum": [
+          "Invalid",
+          "User",
+          "Organization"
+        ]
+      },
+      "SpaceTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "Pool",
+          "Tennis",
+          "Paddle",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom"
+        ],
+        "enum": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "Pool",
+          "Tennis",
+          "Paddle",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "ParentSpaceHasNoSecurityGroups"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "ParentSpaceHasNoSecurityGroups"
+        ]
+      },
+      "CreateSpaceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "securityGroups": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite"
+            }
+          }
+        }
+      },
+      "CreateSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "spaceType",
+          "creationOptions"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentSpaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "spaceType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/SpaceTypeEnum"
+          },
+          "creationOptions": {
+            "nullable": false,
+            "$ref": "#/components/schemas/SpaceCreationOptions"
+          },
+          "owner": {
+            "description": "Owner of the space. If null, the requester will be the owner",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto"
+              }
+            ]
+          }
+        }
+      },
+      "SpaceCreationOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "createDefaultSecurityGroups"
+        ],
+        "properties": {
+          "createDefaultSecurityGroups": {
+            "type": "boolean",
+            "default": "True",
+            "nullable": false
+          },
+          "parentsOfMembersGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "parentsOfGuestsGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "parentsOfOnlyViewGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAdminQuerySpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQuerySpacesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQuerySpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQuerySpacesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQuerySpacesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQuerySpacesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpaceDtoLite"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAddModuleToSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAddModuleToSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAddModuleToSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AddModuleToSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AddModuleToSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleAlreadyAdded"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "ModuleAlreadyAdded"
+        ]
+      },
+      "AddModuleToSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "moduleType"
+        ],
+        "properties": {
+          "moduleType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/ModuleTypeEnum"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfRegeneratePermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfRegeneratePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/RegeneratePermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "RegeneratePermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ]
+      },
+      "RegeneratePermissionsForUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entityId"
+        ],
+        "properties": {
+          "entityType": {
+            "$ref": "#/components/schemas/EntityTypeEnum"
+          },
+          "entityId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "EntityTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "User",
+          "Group",
+          "Space"
+        ],
+        "enum": [
+          "User",
+          "Group",
+          "Space"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfListByGranteePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfListByGranteePermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfListByGranteePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ListByGranteePermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ListByGranteePermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ]
+      },
+      "ListPermissionsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PermissionDtoResponse"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "PermissionDtoResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "contextType": {
+            "$ref": "#/components/schemas/ContextTypeEnum"
+          },
+          "context": {
+            "type": "string"
+          },
+          "resourceType": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actionObject": {
+            "type": "string",
+            "nullable": true
+          },
+          "granteeType": {
+            "$ref": "#/components/schemas/GranteeTypeEnum"
+          },
+          "granteeId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "appHolder": {
+            "type": "string"
+          },
+          "inheritedFrom": {
+            "type": "string",
+            "nullable": true
+          },
+          "grantor": {
+            "$ref": "#/components/schemas/GrantorDto"
+          }
+        }
+      },
+      "ContextTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "invalid",
+          "space",
+          "user",
+          "group"
+        ],
+        "enum": [
+          "invalid",
+          "space",
+          "user",
+          "group"
+        ]
+      },
+      "GranteeTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "User",
+          "Group"
+        ],
+        "enum": [
+          "Invalid",
+          "User",
+          "Group"
+        ]
+      },
+      "GrantorDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "grantorType": {
+            "$ref": "#/components/schemas/GrantorTypeEnum"
+          },
+          "grantorId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "GrantorTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "System_OnCreation",
+          "Booking",
+          "User"
+        ],
+        "enum": [
+          "Invalid",
+          "System_OnCreation",
+          "Booking",
+          "User"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfListByContextPermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfListByContextPermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfListByContextPermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ListByContextPermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ListByContextPermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeletePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeletePermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeletePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeletePermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeletePermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ]
+      },
+      "DeletePermissionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contextType",
+          "context",
+          "resourceType",
+          "action",
+          "granteeType",
+          "granteeId",
+          "permissionUserGrantorId"
+        ],
+        "properties": {
+          "contextType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/ContextTypeEnum"
+          },
+          "context": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "resourceType": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "actionObject": {
+            "type": "string",
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+|\\*$",
+            "nullable": true
+          },
+          "granteeType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/GranteeTypeEnum"
+          },
+          "granteeId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "appHolder": {
+            "type": "string",
+            "description": "App Id. If null, the app holder from current token will be used",
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": true
+          },
+          "permissionUserGrantorId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreatePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreatePermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreatePermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreatePermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreatePermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ]
+      },
+      "CreatePermissionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "contextType",
+          "context",
+          "resourceType",
+          "action",
+          "granteeType",
+          "granteeId"
+        ],
+        "properties": {
+          "contextType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/ContextTypeEnum"
+          },
+          "context": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "resourceType": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": false
+          },
+          "actionObject": {
+            "type": "string",
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+|\\*$",
+            "nullable": true
+          },
+          "granteeType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/GranteeTypeEnum"
+          },
+          "granteeId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "appHolder": {
+            "type": "string",
+            "description": "App Id. If null, the app holder from current token will be used",
+            "pattern": "^[a-zA-Z\\-\\.0-9\\s]+$",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetOrganizationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetOrganizationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetOrganizationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "OrganizationNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "OrganizationNotFound"
+        ]
+      },
+      "GetOrganizationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "defaultAdminGroup": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite2"
+            }
+          },
+          "numberSpaces": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GroupDtoLite2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetMyOrganizationsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMyOrganizationsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMyOrganizationsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMyOrganizationsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMyOrganizationsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteOrganizationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteOrganizationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteOrganizationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "OrganizationNotEmpty",
+          "OrganizationNotFound",
+          "ErrorModifyingPermissions"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "OrganizationNotEmpty",
+          "OrganizationNotFound",
+          "ErrorModifyingPermissions"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateOrganizationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateOrganizationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateOrganizationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateOrganizationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "OwnerNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "OwnerNotFound"
+        ]
+      },
+      "CreateOrganizationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "organizationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "defaultAdminGroupId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "CreateOrganizationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "Id of the user who is creating the organization. If not provided, the requester will be used.",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAdminQueryOrganizationsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQueryOrganizationsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQueryOrganizationsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQueryOrganizationsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQueryOrganizationsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQueryOrganizationsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrganizationDtoLite"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "OrganizationDtoLite": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfRemoveMemberFromGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfRemoveMemberFromGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfRemoveMemberFromGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/RemoveMemberFromGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "RemoveMemberFromGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorModifyingPermissions",
+          "MemberAlreadyInGroup",
+          "GroupNotFound",
+          "MemberNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorModifyingPermissions",
+          "MemberAlreadyInGroup",
+          "GroupNotFound",
+          "MemberNotFound"
+        ]
+      },
+      "RemoveMemberFromGroupRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "groupId",
+          "memberType",
+          "memberId"
+        ],
+        "properties": {
+          "memberType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/MemberTypeEnum"
+          },
+          "memberId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "MemberTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Group",
+          "User"
+        ],
+        "enum": [
+          "Invalid",
+          "Group",
+          "User"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfListMembersOfGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfListMembersOfGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfListMembersOfGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ListMembersOfGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ListMembersOfGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GroupNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GroupNotFound"
+        ]
+      },
+      "ListMembersOfGroupResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MemberOfGroup"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "MemberOfGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "memberType": {
+            "$ref": "#/components/schemas/MemberTypeEnum"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GroupNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GroupNotFound"
+        ]
+      },
+      "GetGroupResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite3"
+            }
+          },
+          "owner": {
+            "$ref": "#/components/schemas/OwnerDto2"
+          },
+          "relatedEntity": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RelatedEntityDto"
+              }
+            ]
+          },
+          "numberSubGroups": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberUsers": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GroupDtoLite3": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "OwnerDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/OwnerTypeEnum2"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "OwnerTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "User",
+          "Organization"
+        ],
+        "enum": [
+          "Invalid",
+          "User",
+          "Organization"
+        ]
+      },
+      "RelatedEntityDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "entityId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "relationType": {
+            "$ref": "#/components/schemas/RelationType"
+          }
+        }
+      },
+      "RelationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "SpaceAdminSecurityGroup",
+          "SpaceRegularSecurityGroup",
+          "OrganizationAdminGroup"
+        ],
+        "enum": [
+          "SpaceAdminSecurityGroup",
+          "SpaceRegularSecurityGroup",
+          "OrganizationAdminGroup"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetGroupsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetGroupsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetGroupsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetGroupsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetGroupsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "GroupNotEmpty"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "GroupNotEmpty"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions"
+        ]
+      },
+      "CreateGroupResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "groupId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateGroupRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "description": "Owner of the group. If null, the requester will be the owner",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto2"
+              }
+            ]
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAdminQueryGroupsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQueryGroupsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQueryGroupsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQueryGroupsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQueryGroupsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQueryGroupsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite3"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAddMemberToGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAddMemberToGroupErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAddMemberToGroupErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AddMemberToGroupErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AddMemberToGroupErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorModifyingPermissions",
+          "MemberAlreadyInGroup",
+          "GroupNotFound",
+          "MemberNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorModifyingPermissions",
+          "MemberAlreadyInGroup",
+          "GroupNotFound",
+          "MemberNotFound"
+        ]
+      },
+      "AddMemberToGroupRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "groupId",
+          "memberType",
+          "memberId"
+        ],
+        "properties": {
+          "memberType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/MemberTypeEnum"
+          },
+          "memberId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfTokenErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfTokenErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfTokenErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/TokenErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "TokenErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound"
+        ]
+      },
+      "AuthResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "challengeName": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          },
+          "idToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TokenRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "code",
+          "codeVerifier",
+          "grantType"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "codeVerifier": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "grantType": {
+            "minLength": 1,
+            "nullable": false,
+            "$ref": "#/components/schemas/AppConstants_GrantType"
+          },
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AppConstants_GrantType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "AuthorizationCode",
+          "RefreshToken"
+        ],
+        "enum": [
+          "AuthorizationCode",
+          "RefreshToken"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfSignUpErrorCodes": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSignUpErrorCodes"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSignUpErrorCodes": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SignUpErrorCodes"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SignUpErrorCodes": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "NotAuthorized",
+          "InvalidPassword",
+          "UserNameExists",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "NotAuthorized",
+          "InvalidPassword",
+          "UserNameExists",
+          "InvalidParameter"
+        ]
+      },
+      "SignUpRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "password",
+          "email",
+          "givenName",
+          "phoneNumber",
+          "phoneNumberISOCode"
+        ],
+        "properties": {
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
+            "nullable": false
+          },
+          "email": {
+            "type": "string",
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "givenName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "familyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "pattern": "^\\+[1-9]\\d{1,14}$",
+            "nullable": false
+          },
+          "phoneNumberISOCode": {
+            "type": "string",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfSignInErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSignInErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSignInErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SignInErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SignInErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "NotAuthorized",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "SignInRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfResendConfirmationCodeErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfResendConfirmationCodeErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ResendConfirmationCodeErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ResendConfirmationCodeErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ResendCodeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfLogoutErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfLogoutErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfLogoutErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/LogoutErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "LogoutErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "MissingRefreshToken",
+          "InvalidParameter"
+        ]
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfIdpsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfIdpsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfIdpsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/IdpsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "IdpsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified"
+        ],
+        "enum": [
+          "Unspecified"
+        ]
+      },
+      "IdpsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "baseUrl": {
+            "type": "string"
+          },
+          "redirectUri": {
+            "type": "string"
+          },
+          "responseType": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfForgotPasswordErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ForgotPasswordErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ForgotPasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfConfirmMfaErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfConfirmMfaErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ConfirmMfaErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfirmMfaErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "InvalidPassword",
+          "MFAMethodNotFound",
+          "PasswordResetRequired",
+          "SoftwareTokenMFANotFound",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "InvalidPassword",
+          "MFAMethodNotFound",
+          "PasswordResetRequired",
+          "SoftwareTokenMFANotFound",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ConfirmMfaRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "applicationType",
+          "userId",
+          "sessionId",
+          "challengeCode",
+          "challengeName"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "sessionId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "challengeCode": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "challengeName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfConfirmForgotPasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ConfirmForgotPasswordErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ConfirmForgotPasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "CodeMismatch",
+          "ExpiredCode",
+          "InvalidPassword",
+          "TooManyFailedAttempts",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "CodeMismatch",
+          "ExpiredCode",
+          "InvalidPassword",
+          "TooManyFailedAttempts",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "password",
+          "code"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "password": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
+            "nullable": false
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfConfirmEmailErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ConfirmEmailErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ConfirmEmailErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "ExpiredCode",
+          "TooManyFailedAttempts",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "AliasExists",
+          "CodeMismatch",
+          "ExpiredCode",
+          "TooManyFailedAttempts",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ConfirmEmailRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "code"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfChangePasswordErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "$ref": "#/components/schemas/ChangePasswordErrorCode"
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "ChangePasswordErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "InvalidPassword",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "InvalidPassword",
+          "PasswordResetRequired",
+          "UserNotConfirmed",
+          "UserNotFound",
+          "InvalidParameter"
+        ]
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ],
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
+            "nullable": false
+          },
+          "newPassword": {
+            "type": "string",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
+            "nullable": false
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWTBearerAuth": {
+        "type": "http",
+        "description": "Enter a JWT token to authorize the requests...",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
