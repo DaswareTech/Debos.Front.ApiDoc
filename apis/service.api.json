@@ -137,6 +137,66 @@
         ]
       }
     },
+    "/v1/users/by-email": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Returns a user id if the user with the given email exists",
+        "operationId": "EndpointsFeaturesUsersEndpointsGetUserIdByEmailEndpoint",
+        "parameters": [
+          {
+            "name": "Email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetUserIdByEmailErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "User Id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUserIdByEmailResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/users/me": {
       "get": {
         "tags": [
@@ -465,20 +525,16 @@
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ]
             }
@@ -558,20 +614,16 @@
               "description": "",
               "x-enumNames": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ],
               "enum": [
                 "Invalid",
-                "AccessByCard",
-                "AccessByCode",
-                "AccessByFingerprint",
-                "AccessByBluetoothDongle",
-                "AccessByBluetoothSmartPhone",
+                "AccessMobile",
+                "AccessParking",
+                "AccessCardReader",
                 "Bookings"
               ]
             }
@@ -603,6 +655,80 @@
           },
           "200": {
             "description": "Module removed correctly"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/favourite": {
+      "put": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Sets the favourite status of a space",
+        "operationId": "EndpointsFeaturesSpacesEndpointsSetFavouriteEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "SetFavouriteSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFavouriteSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfSetFavouriteErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Space favourite status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SetFavouriteSpaceRequest"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -755,14 +881,18 @@
                 "Building",
                 "Floor",
                 "Apartment",
-                "Pool",
+                "SwimmingPool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
               ],
               "enum": [
                 "Invalid",
@@ -771,14 +901,18 @@
                 "Building",
                 "Floor",
                 "Apartment",
-                "Pool",
+                "SwimmingPool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
               ]
             }
           },
@@ -831,6 +965,160 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetMySpacesErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/favourites": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "List favourite spaces",
+        "description": "Returns a list of favourite spaces according to the specified criteria",
+        "operationId": "EndpointsFeaturesSpacesEndpointsGetMyFavouritesEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceType",
+            "in": "query",
+            "schema": {
+              "title": "SpaceTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "SwimmingPool",
+                "Tennis",
+                "Padel",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
+              ],
+              "enum": [
+                "Invalid",
+                "Undefined",
+                "SmartCommunity",
+                "Building",
+                "Floor",
+                "Apartment",
+                "SwimmingPool",
+                "Tennis",
+                "Padel",
+                "Football",
+                "Basketball",
+                "ParkingSpace",
+                "ParkingLot",
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
+              ]
+            }
+          },
+          {
+            "name": "ParentSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "RootSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyFavouriteSpacesResponse"
                 }
               }
             }
@@ -910,14 +1198,18 @@
                 "Building",
                 "Floor",
                 "Apartment",
-                "Pool",
+                "SwimmingPool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
               ],
               "enum": [
                 "Invalid",
@@ -926,14 +1218,18 @@
                 "Building",
                 "Floor",
                 "Apartment",
-                "Pool",
+                "SwimmingPool",
                 "Tennis",
-                "Paddle",
+                "Padel",
                 "Football",
                 "Basketball",
                 "ParkingSpace",
                 "ParkingLot",
-                "StorageRoom"
+                "StorageRoom",
+                "BuildingPart",
+                "Block",
+                "Stairs",
+                "Gym"
               ]
             }
           },
@@ -1128,6 +1424,49 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The permissions were generated successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/regenerate-for-all": {
+      "post": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "Regenerates default permissions for all users",
+        "description": "Regenerates default permissions for all users",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsRegenerateForAllEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode2"
                 }
               }
             }
@@ -2510,6 +2849,409 @@
         }
       }
     },
+    "/v1/bookings/time-slots": {
+      "get": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Get Time Slots",
+        "description": "Retrieves the booking time slots for a given space and date range",
+        "operationId": "EndpointsFeaturesBookingsEndpointsGetTimeSlotsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "NumberOfDays",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetTimeSlotsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of time slots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTimeSlotsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Generate TimeSlots",
+        "description": "Creates a number of time slots based on the given configuration for the given date range.",
+        "operationId": "EndpointsFeaturesBookingsEndpointsGenerateTimeSlotsEndpoint",
+        "requestBody": {
+          "x-name": "GenerateTimeSlotsRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTimeSlotsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGenerateTimeSlotsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Number of generated time slots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTimeSlotsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings": {
+      "get": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Returns bookings of the caller user",
+        "description": "Returns a list of bookings of caller user",
+        "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetBookingsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of bookings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBookingsErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Delete booking",
+        "description": "Deletes a booking on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint",
+        "requestBody": {
+          "x-name": "DeleteBookingRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteBookingRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Creates New booking",
+        "description": "Creates a new booking on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingEndpoint",
+        "requestBody": {
+          "x-name": "CreateBookingRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBookingErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBookingResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/configurations": {
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Creates a new booking configuration",
+        "description": "Creates a new booking configuration on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint",
+        "requestBody": {
+          "x-name": "CreateBookingConfigurationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingConfigurationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBookingConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/auth/token": {
       "post": {
         "tags": [
@@ -3075,6 +3817,699 @@
           }
         ]
       }
+    },
+    "/v1/access/accessmeans": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Get my access means",
+        "description": "Returns a list of access means (cards, dongles, etc) belonging to the caller",
+        "operationId": "EndpointsFeaturesAccessEndpointsGetMyAccessMeansEndpoint",
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetMyAccessMeansErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Access Means",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMyAccessMeansResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accesspoints": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "List of visible access points",
+        "description": "Returns a list of access points visible to the caller user in the specified space",
+        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessPointsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of access points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessPointsErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates Access Point",
+        "description": "Creates a new Access Point in a Space",
+        "operationId": "EndpointsFeaturesAccessEndpointsCreateAccessPointEndpoint",
+        "requestBody": {
+          "x-name": "CreateAccessPointRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccessPointRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateAccessPointErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "AccessPoint created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateAccessPointResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accessmeans/{AccessMeanId}": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Get access mean by id",
+        "description": "Returns an access mean (cards, dongles, etc)",
+        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessMeanEndpoint",
+        "parameters": [
+          {
+            "name": "AccessMeanId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessMeanErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The Access Mean",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessMeanResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/keys": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates a key from an access mean",
+        "description": "Creates a key from an access mean",
+        "operationId": "EndpointsFeaturesAccessEndpointsGenerateKeyEndpoint",
+        "requestBody": {
+          "x-name": "GenerateKeyRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateKeyRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGenerateKeyErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Key generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateKeyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accessmeans/{AccessMeanId}/associated-user": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Associate Access Mean To User",
+        "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
+        "operationId": "EndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint1",
+        "parameters": [
+          {
+            "name": "AccessMeanId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AssociateAccessMeanToUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociateAccessMeanToUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAssociateAccessMeanToUserErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Access mean associated to user"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/users/{UserId}/accessmeans": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Associate Access Mean To User",
+        "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
+        "operationId": "EndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint2",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AssociateAccessMeanToUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociateAccessMeanToUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAssociateAccessMeanToUserErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Access mean associated to user"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accessmeans/admin-query": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Admin query of access means",
+        "description": "Returns a list of access means (cards, dongles, etc) according to the specified criteria.",
+        "operationId": "EndpointsFeaturesAccessEndpointsAdminQueryAccessMeansEndpoint",
+        "parameters": [
+          {
+            "name": "IgnoreUser",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "AssignedUserId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessMeanType",
+            "in": "query",
+            "schema": {
+              "title": "AccessMeanTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "MiFareClassicCard",
+                "BluetoothDongle"
+              ],
+              "enum": [
+                "Invalid",
+                "MiFareClassicCard",
+                "BluetoothDongle"
+              ]
+            }
+          },
+          {
+            "name": "InUseInAccessPointId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirectionEnum",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQueryAccessMeansErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Access Means",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQueryAccessMeansResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accessmeans/mifareclassiccards": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates mifare classic cards in the system",
+        "description": "Creates (adds) a list of mifare classic cards to the system",
+        "operationId": "EndpointsFeaturesAccessEndpointsAdminCreateMiFareClassicCardsEndpoint",
+        "requestBody": {
+          "x-name": "CreateMiFareClassicCardsRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMiFareClassicCardsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateMiFareClassicCardsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "MiFareClassicCards created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMiFareClassicCardsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accessmeans/bluetoothdongles": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates bluetooth dongles in the system",
+        "description": "Creates (adds) a list of access means (bluetooth dongles) to the system",
+        "operationId": "EndpointsFeaturesAccessEndpointsAdminCreateBluetoothDonglesEndpoint",
+        "requestBody": {
+          "x-name": "CreateBluetoothDonglesRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBluetoothDonglesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBluetoothDonglesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Access means created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBluetoothDonglesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -3327,6 +4762,69 @@
           "gitHub": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetUserIdByEmailErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetUserIdByEmailErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetUserIdByEmailErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetUserIdByEmailErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetUserIdByEmailErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "UserNotFound"
+        ]
+      },
+      "GetUserIdByEmailResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "guid"
           }
         }
       },
@@ -3673,20 +5171,16 @@
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "AccessByCard",
-          "AccessByCode",
-          "AccessByFingerprint",
-          "AccessByBluetoothDongle",
-          "AccessByBluetoothSmartPhone",
+          "AccessMobile",
+          "AccessParking",
+          "AccessCardReader",
           "Bookings"
         ],
         "enum": [
           "Invalid",
-          "AccessByCard",
-          "AccessByCode",
-          "AccessByFingerprint",
-          "AccessByBluetoothDongle",
-          "AccessByBluetoothSmartPhone",
+          "AccessMobile",
+          "AccessParking",
+          "AccessCardReader",
           "Bookings"
         ]
       },
@@ -3703,6 +5197,70 @@
           "Enabled",
           "Disabled"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfSetFavouriteErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfSetFavouriteErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfSetFavouriteErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/SetFavouriteErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "SetFavouriteErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound"
+        ]
+      },
+      "SetFavouriteSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId"
+        ],
+        "properties": {
+          "favourite": {
+            "type": "boolean",
+            "default": "True"
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode": {
         "type": "object",
@@ -3838,6 +5396,9 @@
           "type": {
             "$ref": "#/components/schemas/SpaceType"
           },
+          "favourite": {
+            "type": "boolean"
+          },
           "rootSpaceId": {
             "type": "string",
             "format": "guid",
@@ -3849,6 +5410,12 @@
               "$ref": "#/components/schemas/ModuleDto"
             }
           },
+          "accessPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointDto"
+            }
+          },
           "path": {
             "type": "array",
             "items": {
@@ -3856,7 +5423,7 @@
               "format": "guid"
             }
           },
-          "securityGroupsIAm": {
+          "securityGroupsIBelongTo": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GroupDtoLite"
@@ -3900,14 +5467,18 @@
           "Building",
           "Floor",
           "Apartment",
-          "Pool",
+          "SwimmingPool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
         ],
         "enum": [
           "Undefined",
@@ -3915,14 +5486,18 @@
           "Building",
           "Floor",
           "Apartment",
-          "Pool",
+          "SwimmingPool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
         ]
       },
       "ModuleDto": {
@@ -3955,6 +5530,79 @@
           "Invalid",
           "Booking",
           "Access"
+        ]
+      },
+      "AccessPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum"
+            }
+          },
+          "ioTId": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessPointTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Gate",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Stair",
+          "Escalator",
+          "Lift",
+          "Ramp",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Gate",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Stair",
+          "Escalator",
+          "Lift",
+          "Ramp",
+          "Other"
+        ]
+      },
+      "AccessTechnologyEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
@@ -4044,6 +5692,9 @@
           "type": {
             "$ref": "#/components/schemas/SpaceType"
           },
+          "favourite": {
+            "type": "boolean"
+          },
           "rootSpaceId": {
             "type": "string",
             "format": "guid",
@@ -4053,6 +5704,12 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ModuleDto"
+            }
+          },
+          "accessPoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointDto"
             }
           },
           "path": {
@@ -4179,14 +5836,18 @@
           "Building",
           "Floor",
           "Apartment",
-          "Pool",
+          "SwimmingPool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
         ],
         "enum": [
           "Invalid",
@@ -4195,15 +5856,86 @@
           "Building",
           "Floor",
           "Apartment",
-          "Pool",
+          "SwimmingPool",
           "Tennis",
-          "Paddle",
+          "Padel",
           "Football",
           "Basketball",
           "ParkingSpace",
           "ParkingLot",
-          "StorageRoom"
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMyFavouriteSpacesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMyFavouriteSpacesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMyFavouriteSpacesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMyFavouriteSpacesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "GetMyFavouriteSpacesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SpaceDtoLite"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfCreateSpaceErrorCode": {
         "type": "object",
@@ -4249,13 +5981,15 @@
           "Unspecified",
           "DatabaseError",
           "ErrorGeneratingPermissions",
-          "ParentSpaceHasNoSecurityGroups"
+          "ParentSpaceHasNoSecurityGroups",
+          "GroupDoesNotExist"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "ErrorGeneratingPermissions",
-          "ParentSpaceHasNoSecurityGroups"
+          "ParentSpaceHasNoSecurityGroups",
+          "GroupDoesNotExist"
         ]
       },
       "CreateSpaceResponse": {
@@ -4302,6 +6036,9 @@
             "nullable": false,
             "$ref": "#/components/schemas/SpaceTypeEnum"
           },
+          "timeZoneId": {
+            "type": "string"
+          },
           "creationOptions": {
             "nullable": false,
             "$ref": "#/components/schemas/SpaceCreationOptions"
@@ -4328,6 +6065,14 @@
             "type": "boolean",
             "default": "True",
             "nullable": false
+          },
+          "parentsOfAdminsGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           },
           "parentsOfMembersGroup": {
             "type": "array",
@@ -4569,6 +6314,57 @@
           "User",
           "Group",
           "Space"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfRegeneratePermissionErrorCode2"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfRegeneratePermissionErrorCode2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/RegeneratePermissionErrorCode2"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "RegeneratePermissionErrorCode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GranteeNotFound"
         ]
       },
       "ErrorResponseOfEndpointErrorOfListByGranteePermissionErrorCode": {
@@ -5917,6 +7713,11 @@
                 "$ref": "#/components/schemas/OwnerDto2"
               }
             ]
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
           }
         }
       },
@@ -6061,6 +7862,719 @@
             "type": "string",
             "format": "guid",
             "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetTimeSlotsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetTimeSlotsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetTimeSlotsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange",
+          "BookingConfigurationNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange",
+          "BookingConfigurationNotFound"
+        ]
+      },
+      "GetTimeSlotsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotDto"
+            }
+          }
+        }
+      },
+      "BookingTimeSlotDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          },
+          "availableReservations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "myAssociatedBooking": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BookingLiteDto"
+              }
+            ]
+          }
+        }
+      },
+      "CurrencyEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "EUR",
+          "USD",
+          "GBP"
+        ],
+        "enum": [
+          "EUR",
+          "USD",
+          "GBP"
+        ]
+      },
+      "DayOfWeek": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "enum": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ]
+      },
+      "BookingLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerType": {
+            "$ref": "#/components/schemas/OwnerTypeEnum3"
+          },
+          "ownerId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "OwnerTypeEnum3": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "User",
+          "Group"
+        ],
+        "enum": [
+          "User",
+          "Group"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetBookingsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetBookingsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetBookingsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetBookingsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetBookingsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGenerateTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGenerateTimeSlotsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGenerateTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GenerateTimeSlotsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GenerateTimeSlotsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "DateOutsideRange",
+          "ConfigurationOverlapsWithAnother",
+          "AlreadyGeneratedTimeSlots"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "DateOutsideRange",
+          "ConfigurationOverlapsWithAnother",
+          "AlreadyGeneratedTimeSlots"
+        ]
+      },
+      "GenerateTimeSlotsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "numberOfGeneratedTimeSlots": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GenerateTimeSlotsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bookingConfigurationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteBookingErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteBookingErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteBookingErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteBookingErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteBookingErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "BookingNotFound",
+          "PermissionsModificationProblem",
+          "TooLateToCancelBooking"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "BookingNotFound",
+          "PermissionsModificationProblem",
+          "TooLateToCancelBooking"
+        ]
+      },
+      "DeleteBookingRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bookingId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateBookingErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateBookingErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateBookingErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateBookingErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateBookingErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange",
+          "BookingConfigurationNotFound",
+          "SlotsAreEmpty",
+          "SomeSlotsNotAvailable",
+          "SlotsExceedMaxSlotsPerReservation",
+          "UserHasTooManyActiveReservations",
+          "SlotsAreNotInTheSameDay",
+          "UserIsNotMemberOfAnyGroup",
+          "SomeSlotsInThePast",
+          "ParticipantsAutoEnrollIsNotPermitted"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange",
+          "BookingConfigurationNotFound",
+          "SlotsAreEmpty",
+          "SomeSlotsNotAvailable",
+          "SlotsExceedMaxSlotsPerReservation",
+          "UserHasTooManyActiveReservations",
+          "SlotsAreNotInTheSameDay",
+          "UserIsNotMemberOfAnyGroup",
+          "SomeSlotsInThePast",
+          "ParticipantsAutoEnrollIsNotPermitted"
+        ]
+      },
+      "CreateBookingResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bookingId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateBookingRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "timeSlots"
+        ],
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "timeSlots": {
+            "type": "array",
+            "minLength": 1,
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotForReservationDto"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "participantsCanAutoEnroll": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BookingTimeSlotForReservationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateBookingConfigurationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateBookingConfigurationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateBookingConfigurationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ConfigurationOverlapsWithAnother"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ConfigurationOverlapsWithAnother"
+        ]
+      },
+      "CreateBookingConfigurationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "bookingConfigurationId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateBookingConfigurationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "allowedGroups"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "timeSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotForConfigurationDto"
+            }
+          },
+          "reservationIsByGroup": {
+            "type": "boolean"
+          },
+          "allowedGroups": {
+            "type": "array",
+            "minLength": 1,
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "maxActiveReservationsPerUserOrGroup": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "maxTimeSlotsPerReservation": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "maxReservationsPerSlot": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "maxParticipants": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
+          },
+          "minParticipants": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
+          },
+          "participantsCanAutoEnroll": {
+            "type": "boolean"
+          },
+          "minCancellationTimeInMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
+          },
+          "leewayMinutesToAccess": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
+          },
+          "generatePermissionAccess": {
+            "type": "boolean"
+          }
+        }
+      },
+      "BookingTimeSlotForConfigurationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
           }
         }
       },
@@ -6934,6 +9448,833 @@
             "type": "string",
             "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
             "nullable": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGetMyAccessMeansErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetMyAccessMeansErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetMyAccessMeansErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetMyAccessMeansErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetMyAccessMeansErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound"
+        ]
+      },
+      "GetMyAccessMeansResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessMeanDtoBase"
+            }
+          }
+        }
+      },
+      "AccessMeanDtoBase": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessMeanTypeEnum"
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "associatedUserId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "AccessMeanTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "MiFareClassicCard",
+          "BluetoothDongle"
+        ],
+        "enum": [
+          "Invalid",
+          "MiFareClassicCard",
+          "BluetoothDongle"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetAccessPointsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetAccessPointsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetAccessPointsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessPointsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetAccessMeanErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetAccessMeanErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetAccessMeanErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetAccessMeanErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessMeanErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "GetAccessMeanResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessMeanTypeEnum"
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "associatedUserId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfGenerateKeyErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGenerateKeyErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGenerateKeyErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GenerateKeyErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GenerateKeyErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessMeanDoesNotSupportAccessTechnology",
+          "AccessPointNotFound",
+          "SpaceNotFound",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "ApplicationNotFound",
+          "AccessMeanRequiredForAccessTechnology",
+          "AccessTechnologyNotSupported",
+          "UniqueConstraintViolation"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessMeanDoesNotSupportAccessTechnology",
+          "AccessPointNotFound",
+          "SpaceNotFound",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "ApplicationNotFound",
+          "AccessMeanRequiredForAccessTechnology",
+          "AccessTechnologyNotSupported",
+          "UniqueConstraintViolation"
+        ]
+      },
+      "GenerateKeyResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessKeyId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accessTechnology": {
+            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+          }
+        }
+      },
+      "AccessTechnologyEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ]
+      },
+      "GenerateKeyRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accessMeanId"
+        ],
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accessMeanId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "accessTechnology": {
+            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+          },
+          "accessPointId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ]
+      },
+      "CreateAccessPointResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessPointId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateAccessPointRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "spaceId",
+          "accessPointType",
+          "accessPointCreationPermissionOptions"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "customerIdentificationCode": {
+            "type": "string",
+            "description": "This is an internal user id. It can be used to give a custom Id to this access point for identification inside a building etc.",
+            "nullable": true
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "accessPointType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            }
+          },
+          "accessPointCreationPermissionOptions": {
+            "description": "If not defined, No access will be granted by default",
+            "nullable": false,
+            "$ref": "#/components/schemas/AccessPointCreationPermissionOptions"
+          }
+        }
+      },
+      "AccessPointTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ]
+      },
+      "AccessPointCreationPermissionOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "securityGroupsWithPermanentAccess"
+        ],
+        "properties": {
+          "securityGroupsWithPermanentAccess": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "securityGroupsWithListPermission": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAssociateAccessMeanToUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAssociateAccessMeanToUserErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAssociateAccessMeanToUserErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AssociateAccessMeanToUserErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AssociateAccessMeanToUserErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "AccessMeanAlreadyAssociated",
+          "AccessMeanAlreadyAssociatedWithTheUser"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "AccessMeanAlreadyAssociated",
+          "AccessMeanAlreadyAssociatedWithTheUser"
+        ]
+      },
+      "AssociateAccessMeanToUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accessMeanId",
+          "userId"
+        ],
+        "properties": {
+          "allowKeyGeneration": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAdminQueryAccessMeansErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQueryAccessMeansErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQueryAccessMeansErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQueryAccessMeansErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQueryAccessMeansErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQueryAccessMeansResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessMeanDtoBase"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateMiFareClassicCardsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateMiFareClassicCardsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateMiFareClassicCardsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateMiFareClassicCardsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateMiFareClassicCardsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "UniqueConstraintViolation"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "UniqueConstraintViolation"
+        ]
+      },
+      "CreateMiFareClassicCardsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessMeanDtoBase"
+            }
+          }
+        }
+      },
+      "CreateMiFareClassicCardsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "cards"
+        ],
+        "properties": {
+          "cards": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/MiFareClassicCardForCreationDto"
+            }
+          }
+        }
+      },
+      "MiFareClassicCardForCreationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "cardCode": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateBluetoothDonglesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateBluetoothDonglesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateBluetoothDonglesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateBluetoothDonglesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateBluetoothDonglesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "CreateBluetoothDonglesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "dongles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessMeanDtoBase"
+            }
+          }
+        }
+      },
+      "CreateBluetoothDonglesRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dongles"
+        ],
+        "properties": {
+          "dongles": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/BluetoothDongleForCreationDto"
+            }
+          }
+        }
+      },
+      "BluetoothDongleForCreationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "bluetoothDongleCode": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       }
