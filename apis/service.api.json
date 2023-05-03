@@ -295,7 +295,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -1062,7 +1062,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -1260,7 +1260,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -1685,7 +1685,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -2120,7 +2120,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -2301,7 +2301,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -2738,7 +2738,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -4468,7 +4468,7 @@
             }
           },
           {
-            "name": "CursorDirectionEnum",
+            "name": "CursorDirection",
             "in": "query",
             "schema": {
               "title": "CursorDirectionEnum",
@@ -8120,7 +8120,7 @@
           "dayOfWeek": {
             "$ref": "#/components/schemas/DayOfWeek"
           },
-          "availableReservations": {
+          "availableBookings": {
             "type": "integer",
             "format": "int32"
           },
@@ -8245,11 +8245,13 @@
         "description": "",
         "x-enumNames": [
           "Unspecified",
-          "DatabaseError"
+          "DatabaseError",
+          "UnknownTimeZone"
         ],
         "enum": [
           "Unspecified",
-          "DatabaseError"
+          "DatabaseError",
+          "UnknownTimeZone"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetBookingConfigurationErrorCode": {
@@ -8611,7 +8613,7 @@
             "minLength": 1,
             "nullable": false,
             "items": {
-              "$ref": "#/components/schemas/BookingTimeSlotForReservationDto"
+              "$ref": "#/components/schemas/BookingTimeSlotForBookingDto"
             }
           },
           "participants": {
@@ -8627,7 +8629,7 @@
           }
         }
       },
-      "BookingTimeSlotForReservationDto": {
+      "BookingTimeSlotForBookingDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -8688,12 +8690,14 @@
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
-          "ConfigurationOverlapsWithAnother"
+          "ConfigurationOverlapsWithAnother",
+          "TimeSlotsOverlapWithAnother"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
-          "ConfigurationOverlapsWithAnother"
+          "ConfigurationOverlapsWithAnother",
+          "TimeSlotsOverlapWithAnother"
         ]
       },
       "CreateBookingConfigurationResponse": {
@@ -8710,6 +8714,7 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
+          "timeSlotGenerators",
           "allowedGroups"
         ],
         "properties": {
@@ -8732,13 +8737,15 @@
             "type": "string",
             "format": "date"
           },
-          "timeSlots": {
+          "timeSlotGenerators": {
             "type": "array",
+            "minLength": 1,
+            "nullable": false,
             "items": {
-              "$ref": "#/components/schemas/BookingTimeSlotForConfigurationDto"
+              "$ref": "#/components/schemas/BookingTimeSlotGeneratorDto"
             }
           },
-          "reservationIsByGroup": {
+          "bookingIsByGroup": {
             "type": "boolean"
           },
           "allowedGroups": {
@@ -8750,19 +8757,19 @@
               "format": "guid"
             }
           },
-          "maxActiveReservationsPerUserOrGroup": {
+          "maxActiveBookingsPerUserOrGroup": {
             "type": "integer",
             "format": "int32",
             "minimum": 0.0,
             "exclusiveMinimum": true
           },
-          "maxTimeSlotsPerReservation": {
+          "maxTimeSlotsPerBooking": {
             "type": "integer",
             "format": "int32",
             "minimum": 0.0,
             "exclusiveMinimum": true
           },
-          "maxReservationsPerSlot": {
+          "maxBookingsPerSlot": {
             "type": "integer",
             "format": "int32",
             "minimum": 0.0,
@@ -8796,7 +8803,7 @@
           }
         }
       },
-      "BookingTimeSlotForConfigurationDto": {
+      "BookingTimeSlotGeneratorDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -8808,7 +8815,15 @@
             "type": "integer",
             "format": "int32"
           },
-          "durationInMinutes": {
+          "endTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "slotDurationInMinutes": {
             "type": "integer",
             "format": "int32"
           },
@@ -8825,8 +8840,11 @@
               }
             ]
           },
-          "dayOfWeek": {
-            "$ref": "#/components/schemas/DayOfWeek"
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
           }
         }
       },
