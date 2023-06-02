@@ -2992,19 +2992,18 @@
         ]
       }
     },
-    "/v1/bookings": {
+    "/v1/users/me/bookings": {
       "get": {
         "tags": [
-          "bookings"
+          "users"
         ],
-        "summary": "Returns bookings of the caller user",
-        "description": "Returns a list of bookings of caller user",
+        "summary": "Returns bookings for user",
+        "description": "Returns a list of bookings for user in a given space or all spaces",
         "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
             "in": "query",
-            "required": true,
             "schema": {
               "title": "Guid",
               "type": "string",
@@ -3061,122 +3060,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetBookingsErrorCode"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "bookings"
-        ],
-        "summary": "Delete booking",
-        "description": "Deletes a booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint",
-        "requestBody": {
-          "x-name": "DeleteBookingRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeleteBookingRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Booking deleted successfully"
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "bookings"
-        ],
-        "summary": "Creates New booking",
-        "description": "Creates a new booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingEndpoint",
-        "requestBody": {
-          "x-name": "CreateBookingRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateBookingRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBookingErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Booking created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateBookingResponse"
+                  "$ref": "#/components/schemas/GetBookingsResponse"
                 }
               }
             }
@@ -3392,6 +3276,137 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateBookingConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/{BookingId}": {
+      "delete": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Delete booking",
+        "description": "Deletes a booking on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint",
+        "parameters": [
+          {
+            "name": "BookingId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "DeleteBookingRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteBookingRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings": {
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Creates New booking",
+        "description": "Creates a new booking on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingEndpoint",
+        "requestBody": {
+          "x-name": "CreateBookingRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBookingErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBookingResponse"
                 }
               }
             }
@@ -3970,7 +3985,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans": {
+    "/v1/access/access-means": {
       "get": {
         "tags": [
           "access"
@@ -4020,7 +4035,7 @@
         ]
       }
     },
-    "/v1/access/accesspoints": {
+    "/v1/access/access-points": {
       "get": {
         "tags": [
           "access"
@@ -4143,7 +4158,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans/{AccessMeanId}": {
+    "/v1/access/access-means/{AccessMeanId}": {
       "get": {
         "tags": [
           "access"
@@ -4268,7 +4283,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans/{AccessMeanId}/associated-user": {
+    "/v1/access/access-means/{AccessMeanId}/associated-user": {
       "post": {
         "tags": [
           "access"
@@ -4336,7 +4351,7 @@
         ]
       }
     },
-    "/v1/users/{UserId}/accessmeans": {
+    "/v1/users/{UserId}/access-means": {
       "post": {
         "tags": [
           "users"
@@ -4404,7 +4419,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans/admin-query": {
+    "/v1/access/access-means/admin-query": {
       "get": {
         "tags": [
           "access"
@@ -4537,7 +4552,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans/mifareclassiccards": {
+    "/v1/access/access-means/mifareclassic-cards": {
       "post": {
         "tags": [
           "access"
@@ -4600,7 +4615,7 @@
         ]
       }
     },
-    "/v1/access/accessmeans/bluetoothdongles": {
+    "/v1/access/access-means/bluetooth-dongles": {
       "post": {
         "tags": [
           "access"
@@ -5247,6 +5262,91 @@
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "spaceType": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SpaceTypeEnum"
+              }
+            ]
+          },
+          "peopleCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMinimum": true
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AddressDto"
+              }
+            ]
+          }
+        }
+      },
+      "SpaceTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
+        ],
+        "enum": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Gym"
+        ]
+      },
+      "AddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "street": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "zipCode": {
+            "type": "string"
           }
         }
       },
@@ -5575,6 +5675,19 @@
               "format": "guid"
             }
           },
+          "peopleCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AddressDto"
+              }
+            ]
+          },
           "securityGroupsIBelongTo": {
             "type": "array",
             "items": {
@@ -5870,6 +5983,19 @@
               "type": "string",
               "format": "guid"
             }
+          },
+          "peopleCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "address": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AddressDto"
+              }
+            ]
           }
         }
       },
@@ -5976,50 +6102,6 @@
           "Invalid",
           "User",
           "Organization"
-        ]
-      },
-      "SpaceTypeEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Gym"
-        ],
-        "enum": [
-          "Invalid",
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Gym"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode": {
@@ -8076,11 +8158,76 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "bookingConfigurations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingConfigurationDtoNano"
+            }
+          },
           "data": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookingTimeSlotDto"
             }
+          }
+        }
+      },
+      "BookingConfigurationDtoNano": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "bookingIsByGroup": {
+            "type": "boolean"
+          },
+          "maxActiveBookingsPerUserOrGroup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxTimeSlotsPerBooking": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxBookingsPerSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "participantsCanAutoEnroll": {
+            "type": "boolean"
+          },
+          "minCancellationTimeInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leewayMinutesToAccess": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -8123,6 +8270,10 @@
           "availableBookings": {
             "type": "integer",
             "format": "int32"
+          },
+          "bookingConfigurationId": {
+            "type": "string",
+            "format": "guid"
           },
           "myAssociatedBooking": {
             "nullable": true,
@@ -8253,6 +8404,176 @@
           "DatabaseError",
           "UnknownTimeZone"
         ]
+      },
+      "GetBookingsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ownedBookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingDtoAsOwner"
+            }
+          },
+          "participatedBookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingDto"
+            }
+          }
+        }
+      },
+      "BookingDtoAsOwner": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerType": {
+            "$ref": "#/components/schemas/OwnerTypeEnum3"
+          },
+          "ownerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userRelationToBooking": {
+            "$ref": "#/components/schemas/UserRelationToBookingEnum"
+          },
+          "price": {
+            "type": "number",
+            "format": "float"
+          },
+          "currency": {
+            "$ref": "#/components/schemas/CurrencyEnum"
+          },
+          "timeSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotLiteDto"
+            }
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantDto"
+            }
+          }
+        }
+      },
+      "UserRelationToBookingEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Participant",
+          "Owner"
+        ],
+        "enum": [
+          "Participant",
+          "Owner"
+        ]
+      },
+      "BookingTimeSlotLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          }
+        }
+      },
+      "ParticipantDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "BookingDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerType": {
+            "$ref": "#/components/schemas/OwnerTypeEnum3"
+          },
+          "ownerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "startDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDateTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userRelationToBooking": {
+            "$ref": "#/components/schemas/UserRelationToBookingEnum"
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfGetBookingConfigurationErrorCode": {
         "type": "object",
@@ -8505,10 +8826,6 @@
           "spaceId": {
             "type": "string",
             "format": "guid"
-          },
-          "bookingId": {
-            "type": "string",
-            "format": "guid"
           }
         }
       },
@@ -8565,7 +8882,8 @@
           "SlotsAreNotInTheSameDay",
           "UserIsNotMemberOfAnyGroup",
           "SomeSlotsInThePast",
-          "ParticipantsAutoEnrollIsNotPermitted"
+          "ParticipantsAutoEnrollIsNotPermitted",
+          "SlotAreNotContinuous"
         ],
         "enum": [
           "Unspecified",
@@ -8580,7 +8898,8 @@
           "SlotsAreNotInTheSameDay",
           "UserIsNotMemberOfAnyGroup",
           "SomeSlotsInThePast",
-          "ParticipantsAutoEnrollIsNotPermitted"
+          "ParticipantsAutoEnrollIsNotPermitted",
+          "SlotAreNotContinuous"
         ]
       },
       "CreateBookingResponse": {
@@ -8691,13 +9010,17 @@
           "Unspecified",
           "DatabaseError",
           "ConfigurationOverlapsWithAnother",
-          "TimeSlotsOverlapWithAnother"
+          "TimeSlotsOverlapWithAnother",
+          "ParticipantsExceedsSpaceCapacity",
+          "PeopleCapacityNotDefinedInSpace"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "ConfigurationOverlapsWithAnother",
-          "TimeSlotsOverlapWithAnother"
+          "TimeSlotsOverlapWithAnother",
+          "ParticipantsExceedsSpaceCapacity",
+          "PeopleCapacityNotDefinedInSpace"
         ]
       },
       "CreateBookingConfigurationResponse": {
@@ -8778,12 +9101,12 @@
           "maxParticipants": {
             "type": "integer",
             "format": "int32",
-            "minimum": 0.0
+            "minimum": 1.0
           },
           "minParticipants": {
             "type": "integer",
             "format": "int32",
-            "minimum": 0.0
+            "minimum": 1.0
           },
           "participantsCanAutoEnroll": {
             "type": "boolean"
@@ -10115,7 +10438,8 @@
           "ErrorGeneratingPermissions",
           "SpaceNotFound",
           "EntityAlreadyExists",
-          "GroupDoesNotExist"
+          "GroupDoesNotExist",
+          "UniqueConstraintViolation"
         ],
         "enum": [
           "Unspecified",
@@ -10123,7 +10447,8 @@
           "ErrorGeneratingPermissions",
           "SpaceNotFound",
           "EntityAlreadyExists",
-          "GroupDoesNotExist"
+          "GroupDoesNotExist",
+          "UniqueConstraintViolation"
         ]
       },
       "CreateAccessPointResponse": {
@@ -10153,6 +10478,11 @@
           },
           "description": {
             "type": "string",
+            "nullable": true
+          },
+          "ioTId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
           "customerIdentificationCode": {
