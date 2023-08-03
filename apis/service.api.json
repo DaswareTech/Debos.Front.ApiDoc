@@ -2189,6 +2189,203 @@
         ]
       }
     },
+    "/v1/iot/gateways/legacygateways": {
+      "post": {
+        "tags": [
+          "iot"
+        ],
+        "summary": "Creates legacy gateways in the system",
+        "description": "Creates (adds) a list of legacy gateways to the system",
+        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateLegacyGatewayEndpoint",
+        "requestBody": {
+          "x-name": "CreateLegacyGatewaysRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLegacyGatewaysRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateLegacyGatewaysErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Legacy gateways created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLegacyGatewaysResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/gateways": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Add or removes a gateway to/from space",
+        "description": "Add or removes a gateway to/from a space",
+        "operationId": "PostEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddOrRemoveGatewayToSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrRemoveGatewayToSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddOrRemoveGatewayToSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Gateway successfully added o removed to space"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Add or removes a gateway to/from space",
+        "description": "Add or removes a gateway to/from a space",
+        "operationId": "DeleteEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddOrRemoveGatewayToSpaceRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddOrRemoveGatewayToSpaceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAddOrRemoveGatewayToSpaceErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Gateway successfully added o removed to space"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/groups/{GroupId}/members": {
       "delete": {
         "tags": [
@@ -3985,6 +4182,68 @@
         ]
       }
     },
+    "/v1/applications": {
+      "post": {
+        "tags": [
+          "applications"
+        ],
+        "summary": "Creates a new Application",
+        "operationId": "EndpointsFeaturesApplicationsEndpointsCreateApplicationEndpoint",
+        "requestBody": {
+          "x-name": "CreateApplicationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApplicationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateApplicationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Application created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/access/access-means": {
       "get": {
         "tags": [
@@ -4023,6 +4282,78 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetMyAccessMeansResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/accesspoints/{AccessPointId}": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Describe Access point",
+        "description": "Returns an access point",
+        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessPointEndpoint",
+        "parameters": [
+          {
+            "name": "AccessPointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessPointErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "An access point",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessPointResponse"
                 }
               }
             }
@@ -4084,7 +4415,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetAccessPointsErrorCode"
+                  "$ref": "#/components/schemas/GetAccessPointsResponse"
                 }
               }
             }
@@ -4271,6 +4602,132 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GenerateKeyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/access-means/smartphones": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates bluetooth dongles in the system",
+        "description": "Creates (adds) a list of access means (bluetooth dongles) to the system",
+        "operationId": "EndpointsFeaturesAccessEndpointsCreateSmartPhoneEndpoint",
+        "requestBody": {
+          "x-name": "CreateSmartPhoneRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSmartPhoneRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateSmartPhoneErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Access means created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSmartPhoneResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/access/locks": {
+      "post": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Creates a lock in a Space attached to a Legacy gateway",
+        "description": "Creates a new Access Point in a Space",
+        "operationId": "EndpointsFeaturesAccessEndpointsCreateLegacyRelayLockEndpoint",
+        "requestBody": {
+          "x-name": "CreateLegacyRelayLockRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLegacyRelayLockRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateLegacyRelayLockErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "AccessPoint created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLegacyRelayLockResponse"
                 }
               }
             }
@@ -4683,13 +5140,16 @@
     "schemas": {
       "ErrorResponseOfEndpointErrorOfUpdateUserErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -4699,6 +5159,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -4780,35 +5241,53 @@
       },
       "UnAuthorizedResponse": {
         "type": "object",
+        "description": "The response sent when 403 error is returned",
         "additionalProperties": false,
         "properties": {
           "message": {
-            "type": "string"
+            "type": "string",
+            "description": "The error message"
           },
           "missingPermission": {
-            "$ref": "#/components/schemas/MissingPermission"
+            "description": "The missing permission",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MissingPermission"
+              }
+            ]
           },
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           }
         }
       },
       "MissingPermission": {
         "type": "object",
+        "description": "Data about the missing permission. Serializable to the client",
         "additionalProperties": false,
         "properties": {
           "contextType": {
-            "type": "string"
+            "type": "string",
+            "description": "Context type"
           },
           "context": {
-            "type": "string"
+            "type": "string",
+            "description": "Context of the permission"
           },
           "action": {
-            "type": "string"
+            "type": "string",
+            "description": "Action of the permission"
           },
           "actionObject": {
             "type": "string",
+            "description": "Object associated with the action, if any",
+            "nullable": true
+          },
+          "details": {
+            "type": "string",
+            "description": "Details about the missing permission and why it is missing or limited",
             "nullable": true
           }
         }
@@ -4934,13 +5413,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetUserIdByEmailErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -4950,6 +5432,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -4997,13 +5480,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetMeErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5013,6 +5499,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5050,13 +5537,16 @@
       },
       "ErrorResponseOfEndpointErrorOfDeleteUserErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5066,6 +5556,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5103,13 +5594,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAdminQueryUsersErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5119,6 +5613,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5183,13 +5678,16 @@
       },
       "ErrorResponseOfEndpointErrorOfUpdateSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5199,6 +5697,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5352,13 +5851,16 @@
       },
       "ErrorResponseOfEndpointErrorOfUpdateModuleInSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5368,6 +5870,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5452,13 +5955,16 @@
       },
       "ErrorResponseOfEndpointErrorOfSetFavouriteErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5468,6 +5974,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5516,13 +6023,16 @@
       },
       "ErrorResponseOfEndpointErrorOfRemoveModuleFromSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5532,6 +6042,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5569,13 +6080,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5585,6 +6099,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -5872,13 +6387,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -5888,6 +6406,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6001,13 +6520,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetMySpacesErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6017,6 +6539,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6106,13 +6629,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetMyFavouriteSpacesErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6122,6 +6648,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6173,13 +6700,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6189,6 +6719,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6273,6 +6804,13 @@
           "timeZoneId": {
             "type": "string"
           },
+          "peopleCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMinimum": true
+          },
           "creationOptions": {
             "nullable": false,
             "$ref": "#/components/schemas/SpaceCreationOptions"
@@ -6336,13 +6874,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAdminQuerySpacesErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6352,6 +6893,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6403,13 +6945,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAddModuleToSpaceErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6419,6 +6964,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6470,13 +7016,16 @@
       },
       "ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6486,6 +7035,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6552,13 +7102,16 @@
       },
       "ErrorResponseOfEndpointErrorOfRegeneratePermissionErrorCode2": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6568,6 +7121,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6603,13 +7157,16 @@
       },
       "ErrorResponseOfEndpointErrorOfListByGranteePermissionErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6619,6 +7176,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6769,13 +7327,16 @@
       },
       "ErrorResponseOfEndpointErrorOfListByContextPermissionErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6785,6 +7346,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6820,13 +7382,16 @@
       },
       "ErrorResponseOfEndpointErrorOfDeletePermissionErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6836,6 +7401,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -6933,13 +7499,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreatePermissionErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -6949,6 +7518,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7040,13 +7610,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetOrganizationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7056,6 +7629,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7131,13 +7705,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetMyOrganizationsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7147,6 +7724,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7184,13 +7762,16 @@
       },
       "ErrorResponseOfEndpointErrorOfDeleteOrganizationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7200,6 +7781,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7239,13 +7821,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateOrganizationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7255,6 +7840,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7327,13 +7913,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAdminQueryOrganizationsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7343,6 +7932,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7405,15 +7995,218 @@
           }
         }
       },
-      "ErrorResponseOfEndpointErrorOfRemoveMemberFromGroupErrorCode": {
+      "ErrorResponseOfEndpointErrorOfCreateLegacyGatewaysErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateLegacyGatewaysErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateLegacyGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateLegacyGatewaysErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateLegacyGatewaysErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "CreateLegacyGatewaysResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gateways": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegacyGatewayLiteDto"
+            }
+          }
+        }
+      },
+      "LegacyGatewayLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ioTThingArn": {
+            "type": "string"
+          },
+          "ioTThingCertificateArn": {
+            "type": "string",
+            "nullable": true
+          },
+          "awsAccountId": {
+            "type": "string"
+          },
+          "awsRegion": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateLegacyGatewaysRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gateways"
+        ],
+        "properties": {
+          "gateways": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/LegacyGatewayForCreationDto"
+            }
+          }
+        }
+      },
+      "LegacyGatewayForCreationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersion": {
+            "type": "string"
+          },
+          "ioTThingArn": {
+            "type": "string"
+          },
+          "ioTThingCertificateArn": {
+            "type": "string",
+            "nullable": true
+          },
+          "awsAccountId": {
+            "type": "string"
+          },
+          "awsRegion": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAddOrRemoveGatewayToSpaceErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAddOrRemoveGatewayToSpaceErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAddOrRemoveGatewayToSpaceErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AddOrRemoveGatewayToSpaceErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AddOrRemoveGatewayToSpaceErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "AddOrRemoveGatewayToSpaceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gatewayId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfRemoveMemberFromGroupErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7423,6 +8216,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7498,13 +8292,16 @@
       },
       "ErrorResponseOfEndpointErrorOfListMembersOfGroupErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7514,6 +8311,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7590,13 +8388,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetGroupErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7606,6 +8407,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7754,13 +8556,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetGroupsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7770,6 +8575,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7807,13 +8613,16 @@
       },
       "ErrorResponseOfEndpointErrorOfDeleteGroupErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7823,6 +8632,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7860,13 +8670,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateGroupErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7876,6 +8689,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -7957,13 +8771,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAdminQueryGroupsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -7973,6 +8790,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8024,13 +8842,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAddMemberToGroupErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8040,6 +8861,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8101,13 +8923,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetTimeSlotsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8117,6 +8942,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8356,13 +9182,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetBookingsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8372,6 +9201,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8577,13 +9407,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetBookingConfigurationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8593,6 +9426,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8628,13 +9462,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGetBookingConfigurationsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8644,6 +9481,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8677,13 +9515,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGenerateTimeSlotsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8693,6 +9534,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8764,13 +9606,16 @@
       },
       "ErrorResponseOfEndpointErrorOfDeleteBookingErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8780,6 +9625,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8808,7 +9654,8 @@
           "SpaceNotFound",
           "BookingNotFound",
           "PermissionsModificationProblem",
-          "TooLateToCancelBooking"
+          "TooLateToCancelBooking",
+          "BookingAlreadyCanceled"
         ],
         "enum": [
           "Unspecified",
@@ -8816,7 +9663,8 @@
           "SpaceNotFound",
           "BookingNotFound",
           "PermissionsModificationProblem",
-          "TooLateToCancelBooking"
+          "TooLateToCancelBooking",
+          "BookingAlreadyCanceled"
         ]
       },
       "DeleteBookingRequest": {
@@ -8831,13 +9679,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateBookingErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8847,6 +9698,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -8968,13 +9820,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateBookingConfigurationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -8984,6 +9839,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9173,13 +10029,16 @@
       },
       "ErrorResponseOfEndpointErrorOfTokenErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9189,6 +10048,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9309,13 +10169,16 @@
       },
       "ErrorResponseOfEndpointErrorOfSignUpErrorCodes": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9325,6 +10188,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9405,13 +10269,16 @@
       },
       "ErrorResponseOfEndpointErrorOfSignInErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9421,6 +10288,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9483,13 +10351,16 @@
       },
       "ErrorResponseOfEndpointErrorOfResendConfirmationCodeErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9499,6 +10370,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9549,13 +10421,16 @@
       },
       "ErrorResponseOfEndpointErrorOfLogoutErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9565,6 +10440,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9610,13 +10486,16 @@
       },
       "ErrorResponseOfEndpointErrorOfIdpsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9626,6 +10505,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9687,13 +10567,16 @@
       },
       "ErrorResponseOfEndpointErrorOfForgotPasswordErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9703,6 +10586,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9753,13 +10637,16 @@
       },
       "ErrorResponseOfEndpointErrorOfConfirmMfaErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -9769,6 +10656,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9851,17 +10739,25 @@
       },
       "ErrorResponseOfConfirmForgotPasswordErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
-            "$ref": "#/components/schemas/ConfirmForgotPasswordErrorCode"
+            "description": "The operation error returned by the service.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ConfirmForgotPasswordErrorCode"
+              }
+            ]
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9922,17 +10818,25 @@
       },
       "ErrorResponseOfConfirmEmailErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
-            "$ref": "#/components/schemas/ConfirmEmailErrorCode"
+            "description": "The operation error returned by the service.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ConfirmEmailErrorCode"
+              }
+            ]
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -9986,17 +10890,25 @@
       },
       "ErrorResponseOfChangePasswordErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
-            "$ref": "#/components/schemas/ChangePasswordErrorCode"
+            "description": "The operation error returned by the service.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ChangePasswordErrorCode"
+              }
+            ]
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10044,15 +10956,141 @@
           }
         }
       },
-      "ErrorResponseOfEndpointErrorOfGetMyAccessMeansErrorCode": {
+      "ErrorResponseOfEndpointErrorOfCreateApplicationErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateApplicationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateApplicationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateApplicationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateApplicationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions"
+        ]
+      },
+      "CreateApplicationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "applicationId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateApplicationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "description": "Owner of the Application. If null, the requester will be the owner",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto3"
+              }
+            ]
+          }
+        }
+      },
+      "OwnerDto3": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/OwnerTypeEnum4"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "OwnerTypeEnum4": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "User",
+          "Organization"
+        ],
+        "enum": [
+          "Invalid",
+          "User",
+          "Organization"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetMyAccessMeansErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10062,6 +11100,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10143,15 +11182,176 @@
           "BluetoothDongle"
         ]
       },
-      "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
+      "ErrorResponseOfEndpointErrorOfGetAccessPointErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "GetAccessPointResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lock": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockDto"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            }
+          }
+        }
+      },
+      "LockDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LockTypeEnum"
+          },
+          "ioTGatewayId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "LockTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unknown",
+          "LegacyGatewayRelayLock"
+        ],
+        "enum": [
+          "Unknown",
+          "LegacyGatewayRelayLock"
+        ]
+      },
+      "AccessPointTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ]
+      },
+      "AccessTechnologyEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartphoneCode",
+          "BluetoothDongleCode",
+          "Card",
+          "Internet"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10161,6 +11361,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10196,15 +11397,52 @@
           "InvalidParameter"
         ]
       },
+      "GetAccessPointsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessPointLiteDto"
+            }
+          }
+        }
+      },
+      "AccessPointLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            }
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfGetAccessMeanErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10214,6 +11452,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10271,13 +11510,16 @@
       },
       "ErrorResponseOfEndpointErrorOfGenerateKeyErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10287,6 +11529,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10349,30 +11592,9 @@
           }
         }
       },
-      "AccessTechnologyEnum2": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
-          "Card",
-          "Internet"
-        ],
-        "enum": [
-          "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
-          "Card",
-          "Internet"
-        ]
-      },
       "GenerateKeyRequest": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "accessMeanId"
-        ],
         "properties": {
           "spaceId": {
             "type": "string",
@@ -10380,8 +11602,7 @@
           },
           "accessMeanId": {
             "type": "string",
-            "format": "guid",
-            "nullable": false
+            "format": "guid"
           },
           "accessTechnology": {
             "$ref": "#/components/schemas/AccessTechnologyEnum2"
@@ -10389,18 +11610,294 @@
           "accessPointId": {
             "type": "string",
             "format": "guid"
+          },
+          "userIdOfKeyHolder": {
+            "type": "string",
+            "description": "User id of the key holder. If null, the key will be generated for the current user.",
+            "format": "guid",
+            "nullable": true
+          },
+          "owner": {
+            "description": "Owner of this key. If null, the requester will be the owner",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto4"
+              }
+            ]
+          }
+        }
+      },
+      "OwnerDto4": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/OwnerTypeEnum5"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "OwnerTypeEnum5": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "User",
+          "Organization"
+        ],
+        "enum": [
+          "Invalid",
+          "User",
+          "Organization"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateSmartPhoneErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateSmartPhoneErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateSmartPhoneErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateSmartPhoneErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSmartPhoneErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SmartphoneAlreadyExists"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SmartphoneAlreadyExists"
+        ]
+      },
+      "CreateSmartPhoneResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "smartPhoneId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "privateRSAKey": {
+            "$ref": "#/components/schemas/PrivateRSAKeyDto"
+          }
+        }
+      },
+      "PrivateRSAKeyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "xmlKey": {
+            "type": "string"
+          },
+          "pemKey": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSmartPhoneRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "serialNumber"
+        ],
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "manufacturer": {
+            "type": "string",
+            "nullable": true
+          },
+          "model": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatingSystem": {
+            "type": "string",
+            "nullable": true
+          },
+          "operatingSystemVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "owner": {
+            "description": "Owner of the space. If null, the requester will be the owner",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OwnerDto4"
+              }
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateLegacyRelayLockErrorCode": {
+        "type": "object",
+        "description": "Response DTO for an error condition in the API",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "description": "Operation Id for tracing purposes",
+            "nullable": true
+          },
+          "operationError": {
+            "description": "The operation error returned by the service.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateLegacyRelayLockErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "description": "List of validation errors if any.",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateLegacyRelayLockErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateLegacyRelayLockErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateLegacyRelayLockErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist"
+        ]
+      },
+      "CreateLegacyRelayLockResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lockId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateLegacyRelayLockRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "legacyGatewayId",
+          "spaceId",
+          "accessPointId"
+        ],
+        "properties": {
+          "legacyGatewayId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "accessPointId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "relayIndex": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 1.0,
+            "minimum": 0.0
           }
         }
       },
       "ErrorResponseOfEndpointErrorOfCreateAccessPointErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10410,6 +11907,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10508,31 +12006,11 @@
           "accessPointCreationPermissionOptions": {
             "description": "If not defined, No access will be granted by default",
             "nullable": false,
-            "$ref": "#/components/schemas/AccessPointCreationPermissionOptions"
+            "$ref": "#/components/schemas/AccessPointCreationPermissionOptionsDto"
           }
         }
       },
-      "AccessPointTypeEnum2": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "Door",
-          "Turnstile",
-          "Barrier",
-          "Elevator",
-          "Other"
-        ],
-        "enum": [
-          "Invalid",
-          "Door",
-          "Turnstile",
-          "Barrier",
-          "Elevator",
-          "Other"
-        ]
-      },
-      "AccessPointCreationPermissionOptions": {
+      "AccessPointCreationPermissionOptionsDto": {
         "type": "object",
         "additionalProperties": false,
         "required": [
@@ -10547,6 +12025,13 @@
               "format": "guid"
             }
           },
+          "permissionOptionsForPermanentAccessGroups": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyWithOptionsDto"
+            }
+          },
           "securityGroupsWithListPermission": {
             "type": "array",
             "items": {
@@ -10556,15 +12041,40 @@
           }
         }
       },
+      "AccessTechnologyWithOptionsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessTechnology": {
+            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+          },
+          "maxKeysPerTechnology": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "organizationsWhoseAccessMeansCanBeUsed": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfAssociateAccessMeanToUserErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10574,6 +12084,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10629,13 +12140,16 @@
       },
       "ErrorResponseOfEndpointErrorOfAdminQueryAccessMeansErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10645,6 +12159,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10696,13 +12211,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateMiFareClassicCardsErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10712,6 +12230,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10761,7 +12280,8 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "cards"
+          "cards",
+          "owner"
         ],
         "properties": {
           "cards": {
@@ -10770,6 +12290,11 @@
             "items": {
               "$ref": "#/components/schemas/MiFareClassicCardForCreationDto"
             }
+          },
+          "owner": {
+            "description": "Owner of the access mean",
+            "nullable": false,
+            "$ref": "#/components/schemas/OwnerDto4"
           }
         }
       },
@@ -10778,8 +12303,7 @@
         "additionalProperties": false,
         "properties": {
           "serialNumber": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "cardCode": {
             "type": "integer",
@@ -10789,13 +12313,16 @@
       },
       "ErrorResponseOfEndpointErrorOfCreateBluetoothDonglesErrorCode": {
         "type": "object",
+        "description": "Response DTO for an error condition in the API",
         "additionalProperties": false,
         "properties": {
           "operationId": {
             "type": "string",
+            "description": "Operation Id for tracing purposes",
             "nullable": true
           },
           "operationError": {
+            "description": "The operation error returned by the service.",
             "nullable": true,
             "oneOf": [
               {
@@ -10805,6 +12332,7 @@
           },
           "requestFormatErrors": {
             "type": "array",
+            "description": "List of validation errors if any.",
             "nullable": true,
             "items": {
               "$ref": "#/components/schemas/ValidationFailure"
@@ -10852,7 +12380,8 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "dongles"
+          "dongles",
+          "owner"
         ],
         "properties": {
           "dongles": {
@@ -10861,6 +12390,11 @@
             "items": {
               "$ref": "#/components/schemas/BluetoothDongleForCreationDto"
             }
+          },
+          "owner": {
+            "description": "Owner of the access mean",
+            "nullable": false,
+            "$ref": "#/components/schemas/OwnerDto4"
           }
         }
       },
@@ -10869,8 +12403,7 @@
         "additionalProperties": false,
         "properties": {
           "serialNumber": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "bluetoothDongleCode": {
             "type": "integer",
