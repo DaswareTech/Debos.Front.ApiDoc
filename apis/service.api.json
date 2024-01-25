@@ -977,7 +977,7 @@
         ]
       }
     },
-    "/v1/spaces/favourites": {
+    "/v1/spaces/my-favourites": {
       "get": {
         "tags": [
           "spaces"
@@ -2095,7 +2095,8 @@
     "/v1/organizations/my-organizations": {
       "get": {
         "tags": [
-          "organizations"
+          "organizations",
+          "users/organizations"
         ],
         "summary": "Returns a list of organizations belonging to the caller user",
         "operationId": "EndpointsFeaturesOrganizationsEndpointsGetMyOrganizationsEndpoint",
@@ -2307,7 +2308,7 @@
     "/v1/spaces/{SpaceId}/relays/{RelayId}/state": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/iot"
         ],
         "summary": "Changes state of a relay",
         "description": "Changes state of a relay",
@@ -2385,7 +2386,7 @@
     "/v1/spaces/{SpaceId}/covers/{CoverId}/state": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/iot"
         ],
         "summary": "Changes state of a Cover",
         "description": "Changes state of a Cover",
@@ -2720,7 +2721,7 @@
     "/v1/spaces/{SpaceId}/gateways": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/iot"
         ],
         "summary": "Add or removes a gateway to/from space",
         "description": "Add or removes a gateway to/from a space",
@@ -2786,7 +2787,7 @@
       },
       "delete": {
         "tags": [
-          "spaces"
+          "spaces/iot"
         ],
         "summary": "Add or removes a gateway to/from space",
         "description": "Add or removes a gateway to/from a space",
@@ -3551,7 +3552,7 @@
     "/health": {
       "get": {
         "tags": [
-          "health"
+          "common"
         ],
         "operationId": "EndpointsFeaturesCommonEndpointsHealthEndpoint",
         "responses": {
@@ -3572,7 +3573,7 @@
     "/debug": {
       "get": {
         "tags": [
-          "debug"
+          "common"
         ],
         "operationId": "EndpointsFeaturesCommonEndpointsDebugEndpoint",
         "responses": {
@@ -3593,6 +3594,7 @@
     "/v1/bookings/time-slots": {
       "get": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Get Time Slots",
@@ -3675,7 +3677,8 @@
     "/v1/spaces/{SpaceId}/bookings/time-slots": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Get Time Slots",
         "description": "Retrieves the booking time slots for a given space and date range",
@@ -3755,7 +3758,7 @@
       },
       "post": {
         "tags": [
-          "spaces"
+          "spaces/bookings"
         ],
         "summary": "Generate TimeSlots",
         "description": "Creates a number of time slots based on the given configuration for the given date range.",
@@ -3830,7 +3833,7 @@
     "/v1/users/me/bookings": {
       "get": {
         "tags": [
-          "users"
+          "users/bookings"
         ],
         "summary": "Returns bookings for user",
         "description": "Returns a list of bookings for user in a given space or all spaces",
@@ -3911,6 +3914,7 @@
     "/v1/bookings/configurations/by-id": {
       "get": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Returns a booking configuration",
@@ -3983,7 +3987,8 @@
     "/v1/spaces/{SpaceId}/bookings/configurations/{BookingConfigurationId}": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Returns a booking configuration",
         "description": "Returns a booking configuration",
@@ -4055,6 +4060,7 @@
     "/v1/bookings/configurations": {
       "get": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Returns booking configurations in the space",
@@ -4135,6 +4141,7 @@
       },
       "post": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Creates a new booking configuration",
@@ -4198,7 +4205,8 @@
     "/v1/spaces/{SpaceId}/bookings/configurations": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Returns booking configurations in the space",
         "description": "Returns a list of booking configurations present in the space",
@@ -4278,7 +4286,8 @@
       },
       "post": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Creates a new booking configuration",
         "description": "Creates a new booking configuration on the specified space",
@@ -4353,7 +4362,8 @@
     "/v1/spaces/{SpaceId}/bookings/{BookingId}": {
       "delete": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Delete booking",
         "description": "Deletes a booking on the specified space",
@@ -4418,6 +4428,7 @@
     "/v1/bookings/{BookingId}": {
       "delete": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Delete booking",
@@ -4473,6 +4484,7 @@
     "/v1/bookings": {
       "post": {
         "tags": [
+          "spaces/bookings",
           "bookings"
         ],
         "summary": "Creates New booking",
@@ -4536,7 +4548,8 @@
     "/v1/spaces/{SpaceId}/bookings": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/bookings",
+          "bookings"
         ],
         "summary": "Creates New booking",
         "description": "Creates a new booking on the specified space",
@@ -4611,7 +4624,7 @@
     "/v1/spaces/{SpaceId}/bookings/time-slots/admin-update": {
       "patch": {
         "tags": [
-          "spaces"
+          "spaces/bookings"
         ],
         "summary": "Admin Update Time Slots",
         "description": "Update time slots for a space",
@@ -4686,7 +4699,7 @@
     "/v1/spaces/{SpaceId}/bookings/time-slots/admin-query": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/bookings"
         ],
         "summary": "Admin Query Time Slots",
         "description": "Returns a list of timeslots according to the specified criteria.",
@@ -4768,7 +4781,7 @@
     "/v1/spaces/{SpaceId}/bookings/admin-query": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/bookings"
         ],
         "summary": "Admin query bookings",
         "description": "Returns a list of bookings according to the specified criteria.",
@@ -5520,7 +5533,7 @@
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks/{LockId}/open": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Opens a lock/accesspoint",
         "description": "Opens a lock/accesspoint",
@@ -5607,7 +5620,7 @@
     "/v1/users/me/access-means": {
       "get": {
         "tags": [
-          "users"
+          "users/access"
         ],
         "summary": "Get my access means",
         "description": "Returns a list of access means (cards, dongles, etc) belonging to the caller",
@@ -5657,7 +5670,7 @@
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Describe Access point",
         "description": "Returns an access point",
@@ -5729,7 +5742,7 @@
     "/v1/spaces/{SpaceId}/access-points": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "List of visible access points",
         "description": "Returns a list of access points visible to the caller user in the specified space",
@@ -5789,7 +5802,7 @@
       },
       "post": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Creates Access Point",
         "description": "Creates a new Access Point in a Space",
@@ -5926,7 +5939,7 @@
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/keys": {
       "get": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Get my access keys for an access point",
         "description": "Returns a list of access keys available for the caller in the specified access point with their time ranges.",
@@ -6005,7 +6018,7 @@
       },
       "post": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Creates a key from an access mean",
         "description": "Creates a key from an access mean",
@@ -6090,7 +6103,7 @@
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/keys/{AccessKeyId}": {
       "delete": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Deletes a key from an access mean",
         "description": "Deletes a key from an access mean in a given access point",
@@ -6228,7 +6241,7 @@
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks": {
       "post": {
         "tags": [
-          "spaces"
+          "spaces/access"
         ],
         "summary": "Creates a lock",
         "description": "Creates a lock attached to a gateway and accesspoint",
@@ -6313,7 +6326,8 @@
     "/v1/access/access-means/{AccessMeanId}/associated-user": {
       "post": {
         "tags": [
-          "access"
+          "access",
+          "users/access"
         ],
         "summary": "Associate Access Mean To User",
         "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
@@ -6381,7 +6395,8 @@
     "/v1/users/{UserId}/access-means": {
       "post": {
         "tags": [
-          "users"
+          "access",
+          "users/access"
         ],
         "summary": "Associate Access Mean To User",
         "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
