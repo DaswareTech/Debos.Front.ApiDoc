@@ -1534,13 +1534,15 @@
                 "invalid",
                 "space",
                 "user",
-                "group"
+                "group",
+                "accesspoint"
               ],
               "enum": [
                 "invalid",
                 "space",
                 "user",
-                "group"
+                "group",
+                "accesspoint"
               ]
             }
           },
@@ -1633,13 +1635,15 @@
                 "invalid",
                 "space",
                 "user",
-                "group"
+                "group",
+                "accesspoint"
               ],
               "enum": [
                 "invalid",
                 "space",
                 "user",
-                "group"
+                "group",
+                "accesspoint"
               ]
             }
           },
@@ -1738,6 +1742,117 @@
           },
           "200": {
             "description": "List executed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListPermissionsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/has": {
+      "get": {
+        "tags": [
+          "permissions"
+        ],
+        "summary": "HasPermission",
+        "description": "Assess if the user is granted a list of permissions",
+        "operationId": "EndpointsFeaturesPermissionsEndpointsHasPermissionEndpoint",
+        "parameters": [
+          {
+            "name": "ContextType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "ContextTypeEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "invalid",
+                "space",
+                "user",
+                "group",
+                "accesspoint"
+              ],
+              "enum": [
+                "invalid",
+                "space",
+                "user",
+                "group",
+                "accesspoint"
+              ]
+            }
+          },
+          {
+            "name": "Context",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ResourceType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ActionObject",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfHasPermissionErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of permissions with their yes/no status",
             "content": {
               "application/json": {
                 "schema": {
@@ -2189,7 +2304,357 @@
         ]
       }
     },
-    "/v1/iot/gateways/legacygateways": {
+    "/v1/spaces/{SpaceId}/relays/{RelayId}/state": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Changes state of a relay",
+        "description": "Changes state of a relay",
+        "operationId": "EndpointsFeaturesIoTEndpointsChangeRelayStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "RelayId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeRelayStateRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeRelayStateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfChangeRelayStateErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Relay state changed"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/covers/{CoverId}/state": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Changes state of a Cover",
+        "description": "Changes state of a Cover",
+        "operationId": "EndpointsFeaturesIoTEndpointsChangeCoverStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CoverId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeCoverStateRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeCoverStateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfChangeCoverStateErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Cover state changed"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/gateways/sab/{GatewayId}": {
+      "patch": {
+        "tags": [
+          "iot"
+        ],
+        "summary": "Updates a SAB gateway",
+        "description": "Updates a SAB gateway",
+        "operationId": "EndpointsFeaturesIoTEndpointsAdminUpdateSABGatewayEndpoint",
+        "parameters": [
+          {
+            "name": "GatewayId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateSABGatewayRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSABGatewayRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateSABGatewaysErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "SAB gateway updated successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/gateways/sab": {
+      "post": {
+        "tags": [
+          "iot"
+        ],
+        "summary": "Creates SAB gateways in the system",
+        "description": "Creates (adds) a list of SAB gateways to the system",
+        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateSABGatewayEndpoint",
+        "requestBody": {
+          "x-name": "CreateSABGatewaysRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSABGatewaysRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateSABGatewaysErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "SAB gateways created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSABGatewaysResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/gateways/hw-peripherals/sab-external-bluetooth-modules": {
+      "post": {
+        "tags": [
+          "iot"
+        ],
+        "summary": "Creates SAB external bluetooth modules",
+        "description": "Creates (adds) a list of SAB external bluetooth modules to the system",
+        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateSABExternalBluetoothModuleEndpoint",
+        "requestBody": {
+          "x-name": "CreateSABExternalBluetoothModulesRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSABExternalBluetoothModulesRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateSABExternalBluetoothModulesErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "SAB external bluetooth modules created (added) successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSABExternalBluetoothModulesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/gateways/legacy": {
       "post": {
         "tags": [
           "iot"
@@ -3667,6 +4132,67 @@
             "JWTBearerAuth": []
           }
         ]
+      },
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Creates a new booking configuration",
+        "description": "Creates a new booking configuration on the specified space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint2",
+        "requestBody": {
+          "x-name": "CreateBookingConfigurationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingConfigurationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBookingConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
       }
     },
     "/v1/spaces/{SpaceId}/bookings/configurations": {
@@ -3756,7 +4282,7 @@
         ],
         "summary": "Creates a new booking configuration",
         "description": "Creates a new booking configuration on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint",
+        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4070,6 +4596,81 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateBookingResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/bookings/time-slots/admin-update": {
+      "patch": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Admin Update Time Slots",
+        "description": "Update time slots for a space",
+        "operationId": "EndpointsFeaturesBookingsEndpointsAdminUpdateTimeSlotsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AdminUpdateTimeSlotsRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminUpdateTimeSlotsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminUpdateTimeSlotsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of time slots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminUpdateTimeSlotsResponse"
                 }
               }
             }
@@ -4916,6 +5517,93 @@
         ]
       }
     },
+    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks/{LockId}/open": {
+      "post": {
+        "tags": [
+          "spaces"
+        ],
+        "summary": "Opens a lock/accesspoint",
+        "description": "Opens a lock/accesspoint",
+        "operationId": "EndpointsFeaturesAccessEndpointsOpenAccessPointEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "AccessPointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "LockId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "OpenAccessPointRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenAccessPointRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfOpenAccessPointErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Lock opened successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/users/me/access-means": {
       "get": {
         "tags": [
@@ -5537,14 +6225,14 @@
         ]
       }
     },
-    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/lock": {
+    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks": {
       "post": {
         "tags": [
           "spaces"
         ],
-        "summary": "Creates a lock in a Space attached to a Legacy gateway",
-        "description": "Creates a new Access Point in a Space",
-        "operationId": "EndpointsFeaturesAccessEndpointsCreateLegacyRelayLockEndpoint",
+        "summary": "Creates a lock",
+        "description": "Creates a lock attached to a gateway and accesspoint",
+        "operationId": "EndpointsFeaturesAccessEndpointsCreateLockEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -5568,12 +6256,12 @@
           }
         ],
         "requestBody": {
-          "x-name": "CreateLegacyRelayLockRequest",
+          "x-name": "CreateLockRequest",
           "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateLegacyRelayLockRequest"
+                "$ref": "#/components/schemas/CreateLockRequest"
               }
             }
           },
@@ -5586,7 +6274,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateLegacyRelayLockErrorCode"
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfCreateLockErrorCode"
                 }
               }
             }
@@ -5605,11 +6293,11 @@
             }
           },
           "200": {
-            "description": "AccessPoint created successfully",
+            "description": "Lock created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateLegacyRelayLockResponse"
+                  "$ref": "#/components/schemas/CreateLockResponse"
                 }
               }
             }
@@ -8115,7 +8803,7 @@
         "additionalProperties": false,
         "properties": {
           "contextType": {
-            "$ref": "#/components/schemas/ContextTypeEnum"
+            "type": "string"
           },
           "context": {
             "type": "string"
@@ -8148,22 +8836,6 @@
             "$ref": "#/components/schemas/GrantorDto"
           }
         }
-      },
-      "ContextTypeEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "invalid",
-          "space",
-          "user",
-          "group"
-        ],
-        "enum": [
-          "invalid",
-          "space",
-          "user",
-          "group"
-        ]
       },
       "GranteeTypeEnum": {
         "type": "string",
@@ -8234,6 +8906,24 @@
           }
         }
       },
+      "ContextTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "invalid",
+          "space",
+          "user",
+          "group",
+          "accesspoint"
+        ],
+        "enum": [
+          "invalid",
+          "space",
+          "user",
+          "group",
+          "accesspoint"
+        ]
+      },
       "EndpointErrorOfListByContextPermissionErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -8258,6 +8948,55 @@
           "Unspecified",
           "DatabaseError",
           "GranteeNotFound"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfHasPermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfHasPermissionErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfHasPermissionErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/HasPermissionErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "HasPermissionErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
         ]
       },
       "ErrorResponseOfEndpointErrorOfDeletePermissionErrorCode": {
@@ -8325,8 +9064,8 @@
         ],
         "properties": {
           "contextType": {
-            "nullable": false,
-            "$ref": "#/components/schemas/ContextTypeEnum"
+            "type": "string",
+            "nullable": false
           },
           "context": {
             "type": "string",
@@ -8437,8 +9176,8 @@
         ],
         "properties": {
           "contextType": {
-            "nullable": false,
-            "$ref": "#/components/schemas/ContextTypeEnum"
+            "type": "string",
+            "nullable": false
           },
           "context": {
             "type": "string",
@@ -8886,6 +9625,652 @@
           }
         }
       },
+      "ErrorResponseOfEndpointErrorOfChangeRelayStateErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfChangeRelayStateErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfChangeRelayStateErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ChangeRelayStateErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangeRelayStateErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "SpaceNotFound",
+          "RelayNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "SpaceNotFound",
+          "RelayNotFound"
+        ]
+      },
+      "ChangeRelayStateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/RelayStateEnum"
+          }
+        }
+      },
+      "RelayStateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Closed",
+          "Open"
+        ],
+        "enum": [
+          "Invalid",
+          "Closed",
+          "Open"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfChangeCoverStateErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfChangeCoverStateErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfChangeCoverStateErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ChangeCoverStateErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ChangeCoverStateErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "SpaceNotFound",
+          "CoverNotFound"
+        ],
+        "enum": [
+          "Unspecified",
+          "SpaceNotFound",
+          "CoverNotFound"
+        ]
+      },
+      "ChangeCoverStateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/CoverStateEnum"
+          }
+        }
+      },
+      "CoverStateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Close",
+          "Open",
+          "Stop"
+        ],
+        "enum": [
+          "Invalid",
+          "Close",
+          "Open",
+          "Stop"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfUpdateSABGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateSABGatewaysErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfUpdateSABGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateSABGatewaysErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateSABGatewaysErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "UpdateSABGatewayRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fwVersionMajor",
+          "fwVersionMinor",
+          "fwCompilation",
+          "externalBluetoothModuleId",
+          "externalBluetoothModuleConnectedPortInSAB"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          },
+          "ioTThingData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AWSIoTThingData"
+              }
+            ]
+          },
+          "externalBluetoothModuleId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "externalBluetoothModuleConnectedPortInSAB": {
+            "nullable": false,
+            "$ref": "#/components/schemas/SABPortEnum"
+          }
+        }
+      },
+      "AWSIoTThingData": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ioTThingArn",
+          "ioTThingName",
+          "ioTThingCertificateArn",
+          "awsAccountId",
+          "awsRegion"
+        ],
+        "properties": {
+          "ioTThingArn": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "ioTThingName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "ioTThingCertificateArn": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "awsAccountId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "awsRegion": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          }
+        }
+      },
+      "SABPortEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Internal",
+          "UART_0",
+          "UART_1",
+          "UART_2"
+        ],
+        "enum": [
+          "Internal",
+          "UART_0",
+          "UART_1",
+          "UART_2"
+        ]
+      },
+      "ErrorResponseOfEndpointErrorOfCreateSABGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateSABGatewaysErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateSABGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateSABGatewaysErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSABGatewaysErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "CreateSABGatewaysResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "gatewayResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateSABGatewayResponse"
+            }
+          }
+        }
+      },
+      "CreateSABGatewayResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "gateway": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SABGatewayLiteDto"
+              }
+            ]
+          }
+        }
+      },
+      "SABGatewayLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "ioTThingName": {
+            "type": "string"
+          },
+          "ioTThingArn": {
+            "type": "string"
+          },
+          "ioTThingCertificateArn": {
+            "type": "string"
+          },
+          "awsAccountId": {
+            "type": "string"
+          },
+          "awsRegion": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSABGatewaysRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gateways"
+        ],
+        "properties": {
+          "gateways": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/SABGatewayForCreationDto"
+            }
+          }
+        }
+      },
+      "SABGatewayForCreationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          },
+          "generateIoTThing": {
+            "type": "boolean",
+            "default": false
+          },
+          "ioTThingData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AWSIoTThingData"
+              }
+            ]
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfCreateSABExternalBluetoothModulesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfCreateSABExternalBluetoothModulesErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfCreateSABExternalBluetoothModulesErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/CreateSABExternalBluetoothModulesErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateSABExternalBluetoothModulesErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError"
+        ]
+      },
+      "CreateSABExternalBluetoothModulesResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "moduleResults": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateSABExternalBluetoothModuleResponse"
+            }
+          }
+        }
+      },
+      "CreateSABExternalBluetoothModuleResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "module": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SABExternalBluetoothModuleDto"
+              }
+            ]
+          }
+        }
+      },
+      "SABExternalBluetoothModuleDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          },
+          "associatedSABGatewayId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "associatedSABGatewayRelayLockId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSABExternalBluetoothModulesRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "modules"
+        ],
+        "properties": {
+          "modules": {
+            "type": "array",
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/SABExternalBluetoothModuleForCreationDto"
+            }
+          }
+        }
+      },
+      "SABExternalBluetoothModuleForCreationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfCreateLegacyGatewaysErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -8939,11 +10324,32 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "gateways": {
+          "gatewayResults": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/LegacyGatewayLiteDto"
+              "$ref": "#/components/schemas/CreateLegacyGatewayResponse"
             }
+          }
+        }
+      },
+      "CreateLegacyGatewayResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          },
+          "gateway": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LegacyGatewayLiteDto"
+              }
+            ]
           }
         }
       },
@@ -8959,12 +10365,14 @@
             "type": "string",
             "nullable": true
           },
+          "ioTThingName": {
+            "type": "string"
+          },
           "ioTThingArn": {
             "type": "string"
           },
           "ioTThingCertificateArn": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "awsAccountId": {
             "type": "string"
@@ -9001,24 +10409,32 @@
             "type": "string",
             "nullable": true
           },
-          "fwVersion": {
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
             "type": "string"
           },
-          "ioTThingArn": {
-            "type": "string"
+          "generateIoTThing": {
+            "type": "boolean",
+            "default": false
           },
-          "ioTThingName": {
-            "type": "string"
-          },
-          "ioTThingCertificateArn": {
-            "type": "string",
-            "nullable": true
-          },
-          "awsAccountId": {
-            "type": "string"
-          },
-          "awsRegion": {
-            "type": "string"
+          "ioTThingData": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AWSIoTThingData"
+              }
+            ]
           }
         }
       },
@@ -10032,6 +11448,13 @@
                 "$ref": "#/components/schemas/BookingLiteDto"
               }
             ]
+          },
+          "state": {
+            "$ref": "#/components/schemas/BookingTimeSlotStateEnum"
+          },
+          "stateDescription": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -10039,11 +11462,13 @@
         "type": "string",
         "description": "",
         "x-enumNames": [
+          "Invalid",
           "EUR",
           "USD",
           "GBP"
         ],
         "enum": [
+          "Invalid",
           "EUR",
           "USD",
           "GBP"
@@ -10102,6 +11527,24 @@
         "enum": [
           "User",
           "Group"
+        ]
+      },
+      "BookingTimeSlotStateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Bookable",
+          "NotBookable_TimeLimit",
+          "NotBookable_Maintenance",
+          "NotBookable_Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Bookable",
+          "NotBookable_TimeLimit",
+          "NotBookable_Maintenance",
+          "NotBookable_Other"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetBookingsErrorCode": {
@@ -10754,7 +12197,8 @@
         "additionalProperties": false,
         "required": [
           "timeSlotGenerators",
-          "allowedGroups"
+          "allowedGroups",
+          "timeLimits"
         ],
         "properties": {
           "name": {
@@ -10835,6 +12279,10 @@
           },
           "generatePermissionAccess": {
             "type": "boolean"
+          },
+          "timeLimits": {
+            "nullable": false,
+            "$ref": "#/components/schemas/TimeLimitOptionsDto"
           }
         }
       },
@@ -10880,6 +12328,226 @@
             "items": {
               "$ref": "#/components/schemas/DayOfWeek"
             }
+          }
+        }
+      },
+      "TimeLimitOptionsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hoursBookingIsPossible": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "alignToDayHourLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 24.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          },
+          "alignToDayMinutesLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfAdminUpdateTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminUpdateTimeSlotsErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminUpdateTimeSlotsErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminUpdateTimeSlotsErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminUpdateTimeSlotsErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "DateOutsideRange"
+        ]
+      },
+      "AdminUpdateTimeSlotsResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "updatedSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotDtoForAdmin"
+            }
+          }
+        }
+      },
+      "BookingTimeSlotDtoForAdmin": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          },
+          "availableBookings": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bookingConfigurationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "bookings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingLiteDto"
+            }
+          },
+          "state": {
+            "$ref": "#/components/schemas/BookingTimeSlotStateEnum"
+          },
+          "stateDescription": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AdminUpdateTimeSlotsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "timeSlots"
+        ],
+        "properties": {
+          "bookingConfigurationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "timeSlots": {
+            "type": "array",
+            "minLength": 1,
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotForUpdateDto"
+            }
+          }
+        }
+      },
+      "BookingTimeSlotForUpdateDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "state": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BookingTimeSlotStateEnum"
+              }
+            ]
+          },
+          "stateDescription": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -10944,58 +12612,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BookingTimeSlotDtoForAdmin"
-            }
-          }
-        }
-      },
-      "BookingTimeSlotDtoForAdmin": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "startTimeHour": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "startTimeMinute": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "durationInMinutes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "float",
-            "nullable": true
-          },
-          "currency": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/CurrencyEnum"
-              }
-            ]
-          },
-          "dayOfWeek": {
-            "$ref": "#/components/schemas/DayOfWeek"
-          },
-          "availableBookings": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bookingConfigurationId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "bookings": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BookingLiteDto"
             }
           }
         }
@@ -12059,6 +13675,83 @@
           "Organization"
         ]
       },
+      "ErrorResponseOfEndpointErrorOfOpenAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfOpenAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfOpenAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/OpenAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "OpenAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "AccessKeyNotFound",
+          "ChallengeNotValid"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "AccessKeyNotFound",
+          "ChallengeNotValid"
+        ]
+      },
+      "OpenAccessPointRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accessPointId",
+          "lockId",
+          "accessKeyId",
+          "challengeResponse"
+        ],
+        "properties": {
+          "accessKeyId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "challengeResponse": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfGetMyAccessMeansErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -12765,7 +14458,8 @@
           "AccessMeanRequiredForAccessTechnology",
           "AccessTechnologyNotSupported",
           "UniqueConstraintViolation",
-          "AccessPointHasNoLock"
+          "AccessPointHasNoLock",
+          "AccessMeanNotAssociatedWithUser"
         ],
         "enum": [
           "Unspecified",
@@ -12779,7 +14473,8 @@
           "AccessMeanRequiredForAccessTechnology",
           "AccessTechnologyNotSupported",
           "UniqueConstraintViolation",
-          "AccessPointHasNoLock"
+          "AccessPointHasNoLock",
+          "AccessMeanNotAssociatedWithUser"
         ]
       },
       "GenerateKeyResponse": {
@@ -12792,6 +14487,26 @@
           },
           "accessTechnology": {
             "$ref": "#/components/schemas/AccessTechnologyEnum2"
+          },
+          "privateRSAKey": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PrivateRSAKeyDto"
+              }
+            ]
+          }
+        }
+      },
+      "PrivateRSAKeyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "xmlKey": {
+            "type": "string"
+          },
+          "pemKey": {
+            "type": "string"
           }
         }
       },
@@ -12969,18 +14684,6 @@
           }
         }
       },
-      "PrivateRSAKeyDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "xmlKey": {
-            "type": "string"
-          },
-          "pemKey": {
-            "type": "string"
-          }
-        }
-      },
       "CreateSmartPhoneRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -13010,7 +14713,7 @@
             "nullable": true
           },
           "owner": {
-            "description": "Owner of the space. If null, the requester will be the owner",
+            "description": "Owner of the AccessMean. If null, the requester will be the owner",
             "nullable": true,
             "oneOf": [
               {
@@ -13025,7 +14728,7 @@
           }
         }
       },
-      "ErrorResponseOfEndpointErrorOfCreateLegacyRelayLockErrorCode": {
+      "ErrorResponseOfEndpointErrorOfCreateLockErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -13037,7 +14740,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/EndpointErrorOfCreateLegacyRelayLockErrorCode"
+                "$ref": "#/components/schemas/EndpointErrorOfCreateLockErrorCode"
               }
             ]
           },
@@ -13050,19 +14753,19 @@
           }
         }
       },
-      "EndpointErrorOfCreateLegacyRelayLockErrorCode": {
+      "EndpointErrorOfCreateLockErrorCode": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "errorCode": {
-            "$ref": "#/components/schemas/CreateLegacyRelayLockErrorCode"
+            "$ref": "#/components/schemas/CreateLockErrorCode"
           },
           "errorMessage": {
             "type": "string"
           }
         }
       },
-      "CreateLegacyRelayLockErrorCode": {
+      "CreateLockErrorCode": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -13071,7 +14774,9 @@
           "ErrorGeneratingPermissions",
           "SpaceNotFound",
           "EntityAlreadyExists",
-          "GroupDoesNotExist"
+          "GroupDoesNotExist",
+          "LockTypeNotSupported",
+          "GatewayNotAssociatedToSpace"
         ],
         "enum": [
           "Unspecified",
@@ -13079,10 +14784,12 @@
           "ErrorGeneratingPermissions",
           "SpaceNotFound",
           "EntityAlreadyExists",
-          "GroupDoesNotExist"
+          "GroupDoesNotExist",
+          "LockTypeNotSupported",
+          "GatewayNotAssociatedToSpace"
         ]
       },
-      "CreateLegacyRelayLockResponse": {
+      "CreateLockResponse": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -13092,16 +14799,19 @@
           }
         }
       },
-      "CreateLegacyRelayLockRequest": {
+      "CreateLockRequest": {
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "legacyGatewayId",
+          "gatewayId",
           "spaceId",
-          "accessPointId"
+          "accessPointId",
+          "lockType",
+          "sabRelayOptions",
+          "legacyRelayOptions"
         ],
         "properties": {
-          "legacyGatewayId": {
+          "gatewayId": {
             "type": "string",
             "format": "guid",
             "nullable": false
@@ -13110,11 +14820,93 @@
             "type": "string",
             "nullable": true
           },
-          "relayIndex": {
+          "lockType": {
+            "nullable": false,
+            "$ref": "#/components/schemas/LockTypeEnum2"
+          },
+          "sabRelayOptions": {
+            "nullable": false,
+            "$ref": "#/components/schemas/SABRelayOptions"
+          },
+          "legacyRelayOptions": {
+            "nullable": false,
+            "$ref": "#/components/schemas/LegacyRelayOptions"
+          }
+        }
+      },
+      "LockTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "RelaySAB",
+          "RelayLegacy"
+        ],
+        "enum": [
+          "Invalid",
+          "RelaySAB",
+          "RelayLegacy"
+        ]
+      },
+      "SABRelayOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "relayPin": {
             "type": "integer",
             "format": "int32",
-            "maximum": 1.0,
-            "minimum": 0.0
+            "default": 22
+          },
+          "openTimeMilliseconds": {
+            "type": "integer",
+            "format": "int32",
+            "default": 2000
+          },
+          "closeIndicationPin": {
+            "type": "integer",
+            "format": "int32",
+            "default": 26
+          },
+          "advancedBluetoothDongleConfig": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AdvancedBluetoothDongleConfig"
+              }
+            ]
+          },
+          "externalBluetoothModuleId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          }
+        }
+      },
+      "AdvancedBluetoothDongleConfig": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "timeToParking": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "timeToCheck": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxAttempts": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LegacyRelayOptions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "relayIndex": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
