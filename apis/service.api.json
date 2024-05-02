@@ -17,7 +17,7 @@
           "users"
         ],
         "summary": "Updates a user and return the updated info",
-        "operationId": "EndpointsFeaturesUsersEndpointsUpdateUserEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesUsersEndpointsUpdateUserEndpoint",
         "parameters": [
           {
             "name": "id",
@@ -83,58 +83,6 @@
             "JWTBearerAuth": []
           }
         ]
-      },
-      "delete": {
-        "tags": [
-          "users"
-        ],
-        "summary": "Deletes a user",
-        "operationId": "EndpointsFeaturesUsersEndpointsDeleteUserEndpoint",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteUserErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "User deleted"
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
       }
     },
     "/v1/users/by-email": {
@@ -143,7 +91,7 @@
           "users"
         ],
         "summary": "Returns a user id if the user with the given email exists",
-        "operationId": "EndpointsFeaturesUsersEndpointsGetUserIdByEmailEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesUsersEndpointsGetUserIdByEmailEndpoint",
         "parameters": [
           {
             "name": "Email",
@@ -203,7 +151,7 @@
           "users"
         ],
         "summary": "Get user information from user calling the endpoint",
-        "operationId": "EndpointsFeaturesUsersEndpointsGetMeEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesUsersEndpointsGetMeEndpoint",
         "responses": {
           "400": {
             "description": "Bad Request. Either a validation or a general problem has occurred",
@@ -252,7 +200,7 @@
           "users"
         ],
         "summary": "Returns a list of users according to the specified criteria.",
-        "operationId": "EndpointsFeaturesUsersEndpointsAdminQueryUsersEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesUsersEndpointsAdminQueryUsersEndpoint",
         "parameters": [
           {
             "name": "Name",
@@ -370,7 +318,7 @@
           "spaces"
         ],
         "summary": "Updates a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsUpdateSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -442,7 +390,7 @@
           "spaces"
         ],
         "summary": "Returns a space as seen by the caller user",
-        "operationId": "EndpointsFeaturesSpacesEndpointsGetSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsGetSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -503,7 +451,7 @@
           "spaces"
         ],
         "summary": "Update module state in a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsUpdateModuleInSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsUpdateModuleInSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -528,14 +476,20 @@
                 "AccessMobile",
                 "AccessParking",
                 "AccessCardReader",
-                "Bookings"
+                "Bookings",
+                "Intercom",
+                "AirConditioning",
+                "Locker"
               ],
               "enum": [
                 "Invalid",
                 "AccessMobile",
                 "AccessParking",
                 "AccessCardReader",
-                "Bookings"
+                "Bookings",
+                "Intercom",
+                "AirConditioning",
+                "Locker"
               ]
             }
           }
@@ -592,7 +546,7 @@
           "spaces"
         ],
         "summary": "Remove an existing module from a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsRemoveModuleFromSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsRemoveModuleFromSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -617,14 +571,20 @@
                 "AccessMobile",
                 "AccessParking",
                 "AccessCardReader",
-                "Bookings"
+                "Bookings",
+                "Intercom",
+                "AirConditioning",
+                "Locker"
               ],
               "enum": [
                 "Invalid",
                 "AccessMobile",
                 "AccessParking",
                 "AccessCardReader",
-                "Bookings"
+                "Bookings",
+                "Intercom",
+                "AirConditioning",
+                "Locker"
               ]
             }
           }
@@ -670,7 +630,7 @@
           "spaces"
         ],
         "summary": "Sets the favourite status of a space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsSetFavouriteEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsSetFavouriteEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -738,13 +698,112 @@
         ]
       }
     },
+    "/v1/internal/lockers/spaces/{SpaceId}/members": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsInternalsGetUsersFromSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetUsersFromSpaceResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/internal/lockers/spaces/{SpaceId}": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsInternalsGetSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSpaceInformationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/internal/intercom/spaces/{SpaceId}": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsInternalsGetIntercomSpaceEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIntercomSpaceResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/spaces": {
       "get": {
         "tags": [
           "spaces"
         ],
         "summary": "Returns a list of spaces visible to the caller user",
-        "operationId": "EndpointsFeaturesSpacesEndpointsGetSpacesEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsGetSpacesEndpoint",
         "parameters": [
           {
             "name": "ParentSpaceId",
@@ -803,7 +862,7 @@
           "spaces"
         ],
         "summary": "Creates a new space",
-        "operationId": "EndpointsFeaturesSpacesEndpointsCreateSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsCreateSpaceEndpoint",
         "requestBody": {
           "x-name": "CreateSpaceRequest",
           "description": "",
@@ -865,7 +924,7 @@
           "spaces"
         ],
         "summary": "Returns the list of spaces owned by the caller user or the referenced organization (is user is an admin of that organization)",
-        "operationId": "EndpointsFeaturesSpacesEndpointsGetMySpacesEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsGetMySpacesEndpoint",
         "parameters": [
           {
             "name": "SpaceType",
@@ -984,7 +1043,7 @@
         ],
         "summary": "List favourite spaces",
         "description": "Returns a list of favourite spaces according to the specified criteria",
-        "operationId": "EndpointsFeaturesSpacesEndpointsGetMyFavouritesEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsGetMyFavouritesEndpoint",
         "parameters": [
           {
             "name": "SpaceType",
@@ -1137,7 +1196,7 @@
           "spaces"
         ],
         "summary": "Returns a list of Spaces according to the specified criteria.",
-        "operationId": "EndpointsFeaturesSpacesEndpointsAdminQuerySpacesEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsAdminQuerySpacesEndpoint",
         "parameters": [
           {
             "name": "SpaceName",
@@ -1335,7 +1394,7 @@
           "spaces"
         ],
         "summary": "Add a new module to a space. By default, the module will be added in disable state",
-        "operationId": "EndpointsFeaturesSpacesEndpointsAddModuleToSpaceEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesSpacesEndpointsAddModuleToSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -1403,7 +1462,7 @@
         ],
         "summary": "Regenerates default permissions for a user",
         "description": "Regenerates default permissions for a user",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsRegenerateEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsRegenerateEndpoint",
         "requestBody": {
           "x-name": "RegeneratePermissionsForUserRequest",
           "description": "",
@@ -1459,7 +1518,7 @@
         ],
         "summary": "Regenerates default permissions for all users",
         "description": "Regenerates default permissions for all users",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsRegenerateForAllEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsRegenerateForAllEndpoint",
         "responses": {
           "400": {
             "description": "Bad Request. Either a validation or a general problem has occurred",
@@ -1502,7 +1561,7 @@
         ],
         "summary": "List permissions for a given grantee according to the given criteria",
         "description": "List permissions for a given grantee",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsListByGranteeEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsListByGranteeEndpoint",
         "parameters": [
           {
             "name": "GranteeId",
@@ -1621,7 +1680,7 @@
         ],
         "summary": "List permissions for a given context according to the given criteria",
         "description": "List permissions for a given context",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsListByContextEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsListByContextEndpoint",
         "parameters": [
           {
             "name": "ContextType",
@@ -1765,7 +1824,7 @@
         ],
         "summary": "HasPermission",
         "description": "Assess if the user is granted a list of permissions",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsHasPermissionEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsHasPermissionEndpoint",
         "parameters": [
           {
             "name": "ContextType",
@@ -1876,7 +1935,7 @@
         ],
         "summary": "Deletes a permission",
         "description": "Deletes a permission",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsDeleteEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsDeleteEndpoint",
         "requestBody": {
           "x-name": "DeletePermissionRequest",
           "description": "",
@@ -1930,7 +1989,7 @@
         ],
         "summary": "Creates a permission as admin",
         "description": "Creates a permission as admin",
-        "operationId": "EndpointsFeaturesPermissionsEndpointsCreateEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesPermissionsEndpointsCreateEndpoint",
         "requestBody": {
           "x-name": "CreatePermissionRequest",
           "description": "",
@@ -1985,7 +2044,7 @@
           "organizations"
         ],
         "summary": "Returns an organization by id",
-        "operationId": "EndpointsFeaturesOrganizationsEndpointsGetOrganizationEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesOrganizationsEndpointsGetOrganizationEndpoint",
         "parameters": [
           {
             "name": "OrganizationId",
@@ -2044,7 +2103,7 @@
           "organizations"
         ],
         "summary": "Deletes an organization",
-        "operationId": "EndpointsFeaturesOrganizationsEndpointsDeleteOrganizationEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesOrganizationsEndpointsDeleteOrganizationEndpoint",
         "parameters": [
           {
             "name": "OrganizationId",
@@ -2099,7 +2158,7 @@
           "users/organizations"
         ],
         "summary": "Returns a list of organizations belonging to the caller user",
-        "operationId": "EndpointsFeaturesOrganizationsEndpointsGetMyOrganizationsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesOrganizationsEndpointsGetMyOrganizationsEndpoint",
         "responses": {
           "400": {
             "description": "Bad Request. Either a validation or a general problem has occurred",
@@ -2148,7 +2207,7 @@
           "organizations"
         ],
         "summary": "Creates a new organization",
-        "operationId": "EndpointsFeaturesOrganizationsEndpointsCreateOrganizationEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesOrganizationsEndpointsCreateOrganizationEndpoint",
         "requestBody": {
           "x-name": "CreateOrganizationRequest",
           "description": "",
@@ -2208,7 +2267,7 @@
           "organizations"
         ],
         "summary": "Returns a list of organizations according to the specified criteria.",
-        "operationId": "EndpointsFeaturesOrganizationsEndpointsAdminQueryOrganizationsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesOrganizationsEndpointsAdminQueryOrganizationsEndpoint",
         "parameters": [
           {
             "name": "OrganizationName",
@@ -2312,7 +2371,7 @@
         ],
         "summary": "Changes state of a relay",
         "description": "Changes state of a relay",
-        "operationId": "EndpointsFeaturesIoTEndpointsChangeRelayStateEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsChangeRelayStateEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -2390,7 +2449,7 @@
         ],
         "summary": "Changes state of a Cover",
         "description": "Changes state of a Cover",
-        "operationId": "EndpointsFeaturesIoTEndpointsChangeCoverStateEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsChangeCoverStateEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -2468,7 +2527,7 @@
         ],
         "summary": "Updates a SAB gateway",
         "description": "Updates a SAB gateway",
-        "operationId": "EndpointsFeaturesIoTEndpointsAdminUpdateSABGatewayEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsAdminUpdateSABGatewayEndpoint",
         "parameters": [
           {
             "name": "GatewayId",
@@ -2536,7 +2595,7 @@
         ],
         "summary": "Creates SAB gateways in the system",
         "description": "Creates (adds) a list of SAB gateways to the system",
-        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateSABGatewayEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsAdminCreateSABGatewayEndpoint",
         "requestBody": {
           "x-name": "CreateSABGatewaysRequest",
           "description": "",
@@ -2599,7 +2658,7 @@
         ],
         "summary": "Creates SAB external bluetooth modules",
         "description": "Creates (adds) a list of SAB external bluetooth modules to the system",
-        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateSABExternalBluetoothModuleEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsAdminCreateSABExternalBluetoothModuleEndpoint",
         "requestBody": {
           "x-name": "CreateSABExternalBluetoothModulesRequest",
           "description": "",
@@ -2662,7 +2721,7 @@
         ],
         "summary": "Creates legacy gateways in the system",
         "description": "Creates (adds) a list of legacy gateways to the system",
-        "operationId": "EndpointsFeaturesIoTEndpointsAdminCreateLegacyGatewayEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsAdminCreateLegacyGatewayEndpoint",
         "requestBody": {
           "x-name": "CreateLegacyGatewaysRequest",
           "description": "",
@@ -2725,7 +2784,7 @@
         ],
         "summary": "Add or removes a gateway to/from space",
         "description": "Add or removes a gateway to/from a space",
-        "operationId": "PostEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
+        "operationId": "PostDebosCoreEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -2791,7 +2850,7 @@
         ],
         "summary": "Add or removes a gateway to/from space",
         "description": "Add or removes a gateway to/from a space",
-        "operationId": "DeleteEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
+        "operationId": "DeleteDebosCoreEndpointsFeaturesIoTEndpointsAddGatewayToSpaceEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -2858,7 +2917,7 @@
           "groups"
         ],
         "summary": "Removes a member from a group",
-        "operationId": "EndpointsFeaturesGroupsEndpointsRemoveMemberFromGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsRemoveMemberFromGroupEndpoint",
         "parameters": [
           {
             "name": "GroupId",
@@ -2923,7 +2982,7 @@
           "groups"
         ],
         "summary": "List members of a group",
-        "operationId": "EndpointsFeaturesGroupsEndpointsListMembersOfGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsListMembersOfGroupEndpoint",
         "parameters": [
           {
             "name": "GroupId",
@@ -3037,7 +3096,7 @@
           "groups"
         ],
         "summary": "Adds a member to a group",
-        "operationId": "EndpointsFeaturesGroupsEndpointsAddMemberToGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsAddMemberToGroupEndpoint",
         "parameters": [
           {
             "name": "GroupId",
@@ -3104,7 +3163,7 @@
           "groups"
         ],
         "summary": "Returns a group by id",
-        "operationId": "EndpointsFeaturesGroupsEndpointsGetGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsGetGroupEndpoint",
         "parameters": [
           {
             "name": "GroupId",
@@ -3163,7 +3222,7 @@
           "groups"
         ],
         "summary": "Deletes a group",
-        "operationId": "EndpointsFeaturesGroupsEndpointsDeleteGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsDeleteGroupEndpoint",
         "parameters": [
           {
             "name": "GroupId",
@@ -3217,7 +3276,7 @@
           "groups"
         ],
         "summary": "Returns a list of groups visible to the caller user",
-        "operationId": "EndpointsFeaturesGroupsEndpointsGetGroupsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsGetGroupsEndpoint",
         "parameters": [
           {
             "name": "RelationToGroup",
@@ -3327,7 +3386,7 @@
           "groups"
         ],
         "summary": "Creates a new group",
-        "operationId": "EndpointsFeaturesGroupsEndpointsCreateGroupEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsCreateGroupEndpoint",
         "requestBody": {
           "x-name": "CreateGroupRequest",
           "description": "",
@@ -3389,7 +3448,7 @@
           "groups"
         ],
         "summary": "Returns a list of groups according to the specified criteria.",
-        "operationId": "EndpointsFeaturesGroupsEndpointsAdminQueryGroupsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesGroupsEndpointsAdminQueryGroupsEndpoint",
         "parameters": [
           {
             "name": "GroupName",
@@ -3554,28 +3613,7 @@
         "tags": [
           "common"
         ],
-        "operationId": "EndpointsFeaturesCommonEndpointsHealthEndpoint",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {}
-              },
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/debug": {
-      "get": {
-        "tags": [
-          "common"
-        ],
-        "operationId": "EndpointsFeaturesCommonEndpointsDebugEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesCommonEndpointsHealthEndpoint",
         "responses": {
           "200": {
             "description": "Success",
@@ -3599,7 +3637,7 @@
         ],
         "summary": "Get Time Slots",
         "description": "Retrieves the booking time slots for a given space and date range",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetTimeSlotsEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetTimeSlotsEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -3682,7 +3720,7 @@
         ],
         "summary": "Get Time Slots",
         "description": "Retrieves the booking time slots for a given space and date range",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetTimeSlotsEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetTimeSlotsEndpoint2",
         "parameters": [
           {
             "name": "SpaceId",
@@ -3755,79 +3793,6 @@
             "JWTBearerAuth": []
           }
         ]
-      },
-      "post": {
-        "tags": [
-          "spaces/bookings"
-        ],
-        "summary": "Generate TimeSlots",
-        "description": "Creates a number of time slots based on the given configuration for the given date range.",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGenerateTimeSlotsEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "requestBody": {
-          "x-name": "GenerateTimeSlotsRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GenerateTimeSlotsRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGenerateTimeSlotsErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Number of generated time slots",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GenerateTimeSlotsResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
       }
     },
     "/v1/users/me/bookings": {
@@ -3837,7 +3802,7 @@
         ],
         "summary": "Returns bookings for user",
         "description": "Returns a list of bookings for user in a given space or all spaces",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetMyBookingsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetMyBookingsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -3919,7 +3884,7 @@
         ],
         "summary": "Returns a booking configuration",
         "description": "Returns a booking configuration",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -3992,7 +3957,7 @@
         ],
         "summary": "Returns a booking configuration",
         "description": "Returns a booking configuration",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint2",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4065,7 +4030,7 @@
         ],
         "summary": "Returns booking configurations in the space",
         "description": "Returns a list of booking configurations present in the space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingConfigurationsEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationsEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4146,7 +4111,7 @@
         ],
         "summary": "Creates a new booking configuration",
         "description": "Creates a new booking configuration on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint2",
         "requestBody": {
           "x-name": "CreateBookingConfigurationRequest",
           "description": "",
@@ -4210,7 +4175,7 @@
         ],
         "summary": "Returns booking configurations in the space",
         "description": "Returns a list of booking configurations present in the space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsGetBookingConfigurationsEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationsEndpoint2",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4291,7 +4256,7 @@
         ],
         "summary": "Creates a new booking configuration",
         "description": "Creates a new booking configuration on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsCreateBookingConfigurationEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4359,6 +4324,91 @@
         ]
       }
     },
+    "/v1/spaces/{SpaceId}/bookings/configurations/{BookingConfigurationId}/time-slots": {
+      "post": {
+        "tags": [
+          "spaces/bookings"
+        ],
+        "summary": "Generate TimeSlots",
+        "description": "Creates a number of time slots based on the given configuration for the given date range.",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGenerateTimeSlotsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "GenerateTimeSlotsRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateTimeSlotsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGenerateTimeSlotsErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Number of generated time slots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateTimeSlotsResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/spaces/{SpaceId}/bookings/{BookingId}": {
       "delete": {
         "tags": [
@@ -4367,7 +4417,7 @@
         ],
         "summary": "Delete booking",
         "description": "Deletes a booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint1",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4433,7 +4483,7 @@
         ],
         "summary": "Delete booking",
         "description": "Deletes a booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingEndpoint2",
         "parameters": [
           {
             "name": "BookingId",
@@ -4489,7 +4539,7 @@
         ],
         "summary": "Creates New booking",
         "description": "Creates a new booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsCreateBookingEndpoint1",
         "requestBody": {
           "x-name": "CreateBookingRequest",
           "description": "",
@@ -4553,7 +4603,7 @@
         ],
         "summary": "Creates New booking",
         "description": "Creates a new booking on the specified space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsCreateBookingEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsCreateBookingEndpoint2",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4628,7 +4678,7 @@
         ],
         "summary": "Admin Update Time Slots",
         "description": "Update time slots for a space",
-        "operationId": "EndpointsFeaturesBookingsEndpointsAdminUpdateTimeSlotsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsAdminUpdateTimeSlotsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4703,7 +4753,7 @@
         ],
         "summary": "Admin Query Time Slots",
         "description": "Returns a list of timeslots according to the specified criteria.",
-        "operationId": "EndpointsFeaturesBookingsEndpointsAdminQueryTimeSlotsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsAdminQueryTimeSlotsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4785,7 +4835,7 @@
         ],
         "summary": "Admin query bookings",
         "description": "Returns a list of bookings according to the specified criteria.",
-        "operationId": "EndpointsFeaturesBookingsEndpointsAdminQueryBookingsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsAdminQueryBookingsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -4908,7 +4958,7 @@
           "auth"
         ],
         "summary": "Returns access token",
-        "operationId": "EndpointsFeaturesAuthEndpointsTokenEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsTokenEndpoint",
         "parameters": [
           {
             "name": "x-application-type",
@@ -4976,7 +5026,7 @@
           "auth"
         ],
         "summary": "Creates a new user account",
-        "operationId": "EndpointsFeaturesAuthEndpointsSignUpEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsSignUpEndpoint",
         "requestBody": {
           "x-name": "SignUpRequest",
           "description": "",
@@ -5021,7 +5071,7 @@
         ],
         "summary": "Authenticates a user",
         "description": "Authenticates a user. Returns JWT tokens or Mfa Challenge",
-        "operationId": "EndpointsFeaturesAuthEndpointsSignInEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsSignInEndpoint",
         "parameters": [
           {
             "name": "x-application-type",
@@ -5089,7 +5139,7 @@
           "auth"
         ],
         "summary": "Resends email confirmation code",
-        "operationId": "EndpointsFeaturesAuthEndpointsResendConfirmationCodeEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsResendConfirmationCodeEndpoint",
         "requestBody": {
           "x-name": "ResendCodeRequest",
           "description": "",
@@ -5127,7 +5177,7 @@
         ],
         "summary": "Logout a user",
         "description": "Logout a user. Refresh token should be sent in the request body or as a cookie",
-        "operationId": "EndpointsFeaturesAuthEndpointsLogoutEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsLogoutEndpoint",
         "requestBody": {
           "x-name": "LogoutRequest",
           "description": "",
@@ -5182,7 +5232,7 @@
           "auth"
         ],
         "summary": "Returns the list of available identity providers",
-        "operationId": "EndpointsFeaturesAuthEndpointsIdpsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsIdpsEndpoint",
         "parameters": [
           {
             "name": "x-application-type",
@@ -5227,7 +5277,7 @@
           "auth"
         ],
         "summary": "Starts a password reset process",
-        "operationId": "EndpointsFeaturesAuthEndpointsForgotPasswordEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsForgotPasswordEndpoint",
         "requestBody": {
           "x-name": "ForgotPasswordRequest",
           "description": "",
@@ -5277,7 +5327,7 @@
           "auth"
         ],
         "summary": "Validates MFA code",
-        "operationId": "EndpointsFeaturesAuthEndpointsConfirmMfaEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsConfirmMfaEndpoint",
         "parameters": [
           {
             "name": "x-application-type",
@@ -5345,7 +5395,7 @@
           "auth"
         ],
         "summary": "Confirm a recovery password procedure with provided code",
-        "operationId": "EndpointsFeaturesAuthEndpointsConfirmForgotPasswordEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsConfirmForgotPasswordEndpoint",
         "requestBody": {
           "x-name": "ResetPasswordRequest",
           "description": "",
@@ -5382,7 +5432,7 @@
           "auth"
         ],
         "summary": "Confirm the sign up of a user with a confirmation code.",
-        "operationId": "EndpointsFeaturesAuthEndpointsConfirmEmailEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsConfirmEmailEndpoint",
         "requestBody": {
           "x-name": "ConfirmEmailRequest",
           "description": "",
@@ -5419,7 +5469,7 @@
           "auth"
         ],
         "summary": "Changes user's password",
-        "operationId": "EndpointsFeaturesAuthEndpointsChangePasswordEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAuthEndpointsChangePasswordEndpoint",
         "requestBody": {
           "x-name": "ChangePasswordRequest",
           "description": "",
@@ -5474,7 +5524,7 @@
           "applications"
         ],
         "summary": "Creates a new Application",
-        "operationId": "EndpointsFeaturesApplicationsEndpointsCreateApplicationEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesApplicationsEndpointsCreateApplicationEndpoint",
         "requestBody": {
           "x-name": "CreateApplicationRequest",
           "description": "",
@@ -5537,7 +5587,7 @@
         ],
         "summary": "Opens a lock/accesspoint",
         "description": "Opens a lock/accesspoint",
-        "operationId": "EndpointsFeaturesAccessEndpointsOpenAccessPointEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsOpenAccessPointEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -5624,7 +5674,7 @@
         ],
         "summary": "Get my access means",
         "description": "Returns a list of access means (cards, dongles, etc) belonging to the caller",
-        "operationId": "EndpointsFeaturesAccessEndpointsGetMyAccessMeansEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetMyAccessMeansEndpoint",
         "responses": {
           "400": {
             "description": "Bad Request. Either a validation or a general problem has occurred",
@@ -5674,7 +5724,7 @@
         ],
         "summary": "Describe Access point",
         "description": "Returns an access point",
-        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessPointEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessPointEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -5694,6 +5744,15 @@
               "title": "Guid",
               "type": "string",
               "format": "guid"
+            }
+          },
+          {
+            "name": "IncludePermissionDetails",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
             }
           }
         ],
@@ -5746,7 +5805,7 @@
         ],
         "summary": "List of visible access points",
         "description": "Returns a list of access points visible to the caller user in the specified space",
-        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessPointsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessPointsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -5806,7 +5865,7 @@
         ],
         "summary": "Creates Access Point",
         "description": "Creates a new Access Point in a Space",
-        "operationId": "EndpointsFeaturesAccessEndpointsCreateAccessPointEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsCreateAccessPointEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -5881,7 +5940,7 @@
         ],
         "summary": "Get access mean by id",
         "description": "Returns an access mean (cards, dongles, etc)",
-        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessMeanEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessMeanEndpoint",
         "parameters": [
           {
             "name": "AccessMeanId",
@@ -5943,7 +6002,7 @@
         ],
         "summary": "Get my access keys for an access point",
         "description": "Returns a list of access keys available for the caller in the specified access point with their time ranges.",
-        "operationId": "EndpointsFeaturesAccessEndpointsGetAccessKeysEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessKeysEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -6022,7 +6081,7 @@
         ],
         "summary": "Creates a key from an access mean",
         "description": "Creates a key from an access mean",
-        "operationId": "EndpointsFeaturesAccessEndpointsGenerateKeyEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGenerateKeyEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -6107,7 +6166,7 @@
         ],
         "summary": "Deletes a key from an access mean",
         "description": "Deletes a key from an access mean in a given access point",
-        "operationId": "EndpointsFeaturesAccessEndpointsDeleteKeyEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsDeleteKeyEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -6182,7 +6241,7 @@
         ],
         "summary": "Creates bluetooth dongles in the system",
         "description": "Creates (adds) a list of access means (bluetooth dongles) to the system",
-        "operationId": "EndpointsFeaturesAccessEndpointsCreateSmartPhoneEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsCreateSmartPhoneEndpoint",
         "requestBody": {
           "x-name": "CreateSmartPhoneRequest",
           "description": "",
@@ -6245,7 +6304,7 @@
         ],
         "summary": "Creates a lock",
         "description": "Creates a lock attached to a gateway and accesspoint",
-        "operationId": "EndpointsFeaturesAccessEndpointsCreateLockEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsCreateLockEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -6331,7 +6390,7 @@
         ],
         "summary": "Associate Access Mean To User",
         "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
-        "operationId": "EndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint1",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint1",
         "parameters": [
           {
             "name": "AccessMeanId",
@@ -6400,7 +6459,7 @@
         ],
         "summary": "Associate Access Mean To User",
         "description": "Associate an access mean to a user so that the user can generate keys and use it to access the system",
-        "operationId": "EndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint2",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsAssociateAccessMeanToUserEndpoint2",
         "parameters": [
           {
             "name": "UserId",
@@ -6468,7 +6527,7 @@
         ],
         "summary": "Admin query of access means",
         "description": "Returns a list of access means (cards, dongles, etc) according to the specified criteria.",
-        "operationId": "EndpointsFeaturesAccessEndpointsAdminQueryAccessMeansEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsAdminQueryAccessMeansEndpoint",
         "parameters": [
           {
             "name": "IgnoreUser",
@@ -6498,12 +6557,14 @@
               "x-enumNames": [
                 "Invalid",
                 "MiFareClassicCard",
-                "BluetoothDongle"
+                "BluetoothDongle",
+                "SmartPhone"
               ],
               "enum": [
                 "Invalid",
                 "MiFareClassicCard",
-                "BluetoothDongle"
+                "BluetoothDongle",
+                "SmartPhone"
               ]
             }
           },
@@ -6601,7 +6662,7 @@
         ],
         "summary": "Creates mifare classic cards in the system",
         "description": "Creates (adds) a list of mifare classic cards to the system",
-        "operationId": "EndpointsFeaturesAccessEndpointsAdminCreateMiFareClassicCardsEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsAdminCreateMiFareClassicCardsEndpoint",
         "requestBody": {
           "x-name": "CreateMiFareClassicCardsRequest",
           "description": "",
@@ -6664,7 +6725,7 @@
         ],
         "summary": "Creates bluetooth dongles in the system",
         "description": "Creates (adds) a list of access means (bluetooth dongles) to the system",
-        "operationId": "EndpointsFeaturesAccessEndpointsAdminCreateBluetoothDonglesEndpoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsAdminCreateBluetoothDonglesEndpoint",
         "requestBody": {
           "x-name": "CreateBluetoothDonglesRequest",
           "description": "",
@@ -6708,6 +6769,438 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateBluetoothDonglesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/thermostats/{ThermostatId}/state": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsReadThermostatStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ThermostatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadThermostatStateResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsChangeThermostatStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ThermostatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeThermostatStateRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeThermostatStateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeThermostatStateResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/thermostats": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsListThermostatsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListThermostatResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsInstallThermostatEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "InstallThermostatRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallThermostatRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstallThermostatResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning": {
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsEnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/{LockerId}/synchronize-spaces": {
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsSynchronizeSpaceWithExternalIdEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "LockerId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "SinchronizeSpaceAndExternalId",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SinchronizeSpaceAndExternalId"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/integrations/lockers/receive-package": {
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsReceiveDeliveryEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers": {
+      "get": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsGetLockerEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsEnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/installation": {
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsCreateLockerEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "CreateLockerRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLockerRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateLockerResponse"
                 }
               }
             }
@@ -7170,59 +7663,6 @@
           "DebosAdmin"
         ]
       },
-      "ErrorResponseOfEndpointErrorOfDeleteUserErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "operationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "operationError": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/EndpointErrorOfDeleteUserErrorCode"
-              }
-            ]
-          },
-          "requestFormatErrors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ValidationFailure"
-            }
-          }
-        }
-      },
-      "EndpointErrorOfDeleteUserErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "errorCode": {
-            "$ref": "#/components/schemas/DeleteUserErrorCode"
-          },
-          "errorMessage": {
-            "type": "string"
-          }
-        }
-      },
-      "DeleteUserErrorCode": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Unspecified",
-          "DatabaseError",
-          "UserNotFound",
-          "FailedToDeleteUserInAuthorizationService"
-        ],
-        "enum": [
-          "Unspecified",
-          "DatabaseError",
-          "UserNotFound",
-          "FailedToDeleteUserInAuthorizationService"
-        ]
-      },
       "ErrorResponseOfEndpointErrorOfAdminQueryUsersErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -7564,14 +8004,20 @@
           "AccessMobile",
           "AccessParking",
           "AccessCardReader",
-          "Bookings"
+          "Bookings",
+          "Intercom",
+          "AirConditioning",
+          "Locker"
         ],
         "enum": [
           "Invalid",
           "AccessMobile",
           "AccessParking",
           "AccessCardReader",
-          "Bookings"
+          "Bookings",
+          "Intercom",
+          "AirConditioning",
+          "Locker"
         ]
       },
       "ModuleStatusEnum": {
@@ -7705,6 +8151,63 @@
           "ModuleNotPresentInSpace"
         ]
       },
+      "GetUsersFromSpaceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userName": {
+            "type": "string"
+          },
+          "surname": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "GetSpaceInformationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "GetIntercomSpaceResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "type": "string"
+          },
+          "peopleCapacity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfGetSpaceErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -7803,7 +8306,7 @@
           "accessPoints": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessPointDto"
+              "$ref": "#/components/schemas/AccessPointLiteDto"
             }
           },
           "path": {
@@ -7927,15 +8430,19 @@
         "x-enumNames": [
           "Invalid",
           "Booking",
-          "Access"
+          "Access",
+          "Wellbeing",
+          "ManagementAndData"
         ],
         "enum": [
           "Invalid",
           "Booking",
-          "Access"
+          "Access",
+          "Wellbeing",
+          "ManagementAndData"
         ]
       },
-      "AccessPointDto": {
+      "AccessPointLiteDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -7952,7 +8459,13 @@
           "allowedAccessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum"
+              "$ref": "#/components/schemas/AccessTechnologyTypeEnum"
+            }
+          },
+          "usableAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyDto"
             }
           },
           "ioTId": {
@@ -7990,23 +8503,33 @@
           "Other"
         ]
       },
-      "AccessTechnologyEnum": {
+      "AccessTechnologyTypeEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
+          "Bluetooth",
           "Card",
           "Internet"
         ],
         "enum": [
           "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
+          "Bluetooth",
           "Card",
           "Internet"
         ]
+      },
+      "AccessTechnologyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AccessTechnologyTypeEnum"
+          },
+          "implementation": {
+            "type": "string"
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfGetSpacesErrorCode": {
         "type": "object",
@@ -8112,7 +8635,7 @@
           "accessPoints": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessPointDto"
+              "$ref": "#/components/schemas/AccessPointLiteDto"
             }
           },
           "path": {
@@ -8590,13 +9113,15 @@
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ModuleAlreadyAdded"
+          "ModuleAlreadyAdded",
+          "CustomEnableModuleEndpoint"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "InvalidParameter",
-          "ModuleAlreadyAdded"
+          "ModuleAlreadyAdded",
+          "CustomEnableModuleEndpoint"
         ]
       },
       "AddModuleToSpaceRequest": {
@@ -9832,11 +10357,15 @@
         "description": "",
         "x-enumNames": [
           "Unspecified",
-          "DatabaseError"
+          "DatabaseError",
+          "GatewayAlreadyHasExternalBluetoothModuleAssociated",
+          "GatewayNotFound"
         ],
         "enum": [
           "Unspecified",
-          "DatabaseError"
+          "DatabaseError",
+          "GatewayAlreadyHasExternalBluetoothModuleAssociated",
+          "GatewayNotFound"
         ]
       },
       "UpdateSABGatewayRequest": {
@@ -11383,6 +11912,18 @@
             "type": "integer",
             "format": "int32"
           },
+          "maxActiveBookingsPeriodDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveBookingsPeriodStart": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActiveBookingsPeriodStartEnum"
+              }
+            ]
+          },
           "maxTimeSlotsPerBooking": {
             "type": "integer",
             "format": "int32"
@@ -11411,6 +11952,20 @@
             "format": "int32"
           }
         }
+      },
+      "MaxActiveBookingsPeriodStartEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Now",
+          "Booking"
+        ],
+        "enum": [
+          "Invalid",
+          "Now",
+          "Booking"
+        ]
       },
       "BookingTimeSlotDto": {
         "type": "object",
@@ -11934,10 +12489,6 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "bookingConfigurationId": {
-            "type": "string",
-            "format": "guid"
-          },
           "startDate": {
             "type": "string",
             "format": "date"
@@ -12213,6 +12764,7 @@
         "required": [
           "timeSlotGenerators",
           "allowedGroups",
+          "maxActiveBookingsPeriodStart",
           "timeLimits"
         ],
         "properties": {
@@ -12253,9 +12805,19 @@
           },
           "maxActiveBookingsPerUserOrGroup": {
             "type": "integer",
+            "description": "Maximum number of active bookings per user or group in the period of time defined by MaxActiveBookingsPeriodDays",
             "format": "int32",
             "minimum": 0.0,
             "exclusiveMinimum": true
+          },
+          "maxActiveBookingsPeriodDays": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
+          },
+          "maxActiveBookingsPeriodStart": {
+            "nullable": false,
+            "$ref": "#/components/schemas/MaxActiveBookingsPeriodStartEnum"
           },
           "maxTimeSlotsPerBooking": {
             "type": "integer",
@@ -12562,6 +13124,11 @@
           },
           "stateDescription": {
             "type": "string",
+            "nullable": true
+          },
+          "maxBookings": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         }
@@ -13636,7 +14203,8 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "name"
+          "name",
+          "ownerOrganizationId"
         ],
         "properties": {
           "name": {
@@ -13648,47 +14216,17 @@
             "type": "string",
             "nullable": true
           },
-          "owner": {
-            "description": "Owner of the Application. If null, the requester will be the owner",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/OwnerDto3"
-              }
-            ]
-          }
-        }
-      },
-      "OwnerDto3": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "id"
-        ],
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/OwnerTypeEnum4"
+          "applicationPoolClientId": {
+            "type": "string"
           },
-          "id": {
+          "ownerOrganizationId": {
             "type": "string",
+            "description": "Owner of the Application",
             "format": "guid",
+            "minLength": 1,
             "nullable": false
           }
         }
-      },
-      "OwnerTypeEnum4": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "User",
-          "Organization"
-        ],
-        "enum": [
-          "Invalid",
-          "User",
-          "Organization"
-        ]
       },
       "ErrorResponseOfEndpointErrorOfOpenAccessPointErrorCode": {
         "type": "object",
@@ -13751,8 +14289,7 @@
         "required": [
           "accessPointId",
           "lockId",
-          "accessKeyId",
-          "challengeResponse"
+          "accessKeyId"
         ],
         "properties": {
           "accessKeyId": {
@@ -13761,9 +14298,7 @@
             "nullable": false
           },
           "challengeResponse": {
-            "type": "string",
-            "minLength": 1,
-            "nullable": false
+            "type": "string"
           }
         }
       },
@@ -13846,7 +14381,7 @@
           "accessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           },
           "serialNumber": {
@@ -13870,28 +14405,45 @@
         "x-enumNames": [
           "Invalid",
           "MiFareClassicCard",
-          "BluetoothDongle"
+          "BluetoothDongle",
+          "SmartPhone"
         ],
         "enum": [
           "Invalid",
           "MiFareClassicCard",
-          "BluetoothDongle"
+          "BluetoothDongle",
+          "SmartPhone"
         ]
       },
-      "AccessTechnologyEnum2": {
+      "AccessTechnologyDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "implementation"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AccessTechnologyTypeEnum2"
+          },
+          "implementation": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          }
+        }
+      },
+      "AccessTechnologyTypeEnum2": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
+          "Bluetooth",
           "Card",
           "Internet"
         ],
         "enum": [
           "Invalid",
-          "BluetoothSmartphoneCode",
-          "BluetoothDongleCode",
+          "Bluetooth",
           "Card",
           "Internet"
         ]
@@ -13939,12 +14491,14 @@
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
+          "AccessPointNotFound",
           "PermissionServiceError",
           "InvalidParameter"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
+          "AccessPointNotFound",
           "PermissionServiceError",
           "InvalidParameter"
         ]
@@ -13974,7 +14528,13 @@
           "allowedAccessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
+            }
+          },
+          "usableAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           },
           "accessPermissions": {
@@ -14000,6 +14560,13 @@
           "type": {
             "$ref": "#/components/schemas/LockTypeEnum"
           },
+          "state": {
+            "$ref": "#/components/schemas/StateEnum"
+          },
+          "lastStateChangeUTC": {
+            "type": "string",
+            "format": "date-time"
+          },
           "ioTGatewayId": {
             "type": "string",
             "format": "guid"
@@ -14011,11 +14578,33 @@
         "description": "",
         "x-enumNames": [
           "Unknown",
-          "LegacyGatewayRelayLock"
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
         ],
         "enum": [
           "Unknown",
-          "LegacyGatewayRelayLock"
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
+        ]
+      },
+      "StateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
+        ],
+        "enum": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
         ]
       },
       "AccessPointTypeEnum2": {
@@ -14042,53 +14631,100 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "grantor": {
-            "$ref": "#/components/schemas/GrantorDto2"
-          },
           "accessTechnology": {
-            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            "$ref": "#/components/schemas/AccessTechnologyDto2"
           },
-          "timeRanges": {
+          "permissionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permissionDetails": {
             "type": "array",
+            "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/TimeRangeDto"
+              "$ref": "#/components/schemas/PermissionDto"
             }
           },
-          "accessKeys": {
+          "accessMeanWithKey": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessKeyLiteDto"
+              "$ref": "#/components/schemas/AccessMeanWithKeyDto"
             }
           }
         }
       },
-      "GrantorDto2": {
+      "PermissionDto": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "AccessMeanWithKeyDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "grantorType": {
-            "$ref": "#/components/schemas/GrantorTypeEnum2"
-          },
-          "grantorId": {
+          "id": {
             "type": "string",
-            "format": "guid",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
             "nullable": true
+          },
+          "accessKeyId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/AccessKeySyncStatusEnum"
+          },
+          "lastSync": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ioTPermissions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IoTPermissionLiteDto"
+            }
           }
         }
       },
-      "GrantorTypeEnum2": {
+      "AccessKeySyncStatusEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "System_OnCreation",
-          "Booking",
-          "User"
+          "Applied",
+          "InProgress",
+          "Failed",
+          "NotApplied"
         ],
         "enum": [
-          "System_OnCreation",
-          "Booking",
-          "User"
+          "Applied",
+          "InProgress",
+          "Failed",
+          "NotApplied"
         ]
+      },
+      "IoTPermissionLiteDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "timeRange": {
+            "$ref": "#/components/schemas/TimeRangeDto"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/IoTPermissionLiteDto_SyncStatusEnum"
+          },
+          "lastSync": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       },
       "TimeRangeDto": {
         "type": "object",
@@ -14151,53 +14787,18 @@
           "Sunday"
         ]
       },
-      "AccessKeyLiteDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "accessMean": {
-            "$ref": "#/components/schemas/AccessMeanLiteDto"
-          },
-          "syncStatus": {
-            "$ref": "#/components/schemas/AccessKeySyncStatusEnum"
-          },
-          "lastSync": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
-      "AccessMeanLiteDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "type": {
-            "$ref": "#/components/schemas/AccessMeanTypeEnum"
-          }
-        }
-      },
-      "AccessKeySyncStatusEnum": {
+      "IoTPermissionLiteDto_SyncStatusEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Applied",
           "InProgress",
-          "Failed",
-          "NotApplied"
+          "Failed"
         ],
         "enum": [
           "Applied",
           "InProgress",
-          "Failed",
-          "NotApplied"
+          "Failed"
         ]
       },
       "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
@@ -14260,12 +14861,12 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessPointLiteDto"
+              "$ref": "#/components/schemas/AccessPointLiteDto2"
             }
           }
         }
       },
-      "AccessPointLiteDto": {
+      "AccessPointLiteDto2": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -14282,7 +14883,13 @@
           "allowedAccessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
+            }
+          },
+          "usableAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           }
         }
@@ -14347,7 +14954,7 @@
           "accessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           },
           "serialNumber": {
@@ -14474,7 +15081,8 @@
           "AccessTechnologyNotSupported",
           "UniqueConstraintViolation",
           "AccessPointHasNoLock",
-          "AccessMeanNotAssociatedWithUser"
+          "AccessMeanNotAssociatedWithUser",
+          "LockDoesNotSupportAccessTechnology"
         ],
         "enum": [
           "Unspecified",
@@ -14489,7 +15097,8 @@
           "AccessTechnologyNotSupported",
           "UniqueConstraintViolation",
           "AccessPointHasNoLock",
-          "AccessMeanNotAssociatedWithUser"
+          "AccessMeanNotAssociatedWithUser",
+          "LockDoesNotSupportAccessTechnology"
         ]
       },
       "GenerateKeyResponse": {
@@ -14501,40 +15110,49 @@
             "format": "guid"
           },
           "accessTechnology": {
-            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            "$ref": "#/components/schemas/AccessTechnologyWithKeyContentDto"
+          }
+        }
+      },
+      "AccessTechnologyWithKeyContentDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AccessTechnologyTypeEnum2"
           },
-          "privateRSAKey": {
+          "implementation": {
+            "type": "string",
+            "nullable": true
+          },
+          "keyContent": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/PrivateRSAKeyDto"
+                "$ref": "#/components/schemas/KeyContentDto"
               }
             ]
           }
         }
       },
-      "PrivateRSAKeyDto": {
+      "KeyContentDto": {
         "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "xmlKey": {
-            "type": "string"
-          },
-          "pemKey": {
-            "type": "string"
-          }
-        }
+        "additionalProperties": false
       },
       "GenerateKeyRequest": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "accessTechnology"
+        ],
         "properties": {
           "accessMeanId": {
             "type": "string",
             "format": "guid"
           },
           "accessTechnology": {
-            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            "nullable": false,
+            "$ref": "#/components/schemas/AccessTechnologyDto2"
           },
           "userIdOfKeyHolder": {
             "type": "string",
@@ -14547,18 +15165,18 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/OwnerDto4"
+                "$ref": "#/components/schemas/OwnerDto3"
               }
             ]
           }
         }
       },
-      "OwnerDto4": {
+      "OwnerDto3": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/OwnerTypeEnum5"
+            "$ref": "#/components/schemas/OwnerTypeEnum4"
           },
           "id": {
             "type": "string",
@@ -14566,7 +15184,7 @@
           }
         }
       },
-      "OwnerTypeEnum5": {
+      "OwnerTypeEnum4": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -14625,14 +15243,16 @@
           "DatabaseError",
           "AccessPointNotFound",
           "ErrorSyncingToIot",
-          "AccessKeyNotFound"
+          "AccessKeyNotFound",
+          "AccessKeyAlreadyDeleted"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
           "AccessPointNotFound",
           "ErrorSyncingToIot",
-          "AccessKeyNotFound"
+          "AccessKeyNotFound",
+          "AccessKeyAlreadyDeleted"
         ]
       },
       "ErrorResponseOfEndpointErrorOfCreateSmartPhoneErrorCode": {
@@ -14699,6 +15319,18 @@
           }
         }
       },
+      "PrivateRSAKeyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "xmlKey": {
+            "type": "string"
+          },
+          "pemKey": {
+            "type": "string"
+          }
+        }
+      },
       "CreateSmartPhoneRequest": {
         "type": "object",
         "additionalProperties": false,
@@ -14732,7 +15364,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/OwnerDto4"
+                "$ref": "#/components/schemas/OwnerDto3"
               }
             ]
           },
@@ -14791,7 +15423,10 @@
           "EntityAlreadyExists",
           "GroupDoesNotExist",
           "LockTypeNotSupported",
-          "GatewayNotAssociatedToSpace"
+          "GatewayNotAssociatedToSpace",
+          "GatewayTypeError",
+          "GatewayAlreadyHasLock",
+          "ExternalBluetoothModuleNotLinkedToGateway"
         ],
         "enum": [
           "Unspecified",
@@ -14801,7 +15436,10 @@
           "EntityAlreadyExists",
           "GroupDoesNotExist",
           "LockTypeNotSupported",
-          "GatewayNotAssociatedToSpace"
+          "GatewayNotAssociatedToSpace",
+          "GatewayTypeError",
+          "GatewayAlreadyHasLock",
+          "ExternalBluetoothModuleNotLinkedToGateway"
         ]
       },
       "CreateLockResponse": {
@@ -14845,7 +15483,7 @@
           },
           "legacyRelayOptions": {
             "nullable": false,
-            "$ref": "#/components/schemas/LegacyRelayOptions"
+            "$ref": "#/components/schemas/LegacyRelayOptionsDto"
           }
         }
       },
@@ -14866,6 +15504,9 @@
       "SABRelayOptions": {
         "type": "object",
         "additionalProperties": false,
+        "required": [
+          "accessTechnologyOptions"
+        ],
         "properties": {
           "relayPin": {
             "type": "integer",
@@ -14883,12 +15524,15 @@
             "default": 26
           },
           "advancedBluetoothDongleConfig": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/AdvancedBluetoothDongleConfig"
-              }
-            ]
+            "$ref": "#/components/schemas/AdvancedBluetoothDongleConfigDto"
+          },
+          "accessTechnologyOptions": {
+            "type": "array",
+            "minLength": 1,
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyHWOptionDto"
+            }
           },
           "externalBluetoothModuleId": {
             "type": "string",
@@ -14897,7 +15541,7 @@
           }
         }
       },
-      "AdvancedBluetoothDongleConfig": {
+      "AdvancedBluetoothDongleConfigDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -14915,7 +15559,51 @@
           }
         }
       },
-      "LegacyRelayOptions": {
+      "AccessTechnologyHWOptionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "sabAccessTechnology": {
+            "$ref": "#/components/schemas/SABAccessTechnologyEnum"
+          },
+          "peripheralType": {
+            "$ref": "#/components/schemas/SABPeripheralTypeEnum"
+          }
+        }
+      },
+      "SABAccessTechnologyEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "BluetoothSmartPhoneCode",
+          "BluetoothDongleCode",
+          "Card"
+        ],
+        "enum": [
+          "Invalid",
+          "BluetoothSmartPhoneCode",
+          "BluetoothDongleCode",
+          "Card"
+        ]
+      },
+      "SABPeripheralTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "DahuaReaderLite",
+          "BluetoothInternal",
+          "BluetoothExternal"
+        ],
+        "enum": [
+          "Invalid",
+          "DahuaReaderLite",
+          "BluetoothInternal",
+          "BluetoothExternal"
+        ]
+      },
+      "LegacyRelayOptionsDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -15014,8 +15702,8 @@
             "nullable": true
           },
           "ioTId": {
-            "type": "integer",
-            "format": "int64",
+            "type": "string",
+            "description": "Hex representation of the IoTId",
             "nullable": true
           },
           "customerIdentificationCode": {
@@ -15030,7 +15718,7 @@
           "allowedAccessTechnologies": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessTechnologyEnum2"
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           },
           "accessPointCreationPermissionOptions": {
@@ -15076,7 +15764,7 @@
         "additionalProperties": false,
         "properties": {
           "accessTechnology": {
-            "$ref": "#/components/schemas/AccessTechnologyEnum2"
+            "$ref": "#/components/schemas/AccessTechnologyDto2"
           },
           "maxKeysPerTechnology": {
             "type": "integer",
@@ -15325,7 +16013,7 @@
           "owner": {
             "description": "Owner of the access mean",
             "nullable": false,
-            "$ref": "#/components/schemas/OwnerDto4"
+            "$ref": "#/components/schemas/OwnerDto3"
           }
         }
       },
@@ -15337,8 +16025,7 @@
             "type": "string"
           },
           "cardCode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         }
       },
@@ -15398,8 +16085,24 @@
           "dongles": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessMeanDtoBase"
+              "$ref": "#/components/schemas/BluetoothDongleDto"
             }
+          }
+        }
+      },
+      "BluetoothDongleDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessMeanTypeEnum"
+          },
+          "bluetoothDongleCode": {
+            "type": "string"
           }
         }
       },
@@ -15413,6 +16116,7 @@
         "properties": {
           "dongles": {
             "type": "array",
+            "minLength": 1,
             "nullable": false,
             "items": {
               "$ref": "#/components/schemas/BluetoothDongleForCreationDto"
@@ -15421,7 +16125,7 @@
           "owner": {
             "description": "Owner of the access mean",
             "nullable": false,
-            "$ref": "#/components/schemas/OwnerDto4"
+            "$ref": "#/components/schemas/OwnerDto3"
           }
         }
       },
@@ -15433,8 +16137,456 @@
             "type": "string"
           },
           "bluetoothDongleCode": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
+          }
+        }
+      },
+      "ReadThermostatStateResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "thermostatId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "sensorTemperature": {
+            "$ref": "#/components/schemas/TemperatureDto"
+          },
+          "setpointTemperature": {
+            "$ref": "#/components/schemas/TemperatureDto"
+          },
+          "powerMode": {
+            "$ref": "#/components/schemas/PowerMode"
+          },
+          "thermostatMode": {
+            "$ref": "#/components/schemas/ThermostatMode"
+          },
+          "fanSpeed": {
+            "$ref": "#/components/schemas/FanSpeed"
+          }
+        }
+      },
+      "TemperatureDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
+      },
+      "PowerMode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "On",
+          "Off"
+        ],
+        "enum": [
+          "On",
+          "Off"
+        ]
+      },
+      "ThermostatMode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation"
+        ],
+        "enum": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation"
+        ]
+      },
+      "FanSpeed": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Auto",
+          "Lowest",
+          "Lower",
+          "Medium",
+          "Higher",
+          "Highest"
+        ],
+        "enum": [
+          "Auto",
+          "Lowest",
+          "Lower",
+          "Medium",
+          "Higher",
+          "Highest"
+        ]
+      },
+      "ListThermostatResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "thermostats": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListThermostatResponse_Thermostat"
+            }
+          }
+        }
+      },
+      "ListThermostatResponse_Thermostat": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "thermostatId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          }
+        }
+      },
+      "InstallThermostatResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "thermostatId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "InstallThermostatRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "vendorProperties": {
+            "$ref": "#/components/schemas/ThermostatVendorPropertiesDto"
+          }
+        }
+      },
+      "ThermostatVendorPropertiesDto": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/ThermostatVendorCredentialsDto"
+          }
+        }
+      },
+      "ThermostatVendorCredentialsDto": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "EnableModuleResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ChangeThermostatStateResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "thermostatId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "setpointTemperature": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TemperatureDto2"
+              }
+            ]
+          },
+          "powerMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PowerMode2"
+              }
+            ]
+          },
+          "thermostatMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ThermostatMode2"
+              }
+            ]
+          },
+          "fanSpeed": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed2"
+              }
+            ]
+          }
+        }
+      },
+      "TemperatureDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "double"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
+      },
+      "PowerMode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "On",
+          "Off"
+        ],
+        "enum": [
+          "On",
+          "Off"
+        ]
+      },
+      "ThermostatMode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation"
+        ],
+        "enum": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation"
+        ]
+      },
+      "FanSpeed2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Auto",
+          "Lowest",
+          "Lower",
+          "Medium",
+          "Higher",
+          "Highest"
+        ],
+        "enum": [
+          "Auto",
+          "Lowest",
+          "Lower",
+          "Medium",
+          "Higher",
+          "Highest"
+        ]
+      },
+      "ChangeThermostatStateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "thermostatId"
+        ],
+        "properties": {
+          "setpointTemperature": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TemperatureDto2"
+              }
+            ]
+          },
+          "powerMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PowerMode2"
+              }
+            ]
+          },
+          "thermostatMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ThermostatMode2"
+              }
+            ]
+          },
+          "fanSpeed": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed2"
+              }
+            ]
+          }
+        }
+      },
+      "SinchronizeSpaceAndExternalId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceAndExternalIds": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/SpaceAndExternalId"
+            }
+          }
+        }
+      },
+      "SpaceAndExternalId": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "innerSpaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "receiverExternalId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "EnableModuleResponse2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateLockerResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lockerId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "CreateLockerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "properties": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Properties"
+              }
+            ]
+          }
+        }
+      },
+      "Properties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "arregui": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockerArreguiPropertiesRequestDto"
+              }
+            ]
+          }
+        }
+      },
+      "LockerArreguiPropertiesRequestDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "serviceUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "apiKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "installationId": {
+            "type": "string",
+            "nullable": true
           }
         }
       }
