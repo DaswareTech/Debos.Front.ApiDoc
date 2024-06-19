@@ -479,7 +479,8 @@
                 "Bookings",
                 "Intercom",
                 "AirConditioning",
-                "Locker"
+                "Locker",
+                "Ticketing"
               ],
               "enum": [
                 "Invalid",
@@ -489,7 +490,8 @@
                 "Bookings",
                 "Intercom",
                 "AirConditioning",
-                "Locker"
+                "Locker",
+                "Ticketing"
               ]
             }
           }
@@ -574,7 +576,8 @@
                 "Bookings",
                 "Intercom",
                 "AirConditioning",
-                "Locker"
+                "Locker",
+                "Ticketing"
               ],
               "enum": [
                 "Invalid",
@@ -584,7 +587,8 @@
                 "Bookings",
                 "Intercom",
                 "AirConditioning",
-                "Locker"
+                "Locker",
+                "Ticketing"
               ]
             }
           }
@@ -951,6 +955,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ],
               "enum": [
@@ -971,6 +976,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ]
             }
@@ -1070,6 +1076,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ],
               "enum": [
@@ -1090,6 +1097,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ]
             }
@@ -1268,6 +1276,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ],
               "enum": [
@@ -1288,6 +1297,7 @@
                 "BuildingPart",
                 "Block",
                 "Stairs",
+                "Elevator",
                 "Gym"
               ]
             }
@@ -3629,6 +3639,27 @@
         }
       }
     },
+    "/debug": {
+      "get": {
+        "tags": [
+          "common"
+        ],
+        "operationId": "DebosCoreEndpointsFeaturesCommonEndpointsDebugEndpoint",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/bookings/time-slots": {
       "get": {
         "tags": [
@@ -4013,6 +4044,70 @@
                 }
               }
             }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces/bookings",
+          "bookings"
+        ],
+        "summary": "Delete booking configuration",
+        "description": "Deletes a booking configuration on the specified space",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingConfigurationEndpoint1",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration deleted successfully"
           }
         },
         "security": [
@@ -4522,6 +4617,62 @@
           },
           "200": {
             "description": "Booking deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/bookings/configurations/{BookingConfigurationId}": {
+      "delete": {
+        "tags": [
+          "spaces/bookings",
+          "bookings"
+        ],
+        "summary": "Delete booking configuration",
+        "description": "Deletes a booking configuration on the specified space",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingConfigurationEndpoint2",
+        "parameters": [
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration deleted successfully"
           }
         },
         "security": [
@@ -5580,6 +5731,291 @@
         ]
       }
     },
+    "/v1/access/access-means/{AccessMeanId}": {
+      "patch": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Update access mean",
+        "description": "Update an access mean",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsUpdateAccessMeanEndpoint",
+        "parameters": [
+          {
+            "name": "AccessMeanId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateAccessMeanRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccessMeanRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateAccessMeanErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The Access Mean has been updated"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Get access mean by id",
+        "description": "Returns an access mean (cards, dongles, etc)",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessMeanEndpoint",
+        "parameters": [
+          {
+            "name": "AccessMeanId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessMeanErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "The Access Mean",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAccessMeanResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/keys/{AccessKeyId}": {
+      "post": {
+        "tags": [
+          "spaces/access"
+        ],
+        "summary": "ReSync a key",
+        "description": "Try to resync a key to lock",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsReSyncKeyEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessPointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessKeyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfReSyncKeyErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Key resync successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces/access"
+        ],
+        "summary": "Deletes a key from an access mean",
+        "description": "Deletes a key from an access mean in a given access point",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsDeleteKeyEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessPointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessKeyId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteKeyErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Key deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks/{LockId}/open": {
       "post": {
         "tags": [
@@ -5933,148 +6369,7 @@
         ]
       }
     },
-    "/v1/access/access-means/{AccessMeanId}": {
-      "get": {
-        "tags": [
-          "access"
-        ],
-        "summary": "Get access mean by id",
-        "description": "Returns an access mean (cards, dongles, etc)",
-        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessMeanEndpoint",
-        "parameters": [
-          {
-            "name": "AccessMeanId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessMeanErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "The Access Mean",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAccessMeanResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
     "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/keys": {
-      "get": {
-        "tags": [
-          "spaces/access"
-        ],
-        "summary": "Get my access keys for an access point",
-        "description": "Returns a list of access keys available for the caller in the specified access point with their time ranges.",
-        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsGetAccessKeysEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          {
-            "name": "AccessPointId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          {
-            "name": "UserId",
-            "in": "query",
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetAccessKeysErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "List of Access Keys",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAccessKeysErrorCode"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      },
       "post": {
         "tags": [
           "spaces/access"
@@ -6159,14 +6454,14 @@
         ]
       }
     },
-    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/keys/{AccessKeyId}": {
+    "/v1/spaces/{SpaceId}/access-points/{AccessPointId}/locks/{LockId}": {
       "delete": {
         "tags": [
           "spaces/access"
         ],
-        "summary": "Deletes a key from an access mean",
-        "description": "Deletes a key from an access mean in a given access point",
-        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsDeleteKeyEndpoint",
+        "summary": "Deletes a lock",
+        "description": "Deletes a lock attached to a gateway and accesspoint",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsDeleteLockEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -6189,7 +6484,7 @@
             }
           },
           {
-            "name": "AccessKeyId",
+            "name": "LockId",
             "in": "path",
             "required": true,
             "schema": {
@@ -6199,13 +6494,26 @@
             }
           }
         ],
+        "requestBody": {
+          "x-name": "DeleteLockRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteLockRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
         "responses": {
           "400": {
             "description": "Bad Request. Either a validation or a general problem has occurred",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteKeyErrorCode"
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteLockErrorCode"
                 }
               }
             }
@@ -6224,7 +6532,7 @@
             }
           },
           "200": {
-            "description": "Key deleted successfully"
+            "description": "Lock deleted successfully"
           }
         },
         "security": [
@@ -6781,6 +7089,244 @@
         ]
       }
     },
+    "/v1/invitations/{InvitationId}": {
+      "delete": {
+        "tags": [
+          "modules/invitations"
+        ],
+        "operationId": "DebosModulesInvitationsInfrastructureEndpointsRevokeInvitationEndpoint",
+        "parameters": [
+          {
+            "name": "InvitationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "modules/invitations"
+        ],
+        "operationId": "DebosModulesInvitationsInfrastructureEndpointsCompleteInvitationEndpoint",
+        "parameters": [
+          {
+            "name": "InvitationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "CompleteInvitationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteInvitationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invitation"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/invitations/sent": {
+      "get": {
+        "tags": [
+          "modules/invitations"
+        ],
+        "operationId": "DebosModulesInvitationsInfrastructureEndpointsListSentInvitationsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "GroupId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "IncludeCompleted",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invitation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/invitations/received": {
+      "get": {
+        "tags": [
+          "modules/invitations"
+        ],
+        "operationId": "DebosModulesInvitationsInfrastructureEndpointsListPendingReceivedInvitationsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "GroupId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "IncludeCompleted",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Invitation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/invitations": {
+      "post": {
+        "tags": [
+          "modules/invitations"
+        ],
+        "operationId": "DebosModulesInvitationsInfrastructureEndpointsInviteUserEndpoint",
+        "requestBody": {
+          "x-name": "InviteUserRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteUserRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Invitation"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/spaces/{SpaceId}/modules/air-conditioning/thermostats/{ThermostatId}/state": {
       "get": {
         "tags": [
@@ -7202,6 +7748,571 @@
                 "schema": {
                   "$ref": "#/components/schemas/CreateLockerResponse"
                 }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{ProtectedSpaceId}/modules/ticketing/checkbooks/{CheckbookId}/tickets/redeemed": {
+      "post": {
+        "tags": [
+          "modules/ticketing"
+        ],
+        "operationId": "DebosModulesTicketingInfrastructureEndpointsRedeemTicketsEndpoint",
+        "parameters": [
+          {
+            "name": "ProtectedSpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CheckbookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "RedeemTicketsRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedeemTicketsRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Checkbook"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{ProtectedSpaceId}/modules/ticketing/checkbooks": {
+      "get": {
+        "tags": [
+          "modules/ticketing"
+        ],
+        "operationId": "DebosModulesTicketingInfrastructureEndpointsListCheckbooksEndpoint",
+        "parameters": [
+          {
+            "name": "ProtectedSpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "OwnerGroupId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Checkbook"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/ticketing"
+        ],
+        "operationId": "DebosModulesTicketingInfrastructureEndpointsAssignCheckbookEndpoint",
+        "parameters": [
+          {
+            "name": "ProtectedSpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AssignCheckbookRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignCheckbookRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Checkbook"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/ticketing": {
+      "post": {
+        "tags": [
+          "modules/ticketing"
+        ],
+        "operationId": "DebosModulesTicketingInfrastructureEndpointsEnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse3"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{ProtectedSpaceId}/modules/ticketing/checkbooks/{CheckbookId}/bundles": {
+      "post": {
+        "tags": [
+          "modules/ticketing"
+        ],
+        "operationId": "DebosModulesTicketingInfrastructureEndpointsAddBundleEndpoint",
+        "parameters": [
+          {
+            "name": "ProtectedSpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CheckbookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "AddBundleRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBundleRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Checkbook"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/devices/{DeviceId}/properties": {
+      "post": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterPropertyEndpoint",
+        "parameters": [
+          {
+            "name": "DeviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "RegisterProperty",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterProperty"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/integrations": {
+      "post": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterIntegrationEndpoint",
+        "requestBody": {
+          "x-name": "RegisterIntegration",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterIntegration"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Integration"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/devices": {
+      "post": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterDeviceEndpoint",
+        "requestBody": {
+          "x-name": "RegisterDevice",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDevice"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/devices/{DeviceId}/commands": {
+      "post": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterCommandEndpoint",
+        "parameters": [
+          {
+            "name": "DeviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "RegisterCommand",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/integrations/{IntegrationId}": {
+      "get": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsReadIntegrationEndpoint",
+        "parameters": [
+          {
+            "name": "IntegrationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Integration"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/devices/{DeviceId}": {
+      "get": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsReadDeviceEndpoint",
+        "parameters": [
+          {
+            "name": "DeviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/devices/{DeviceId}/commands/{CommandId}/executions": {
+      "post": {
+        "tags": [
+          "modules/devices"
+        ],
+        "operationId": "DebosModulesDevicesInfrastructureEndpointsExecuteCommandEndpoint",
+        "parameters": [
+          {
+            "name": "DeviceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CommandId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ExecuteCommand",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExecuteCommand"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
               }
             }
           }
@@ -7887,6 +8998,7 @@
           "BuildingPart",
           "Block",
           "Stairs",
+          "Elevator",
           "Gym"
         ],
         "enum": [
@@ -7907,6 +9019,7 @@
           "BuildingPart",
           "Block",
           "Stairs",
+          "Elevator",
           "Gym"
         ]
       },
@@ -8007,7 +9120,8 @@
           "Bookings",
           "Intercom",
           "AirConditioning",
-          "Locker"
+          "Locker",
+          "Ticketing"
         ],
         "enum": [
           "Invalid",
@@ -8017,7 +9131,8 @@
           "Bookings",
           "Intercom",
           "AirConditioning",
-          "Locker"
+          "Locker",
+          "Ticketing"
         ]
       },
       "ModuleStatusEnum": {
@@ -8287,7 +9402,7 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/SpaceType"
+            "$ref": "#/components/schemas/SpaceTypeEnum"
           },
           "favourite": {
             "type": "boolean"
@@ -8363,48 +9478,6 @@
             "nullable": true
           }
         }
-      },
-      "SpaceType": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Gym"
-        ],
-        "enum": [
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Gym"
-        ]
       },
       "ModuleDto": {
         "type": "object",
@@ -8616,7 +9689,7 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/SpaceType"
+            "$ref": "#/components/schemas/SpaceTypeEnum"
           },
           "favourite": {
             "type": "boolean"
@@ -11912,15 +12985,23 @@
             "type": "integer",
             "format": "int32"
           },
-          "maxActiveBookingsPeriodDays": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxActiveBookingsPeriodStart": {
+          "maxActiveBookingsPeriod": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/MaxActiveBookingsPeriodStartEnum"
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
+              }
+            ]
+          },
+          "maxActiveTimeSlotsPerUserOrGroup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveTimeSlotsPeriod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
               }
             ]
           },
@@ -11940,6 +13021,10 @@
             "type": "integer",
             "format": "int32"
           },
+          "maxExternalParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
           "participantsCanAutoEnroll": {
             "type": "boolean"
           },
@@ -11953,18 +13038,24 @@
           }
         }
       },
-      "MaxActiveBookingsPeriodStartEnum": {
+      "MaxActivePeriodEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
           "Invalid",
-          "Now",
-          "Booking"
+          "Day",
+          "Week",
+          "Month",
+          "Quarter",
+          "Year"
         ],
         "enum": [
           "Invalid",
-          "Now",
-          "Booking"
+          "Day",
+          "Week",
+          "Month",
+          "Quarter",
+          "Year"
         ]
       },
       "BookingTimeSlotDto": {
@@ -12223,6 +13314,10 @@
           },
           "currency": {
             "$ref": "#/components/schemas/CurrencyEnum"
+          },
+          "externalParticipants": {
+            "type": "integer",
+            "format": "int32"
           },
           "timeSlots": {
             "type": "array",
@@ -12558,6 +13653,61 @@
           "BookingAlreadyCanceled"
         ]
       },
+      "ErrorResponseOfEndpointErrorOfDeleteBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteBookingConfigurationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteBookingConfigurationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteBookingConfigurationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "BookingConfigurationNotFound",
+          "BookingConfigurationAlreadyDeleted"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "SpaceNotFound",
+          "BookingConfigurationNotFound",
+          "BookingConfigurationAlreadyDeleted"
+        ]
+      },
       "ErrorResponseOfEndpointErrorOfCreateBookingErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -12608,11 +13758,13 @@
           "SomeSlotsNotAvailable",
           "SlotsExceedMaxSlotsPerBooking",
           "UserHasTooManyActiveBookings",
+          "UserHasTooManyActiveTimeSlots",
           "SlotsAreNotInTheSameDay",
           "UserIsNotMemberOfAnyGroup",
           "SomeSlotsInThePast",
           "ParticipantsAutoEnrollIsNotPermitted",
-          "SlotAreNotContinuous"
+          "SlotAreNotContinuous",
+          "UserHasNotEnoughSeparationBetweenBookings"
         ],
         "enum": [
           "Unspecified",
@@ -12624,11 +13776,13 @@
           "SomeSlotsNotAvailable",
           "SlotsExceedMaxSlotsPerBooking",
           "UserHasTooManyActiveBookings",
+          "UserHasTooManyActiveTimeSlots",
           "SlotsAreNotInTheSameDay",
           "UserIsNotMemberOfAnyGroup",
           "SomeSlotsInThePast",
           "ParticipantsAutoEnrollIsNotPermitted",
-          "SlotAreNotContinuous"
+          "SlotAreNotContinuous",
+          "UserHasNotEnoughSeparationBetweenBookings"
         ]
       },
       "CreateBookingResponse": {
@@ -12667,6 +13821,11 @@
               "type": "string",
               "format": "guid"
             }
+          },
+          "externalParticipants": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0
           },
           "participantsCanAutoEnroll": {
             "type": "boolean"
@@ -12763,9 +13922,7 @@
         "additionalProperties": false,
         "required": [
           "timeSlotGenerators",
-          "allowedGroups",
-          "maxActiveBookingsPeriodStart",
-          "timeLimits"
+          "allowedGroups"
         ],
         "properties": {
           "name": {
@@ -12810,14 +13967,27 @@
             "minimum": 0.0,
             "exclusiveMinimum": true
           },
-          "maxActiveBookingsPeriodDays": {
+          "maxActiveBookingsPeriod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
+              }
+            ]
+          },
+          "maxActiveTimeSlotsPerUserOrGroup": {
             "type": "integer",
             "format": "int32",
-            "minimum": 0.0
+            "minimum": 0.0,
+            "exclusiveMinimum": true
           },
-          "maxActiveBookingsPeriodStart": {
-            "nullable": false,
-            "$ref": "#/components/schemas/MaxActiveBookingsPeriodStartEnum"
+          "maxActiveTimeSlotsPeriod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
+              }
+            ]
           },
           "maxTimeSlotsPerBooking": {
             "type": "integer",
@@ -12841,6 +14011,10 @@
             "format": "int32",
             "minimum": 1.0
           },
+          "maxExternalParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
           "participantsCanAutoEnroll": {
             "type": "boolean"
           },
@@ -12858,8 +14032,20 @@
             "type": "boolean"
           },
           "timeLimits": {
-            "nullable": false,
-            "$ref": "#/components/schemas/TimeLimitOptionsDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TimeLimitOptionsDto"
+              }
+            ]
+          },
+          "bookingsSeparation": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BookingsSeparationOptionsDto"
+              }
+            ]
           }
         }
       },
@@ -12913,6 +14099,34 @@
         "additionalProperties": false,
         "properties": {
           "hoursBookingIsPossible": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "alignToDayHourLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 24.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          },
+          "alignToDayMinutesLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          }
+        }
+      },
+      "BookingsSeparationOptionsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "minimumSeparationMinutes": {
             "type": "integer",
             "format": "int32",
             "minimum": 0.0,
@@ -14228,6 +15442,149 @@
           }
         }
       },
+      "ErrorResponseOfEndpointErrorOfUpdateAccessMeanErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateAccessMeanErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfUpdateAccessMeanErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateAccessMeanErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateAccessMeanErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "AccessMeanNotFound",
+          "PermissionServiceError",
+          "PermissionMissing"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter",
+          "AccessMeanNotFound",
+          "PermissionServiceError",
+          "PermissionMissing"
+        ]
+      },
+      "UpdateAccessMeanRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accessMeanId"
+        ],
+        "properties": {
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ErrorResponseOfEndpointErrorOfReSyncKeyErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfReSyncKeyErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfReSyncKeyErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ReSyncKeyErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ReSyncKeyErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessMeanDoesNotSupportAccessTechnology",
+          "AccessPointNotFound",
+          "SpaceNotFound",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "ApplicationNotFound",
+          "AccessMeanRequiredForAccessTechnology",
+          "AccessTechnologyNotSupported",
+          "UniqueConstraintViolation",
+          "AccessPointHasNoLock",
+          "AccessMeanNotAssociatedWithUser",
+          "LockDoesNotSupportAccessTechnology"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessMeanDoesNotSupportAccessTechnology",
+          "AccessPointNotFound",
+          "SpaceNotFound",
+          "UserNotFound",
+          "AccessMeanNotFound",
+          "ApplicationNotFound",
+          "AccessMeanRequiredForAccessTechnology",
+          "AccessTechnologyNotSupported",
+          "UniqueConstraintViolation",
+          "AccessPointHasNoLock",
+          "AccessMeanNotAssociatedWithUser",
+          "LockDoesNotSupportAccessTechnology"
+        ]
+      },
       "ErrorResponseOfEndpointErrorOfOpenAccessPointErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -14362,27 +15719,24 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessMeanDto"
+              "$ref": "#/components/schemas/AccessMeanDtoWithKeys"
             }
           }
         }
       },
-      "AccessMeanDto": {
+      "AccessMeanDtoWithKeys": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "type": {
-            "$ref": "#/components/schemas/AccessMeanTypeEnum"
-          },
           "accessTechnologies": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
+          },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
           },
           "serialNumber": {
             "type": "string",
@@ -14396,24 +15750,21 @@
           "allowKeyGeneration": {
             "type": "boolean",
             "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessMeanTypeEnum"
+          },
+          "accessKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessKeyLiteDto"
+            }
           }
         }
-      },
-      "AccessMeanTypeEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "MiFareClassicCard",
-          "BluetoothDongle",
-          "SmartPhone"
-        ],
-        "enum": [
-          "Invalid",
-          "MiFareClassicCard",
-          "BluetoothDongle",
-          "SmartPhone"
-        ]
       },
       "AccessTechnologyDto2": {
         "type": "object",
@@ -14448,104 +15799,23 @@
           "Internet"
         ]
       },
-      "ErrorResponseOfEndpointErrorOfGetAccessPointErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "operationId": {
-            "type": "string",
-            "nullable": true
-          },
-          "operationError": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/EndpointErrorOfGetAccessPointErrorCode"
-              }
-            ]
-          },
-          "requestFormatErrors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ValidationFailure"
-            }
-          }
-        }
-      },
-      "EndpointErrorOfGetAccessPointErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "errorCode": {
-            "$ref": "#/components/schemas/GetAccessPointErrorCode"
-          },
-          "errorMessage": {
-            "type": "string"
-          }
-        }
-      },
-      "GetAccessPointErrorCode": {
+      "AccessMeanTypeEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "Unspecified",
-          "DatabaseError",
-          "AccessPointNotFound",
-          "PermissionServiceError",
-          "InvalidParameter"
+          "Invalid",
+          "MiFareClassicCard",
+          "BluetoothDongle",
+          "SmartPhone"
         ],
         "enum": [
-          "Unspecified",
-          "DatabaseError",
-          "AccessPointNotFound",
-          "PermissionServiceError",
-          "InvalidParameter"
+          "Invalid",
+          "MiFareClassicCard",
+          "BluetoothDongle",
+          "SmartPhone"
         ]
       },
-      "GetAccessPointResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "lock": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LockDto"
-              }
-            ]
-          },
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "$ref": "#/components/schemas/AccessPointTypeEnum2"
-          },
-          "allowedAccessTechnologies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AccessTechnologyDto2"
-            }
-          },
-          "usableAccessTechnologies": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AccessTechnologyDto2"
-            }
-          },
-          "accessPermissions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AccessPermissionDto"
-            }
-          }
-        }
-      },
-      "LockDto": {
+      "AccessKeyLiteDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -14553,125 +15823,8 @@
             "type": "string",
             "format": "guid"
           },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "$ref": "#/components/schemas/LockTypeEnum"
-          },
-          "state": {
-            "$ref": "#/components/schemas/StateEnum"
-          },
-          "lastStateChangeUTC": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "ioTGatewayId": {
-            "type": "string",
-            "format": "guid"
-          }
-        }
-      },
-      "LockTypeEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Unknown",
-          "LegacyGatewayRelayLock",
-          "SABGatewayRelayLock"
-        ],
-        "enum": [
-          "Unknown",
-          "LegacyGatewayRelayLock",
-          "SABGatewayRelayLock"
-        ]
-      },
-      "StateEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Created",
-          "Configuring",
-          "Operational",
-          "Maintenance",
-          "Error",
-          "Offline"
-        ],
-        "enum": [
-          "Created",
-          "Configuring",
-          "Operational",
-          "Maintenance",
-          "Error",
-          "Offline"
-        ]
-      },
-      "AccessPointTypeEnum2": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "Door",
-          "Turnstile",
-          "Barrier",
-          "Elevator",
-          "Other"
-        ],
-        "enum": [
-          "Invalid",
-          "Door",
-          "Turnstile",
-          "Barrier",
-          "Elevator",
-          "Other"
-        ]
-      },
-      "AccessPermissionDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
           "accessTechnology": {
             "$ref": "#/components/schemas/AccessTechnologyDto2"
-          },
-          "permissionCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "permissionDetails": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PermissionDto"
-            }
-          },
-          "accessMeanWithKey": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AccessMeanWithKeyDto"
-            }
-          }
-        }
-      },
-      "PermissionDto": {
-        "type": "object",
-        "additionalProperties": false
-      },
-      "AccessMeanWithKeyDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "accessKeyId": {
-            "type": "string",
-            "format": "guid"
           },
           "syncStatus": {
             "$ref": "#/components/schemas/AccessKeySyncStatusEnum"
@@ -14685,7 +15838,7 @@
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/IoTPermissionLiteDto"
+              "$ref": "#/components/schemas/IoTPermissionDto"
             }
           }
         }
@@ -14706,7 +15859,7 @@
           "NotApplied"
         ]
       },
-      "IoTPermissionLiteDto": {
+      "IoTPermissionDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -14718,7 +15871,7 @@
             "$ref": "#/components/schemas/TimeRangeDto"
           },
           "syncStatus": {
-            "$ref": "#/components/schemas/IoTPermissionLiteDto_SyncStatusEnum"
+            "$ref": "#/components/schemas/IoTPermissionDto_SyncStatusEnum"
           },
           "lastSync": {
             "type": "string",
@@ -14787,19 +15940,280 @@
           "Sunday"
         ]
       },
-      "IoTPermissionLiteDto_SyncStatusEnum": {
+      "IoTPermissionDto_SyncStatusEnum": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "Applied",
-          "InProgress",
-          "Failed"
+          "Applied_Added",
+          "InTransit_Add",
+          "InTransit_Remove",
+          "Failed_Add",
+          "Failed_Remove"
         ],
         "enum": [
-          "Applied",
-          "InProgress",
-          "Failed"
+          "Applied_Added",
+          "InTransit_Add",
+          "InTransit_Remove",
+          "Failed_Add",
+          "Failed_Remove"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfGetAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfGetAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfGetAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/GetAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "GetAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
+      "GetAccessPointResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "lock": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockDtoWithKeys"
+              }
+            ]
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "ioTId": {
+            "type": "string"
+          },
+          "allowedAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
+            }
+          },
+          "usableAccessTechnologies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyDto2"
+            }
+          },
+          "accessTechnologiesWithPermission": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyWithPermissionDto"
+            }
+          }
+        }
+      },
+      "LockDtoWithKeys": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LockTypeEnum"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateEnum"
+          },
+          "lastStateChangeUTC": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ioTGatewayId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessKeyDto"
+            }
+          }
+        }
+      },
+      "LockTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unknown",
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
+        ],
+        "enum": [
+          "Unknown",
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
+        ]
+      },
+      "StateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
+        ],
+        "enum": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
+        ]
+      },
+      "AccessKeyDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "accessMeanId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accessMeanName": {
+            "type": "string",
+            "nullable": true
+          },
+          "accessMeanType": {
+            "$ref": "#/components/schemas/AccessMeanTypeEnum"
+          },
+          "accessKeyId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accessTechnology": {
+            "$ref": "#/components/schemas/AccessTechnologyDto2"
+          },
+          "syncStatus": {
+            "$ref": "#/components/schemas/AccessKeySyncStatusEnum"
+          },
+          "lastSync": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "ioTPermissions": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/IoTPermissionDto"
+            }
+          }
+        }
+      },
+      "AccessPointTypeEnum2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ],
+        "enum": [
+          "Invalid",
+          "Door",
+          "Turnstile",
+          "Barrier",
+          "Elevator",
+          "Other"
+        ]
+      },
+      "AccessTechnologyWithPermissionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AccessTechnologyTypeEnum2"
+          },
+          "implementation": {
+            "type": "string",
+            "nullable": true
+          },
+          "accessPermissionCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keyCreationAllowed": {
+            "type": "boolean"
+          },
+          "accessKeys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessKeyDto"
+            }
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfGetAccessPointsErrorCode": {
         "type": "object",
@@ -14861,12 +16275,12 @@
           "data": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AccessPointLiteDto2"
+              "$ref": "#/components/schemas/AccessPointDto"
             }
           }
         }
       },
-      "AccessPointLiteDto2": {
+      "AccessPointDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -14877,8 +16291,15 @@
           "name": {
             "type": "string"
           },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
           "type": {
             "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "ioTId": {
+            "type": "string"
           },
           "allowedAccessTechnologies": {
             "type": "array",
@@ -14891,6 +16312,14 @@
             "items": {
               "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
+          },
+          "lock": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockDtoWithKeys"
+              }
+            ]
           }
         }
       },
@@ -14957,6 +16386,10 @@
               "$ref": "#/components/schemas/AccessTechnologyDto2"
             }
           },
+          "friendlyName": {
+            "type": "string",
+            "nullable": true
+          },
           "serialNumber": {
             "type": "string",
             "nullable": true
@@ -14976,57 +16409,154 @@
           },
           "type": {
             "$ref": "#/components/schemas/AccessMeanTypeEnum"
-          }
-        }
-      },
-      "ErrorResponseOfEndpointErrorOfGetAccessKeysErrorCode": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "operationId": {
-            "type": "string",
-            "nullable": true
           },
-          "operationError": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/EndpointErrorOfGetAccessKeysErrorCode"
-              }
-            ]
-          },
-          "requestFormatErrors": {
+          "accessPoints": {
             "type": "array",
             "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/ValidationFailure"
+              "$ref": "#/components/schemas/AccessPointWithKeysAndSpaceDto"
             }
           }
         }
       },
-      "EndpointErrorOfGetAccessKeysErrorCode": {
+      "AccessPointWithKeysAndSpaceDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "errorCode": {
-            "$ref": "#/components/schemas/GetAccessKeysErrorCode"
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
           },
-          "errorMessage": {
+          "spaceType": {
+            "$ref": "#/components/schemas/SpaceTypeEnum2"
+          },
+          "spaceName": {
             "type": "string"
+          },
+          "spaceDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentSpaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "rootSpaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "path": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          "accessPointId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "accessPointName": {
+            "type": "string"
+          },
+          "accessPointDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "accessPointType": {
+            "$ref": "#/components/schemas/AccessPointTypeEnum2"
+          },
+          "lock": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LockDto"
+              }
+            ]
+          },
+          "accessTechnologyWithPermission": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccessTechnologyWithPermissionDto"
+            }
           }
         }
       },
-      "GetAccessKeysErrorCode": {
+      "SpaceTypeEnum2": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "Unspecified",
-          "DatabaseError"
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Elevator",
+          "Gym"
         ],
         "enum": [
-          "Unspecified",
-          "DatabaseError"
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Elevator",
+          "Gym"
         ]
+      },
+      "LockDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LockTypeEnum"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateEnum"
+          },
+          "lastStateChangeUTC": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ioTGatewayId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfGenerateKeyErrorCode": {
         "type": "object",
@@ -15110,34 +16640,9 @@
             "format": "guid"
           },
           "accessTechnology": {
-            "$ref": "#/components/schemas/AccessTechnologyWithKeyContentDto"
+            "$ref": "#/components/schemas/AccessTechnologyDto2"
           }
         }
-      },
-      "AccessTechnologyWithKeyContentDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/AccessTechnologyTypeEnum2"
-          },
-          "implementation": {
-            "type": "string",
-            "nullable": true
-          },
-          "keyContent": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/KeyContentDto"
-              }
-            ]
-          }
-        }
-      },
-      "KeyContentDto": {
-        "type": "object",
-        "additionalProperties": false
       },
       "GenerateKeyRequest": {
         "type": "object",
@@ -15197,6 +16702,89 @@
           "User",
           "Organization"
         ]
+      },
+      "ErrorResponseOfEndpointErrorOfDeleteLockErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteLockErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteLockErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteLockErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteLockErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist",
+          "LockTypeNotSupported",
+          "GatewayNotAssociatedToSpace",
+          "GatewayTypeError",
+          "GatewayAlreadyHasLock",
+          "ExternalBluetoothModuleNotLinkedToGateway"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ErrorGeneratingPermissions",
+          "SpaceNotFound",
+          "EntityAlreadyExists",
+          "GroupDoesNotExist",
+          "LockTypeNotSupported",
+          "GatewayNotAssociatedToSpace",
+          "GatewayTypeError",
+          "GatewayAlreadyHasLock",
+          "ExternalBluetoothModuleNotLinkedToGateway"
+        ]
+      },
+      "DeleteLockRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gatewayId",
+          "spaceId",
+          "accessPointId"
+        ],
+        "properties": {
+          "gatewayId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
       },
       "ErrorResponseOfEndpointErrorOfDeleteKeyErrorCode": {
         "type": "object",
@@ -16141,6 +17729,122 @@
           }
         }
       },
+      "Invitation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "invitationId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "hostId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "guestId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "guestEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "guestName": {
+            "type": "string",
+            "nullable": true
+          },
+          "currentStatus": {
+            "$ref": "#/components/schemas/Invitation_Status"
+          }
+        }
+      },
+      "Invitation_Status": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Sent",
+          "Accepted",
+          "Rejected"
+        ],
+        "enum": [
+          "Sent",
+          "Accepted",
+          "Rejected"
+        ]
+      },
+      "InviteUserRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "groupId",
+          "guestId",
+          "guestEmail"
+        ],
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "groupId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "guestId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "guestEmail": {
+            "type": "string",
+            "pattern": "^[^@]+@[^@]+$",
+            "nullable": false
+          },
+          "guestName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CompleteInvitationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "invitationId"
+        ],
+        "properties": {
+          "currentStatus": {
+            "$ref": "#/components/schemas/CompleteInvitationRequest_InvitationStatus"
+          }
+        }
+      },
+      "CompleteInvitationRequest_InvitationStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Accepted",
+          "Rejected"
+        ],
+        "enum": [
+          "Accepted",
+          "Rejected"
+        ]
+      },
       "ReadThermostatStateResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -16587,6 +18291,380 @@
           "installationId": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "Checkbook": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "checkbookId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "ownerGroupId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "protectedSpaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "totalQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "availableQuantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "redeemedTickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Ticket"
+            }
+          }
+        }
+      },
+      "Ticket": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "redeemedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "RedeemTicketsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protectedSpaceId",
+          "checkbookId",
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          }
+        }
+      },
+      "EnableModuleResponse3": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "AssignCheckbookRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ownerGroupId",
+          "protectedSpaceId",
+          "totalQuantity"
+        ],
+        "properties": {
+          "ownerGroupId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "totalQuantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        }
+      },
+      "AddBundleRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protectedSpaceId",
+          "checkbookId",
+          "quantity"
+        ],
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": false
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          }
+        }
+      },
+      "Device": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "integration": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "commands": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Command"
+            }
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Property"
+            }
+          }
+        }
+      },
+      "Command": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "arguments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CommandArgument"
+            }
+          }
+        }
+      },
+      "CommandArgument": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "Property": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ElementType"
+          },
+          "accessor": {
+            "$ref": "#/components/schemas/PropertyAccessor"
+          }
+        }
+      },
+      "ElementType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Boolean",
+          "String"
+        ],
+        "enum": [
+          "Boolean",
+          "String"
+        ]
+      },
+      "PropertyAccessor": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ReadOnly",
+          "WriteOnly",
+          "ReadWrite"
+        ],
+        "enum": [
+          "ReadOnly",
+          "WriteOnly",
+          "ReadWrite"
+        ]
+      },
+      "RegisterProperty": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deviceId",
+          "name",
+          "type",
+          "accessor"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false
+          },
+          "type": {
+            "nullable": false,
+            "$ref": "#/components/schemas/ElementType"
+          },
+          "accessor": {
+            "nullable": false,
+            "$ref": "#/components/schemas/PropertyAccessor"
+          }
+        }
+      },
+      "Integration": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "RegisterIntegration": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "type": {
+            "nullable": false,
+            "$ref": "#/components/schemas/RegisterIntegration_IntegrationType"
+          }
+        }
+      },
+      "RegisterIntegration_IntegrationType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Sab"
+        ],
+        "enum": [
+          "Sab"
+        ]
+      },
+      "RegisterDevice": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "integrationId",
+          "type"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "integrationId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "type": {
+            "nullable": false,
+            "$ref": "#/components/schemas/RegisterDevice_DeviceType"
+          }
+        }
+      },
+      "RegisterDevice_DeviceType": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Relay"
+        ],
+        "enum": [
+          "Relay"
+        ]
+      },
+      "RegisterCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "deviceId",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "arguments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RegisterCommand_Argument"
+            }
+          }
+        }
+      },
+      "RegisterCommand_Argument": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ElementType"
+          }
+        }
+      },
+      "ExecuteCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "arguments": {
+            "type": "object",
+            "additionalProperties": {}
           }
         }
       }
