@@ -11,6 +11,102 @@
     }
   ],
   "paths": {
+    "/v1/spaces/{SpaceId}/deep-information": {
+      "get": {
+        "tags": [
+          "spaces"
+        ],
+        "operationId": "DebosEndpointsFeaturesSpacesEndpointsGetSpaceDeepTreeEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "TypesToSelect",
+            "in": "query",
+            "schema": {
+              "title": "SpaceTypeEnum[]",
+              "type": "array",
+              "items": {
+                "$ref": "#/paths//v1/spaces/{SpaceId}/deep-information/get/parameters/1/schema/definitions/SpaceTypeEnum"
+              },
+              "definitions": {
+                "SpaceTypeEnum": {
+                  "type": "string",
+                  "description": "",
+                  "x-enumNames": [
+                    "Invalid",
+                    "Undefined",
+                    "SmartCommunity",
+                    "Building",
+                    "Floor",
+                    "Apartment",
+                    "SwimmingPool",
+                    "Tennis",
+                    "Padel",
+                    "Football",
+                    "Basketball",
+                    "ParkingSpace",
+                    "ParkingLot",
+                    "StorageRoom",
+                    "BuildingPart",
+                    "Block",
+                    "Stairs",
+                    "Elevator",
+                    "Gym"
+                  ],
+                  "enum": [
+                    "Invalid",
+                    "Undefined",
+                    "SmartCommunity",
+                    "Building",
+                    "Floor",
+                    "Apartment",
+                    "SwimmingPool",
+                    "Tennis",
+                    "Padel",
+                    "Football",
+                    "Basketball",
+                    "ParkingSpace",
+                    "ParkingLot",
+                    "StorageRoom",
+                    "BuildingPart",
+                    "Block",
+                    "Stairs",
+                    "Elevator",
+                    "Gym"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSpaceDeepTreeReponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/users/{id}": {
       "patch": {
         "tags": [
@@ -480,7 +576,9 @@
                 "Intercom",
                 "AirConditioning",
                 "Locker",
-                "Ticketing"
+                "Ticketing",
+                "Energy",
+                "Covers"
               ],
               "enum": [
                 "Invalid",
@@ -491,7 +589,9 @@
                 "Intercom",
                 "AirConditioning",
                 "Locker",
-                "Ticketing"
+                "Ticketing",
+                "Energy",
+                "Covers"
               ]
             }
           }
@@ -577,7 +677,9 @@
                 "Intercom",
                 "AirConditioning",
                 "Locker",
-                "Ticketing"
+                "Ticketing",
+                "Energy",
+                "Covers"
               ],
               "enum": [
                 "Invalid",
@@ -588,7 +690,9 @@
                 "Intercom",
                 "AirConditioning",
                 "Locker",
-                "Ticketing"
+                "Ticketing",
+                "Energy",
+                "Covers"
               ]
             }
           }
@@ -2374,6 +2478,61 @@
         ]
       }
     },
+    "/v1/iot/gateways/sab/{GatewayId}/operations/resend-last-operation": {
+      "post": {
+        "tags": [
+          "iot"
+        ],
+        "summary": "Resend last operation",
+        "description": "Resend last operation to the SAB gateway",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsResendLastOperationEndpoint",
+        "parameters": [
+          {
+            "name": "GatewayId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfResendLastOperationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Resent last operation to the SAB gateway successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/spaces/{SpaceId}/relays/{RelayId}/state": {
       "post": {
         "tags": [
@@ -2589,6 +2748,150 @@
           },
           "200": {
             "description": "SAB gateway updated successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/iot/gateways/admin-query": {
+      "get": {
+        "tags": [
+          "access"
+        ],
+        "summary": "Admin query of iot gateways",
+        "description": "Returns a list of iot gateways (sab, legacy, nukis, etc) according to the specified criteria.",
+        "operationId": "DebosCoreEndpointsFeaturesIoTEndpointsAdminQueryGatewaysEndpoint",
+        "parameters": [
+          {
+            "name": "AssignedSpaceId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "IoTGatewayTypeDto",
+            "in": "query",
+            "schema": {
+              "title": "IoTGatewayTypeDto",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Invalid",
+                "LegacyGateway",
+                "Shelly2PMGateway",
+                "SABGateway"
+              ],
+              "enum": [
+                "Invalid",
+                "LegacyGateway",
+                "Shelly2PMGateway",
+                "SABGateway"
+              ]
+            }
+          },
+          {
+            "name": "InUseInAccessPointId",
+            "in": "query",
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Connected",
+            "in": "query",
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "IncludeLocks",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            },
+            "default": false
+          },
+          {
+            "name": "Cursor",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "CursorDirection",
+            "in": "query",
+            "schema": {
+              "title": "CursorDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "After",
+                "Before"
+              ],
+              "enum": [
+                "After",
+                "Before"
+              ]
+            }
+          },
+          {
+            "name": "Limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Int32",
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfAdminQueryGatewaysErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "List of Gateways",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminQueryGatewaysResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -3660,6 +3963,227 @@
         }
       }
     },
+    "/v1/spaces/{SpaceId}/bookings/configurations/{BookingConfigurationId}": {
+      "patch": {
+        "tags": [
+          "spaces/bookings",
+          "bookings"
+        ],
+        "summary": "Updates a booking configuration",
+        "description": "Updates a booking configuration",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsUpdateBookingConfigurationEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "UpdateBookingConfigurationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookingConfigurationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfUpdateBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBookingConfigurationResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "spaces/bookings",
+          "bookings"
+        ],
+        "summary": "Returns a booking configuration",
+        "description": "Returns a booking configuration",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint2",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "A Booking configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBookingConfigurationErrorCode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces/bookings",
+          "bookings"
+        ],
+        "summary": "Delete booking configuration",
+        "description": "Deletes a booking configuration on the specified space",
+        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingConfigurationEndpoint1",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BookingConfigurationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingConfigurationErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Booking configuration deleted successfully"
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/bookings/time-slots": {
       "get": {
         "tags": [
@@ -3863,6 +4387,23 @@
               "type": "string",
               "format": "date"
             }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "schema": {
+              "title": "SortDirectionEnum",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "asc",
+                "desc"
+              ],
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            }
           }
         ],
         "responses": {
@@ -3971,143 +4512,6 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/spaces/{SpaceId}/bookings/configurations/{BookingConfigurationId}": {
-      "get": {
-        "tags": [
-          "spaces/bookings",
-          "bookings"
-        ],
-        "summary": "Returns a booking configuration",
-        "description": "Returns a booking configuration",
-        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsGetBookingConfigurationEndpoint2",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          {
-            "name": "BookingConfigurationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfGetBookingConfigurationErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "A Booking configuration",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetBookingConfigurationErrorCode"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": [
-          "spaces/bookings",
-          "bookings"
-        ],
-        "summary": "Delete booking configuration",
-        "description": "Deletes a booking configuration on the specified space",
-        "operationId": "DebosCoreEndpointsFeaturesBookingsEndpointsDeleteBookingConfigurationEndpoint1",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          {
-            "name": "BookingConfigurationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Bad Request. Either a validation or a general problem has occurred",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteBookingConfigurationErrorCode"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authenticated"
-          },
-          "403": {
-            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UnAuthorizedResponse"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Booking configuration deleted successfully"
           }
         },
         "security": [
@@ -5731,6 +6135,42 @@
         ]
       }
     },
+    "/v1/admin/messages": {
+      "post": {
+        "operationId": "DebosCoreEndpointsFeaturesAdminEndpointsSendMessageEndpoint",
+        "requestBody": {
+          "x-name": "SendMessageRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/access/access-means/{AccessMeanId}": {
       "patch": {
         "tags": [
@@ -6189,7 +6629,8 @@
             "schema": {
               "title": "Boolean",
               "type": "boolean"
-            }
+            },
+            "default": false
           }
         ],
         "responses": {
@@ -6225,6 +6666,69 @@
                 }
               }
             }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "spaces/access"
+        ],
+        "summary": "Delete Access point",
+        "description": "Delete an access point",
+        "operationId": "DebosCoreEndpointsFeaturesAccessEndpointsDeleteAccessPointEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "AccessPointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Bad Request. Either a validation or a general problem has occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseOfEndpointErrorOfDeleteAccessPointErrorCode"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authenticated"
+          },
+          "403": {
+            "description": "Not authorized. The user doesn't have the required permissions for the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnAuthorizedResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Access point deleted successfully"
           }
         },
         "security": [
@@ -6844,7 +7348,8 @@
             "schema": {
               "title": "Boolean",
               "type": "boolean"
-            }
+            },
+            "default": true
           },
           {
             "name": "AssignedUserId",
@@ -7078,6 +7583,144 @@
                 "schema": {
                   "$ref": "#/components/schemas/CreateBluetoothDonglesResponse"
                 }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/permissions/v1/permissions": {
+      "get": {
+        "tags": [
+          "modules/permissions"
+        ],
+        "operationId": "DebosModulesPermissionsInfrastructureEndpointsReadPermissionsEndpoint",
+        "parameters": [
+          {
+            "name": "ContextType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Context",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ResourceType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "GranteeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "AppId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "ActionObject",
+            "in": "query",
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "IsEffectiveNow",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Boolean",
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Permission"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/permissions"
+        ],
+        "operationId": "DebosModulesPermissionsInfrastructureEndpointsAssignPermissionsEndpoint",
+        "requestBody": {
+          "x-name": "AssignPermissionRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignPermissionRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
               }
             }
           }
@@ -7327,12 +7970,617 @@
         ]
       }
     },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/sensors/{SensorId}/sharedwith": {
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ShareSensorEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SensorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ShareSensorRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareSensorRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {}
+              },
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/thermostats/{ThermostatId}": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ReadThermostatEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ThermostatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thermostat"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/thermostats/{ThermostatId}/state": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ReadThermostatStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ThermostatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SetpointTemperature",
+            "in": "query",
+            "schema": {
+              "title": "Temperature",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "value": {
+                  "type": "number",
+                  "format": "decimal"
+                },
+                "units": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "name": "PowerMode",
+            "in": "query",
+            "schema": {
+              "title": "PowerMode",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "On",
+                "Off"
+              ],
+              "enum": [
+                "On",
+                "Off"
+              ]
+            }
+          },
+          {
+            "name": "ThermostatMode",
+            "in": "query",
+            "schema": {
+              "title": "ThermostatMode",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Stop",
+                "Auto",
+                "Cooling",
+                "Heating",
+                "Ventilation",
+                "Dehumidifier"
+              ],
+              "enum": [
+                "Stop",
+                "Auto",
+                "Cooling",
+                "Heating",
+                "Ventilation",
+                "Dehumidifier"
+              ]
+            }
+          },
+          {
+            "name": "FanSpeed",
+            "in": "query",
+            "schema": {
+              "title": "FanSpeed",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Auto",
+                "Lowest",
+                "Low",
+                "Medium",
+                "Higher",
+                "Highest"
+              ],
+              "enum": [
+                "Auto",
+                "Lowest",
+                "Low",
+                "Medium",
+                "Higher",
+                "Highest"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThermostatState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ChangeThermostatStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "ThermostatId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeThermostatStateRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeThermostatStateRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThermostatState"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/sensors/{SensorId}": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ReadSensorEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SensorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sensor"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/sensors/{SensorId}/temperature": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ReadSensorTemperatureEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "SensorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Temperature"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/thermostats": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ListThermostatsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Thermostat"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2InstallThermostatEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "InstallThermostatRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallThermostatRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Thermostat"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2/sensors": {
+      "get": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2ListSensorsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sensor"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2InstallSensorEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "InstallSensorRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallSensorRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sensor"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/air-conditioning/v2": {
+      "post": {
+        "tags": [
+          "modules/air-conditioning"
+        ],
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV2EnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
     "/v1/spaces/{SpaceId}/modules/air-conditioning/thermostats/{ThermostatId}/state": {
       "get": {
         "tags": [
           "modules/air-conditioning"
         ],
-        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsReadThermostatStateEndpoint",
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV1ReadThermostatStateEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -7377,7 +8625,7 @@
         "tags": [
           "modules/air-conditioning"
         ],
-        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsChangeThermostatStateEndpoint",
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV1ChangeThermostatStateEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -7406,7 +8654,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ChangeThermostatStateRequest"
+                "$ref": "#/components/schemas/ChangeThermostatStateRequest2"
               }
             }
           },
@@ -7437,7 +8685,7 @@
         "tags": [
           "modules/air-conditioning"
         ],
-        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsListThermostatsEndpoint",
+        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsV1ListThermostatsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -7467,152 +8715,6 @@
             "JWTBearerAuth": []
           }
         ]
-      },
-      "post": {
-        "tags": [
-          "modules/air-conditioning"
-        ],
-        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsInstallThermostatEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "requestBody": {
-          "x-name": "InstallThermostatRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InstallThermostatRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InstallThermostatResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/spaces/{SpaceId}/modules/air-conditioning": {
-      "post": {
-        "tags": [
-          "modules/air-conditioning"
-        ],
-        "operationId": "DebosModulesAirConditioningInfrastructureEndpointsEnableModuleEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EnableModuleResponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/spaces/{SpaceId}/modules/lockers/{LockerId}/synchronize-spaces": {
-      "post": {
-        "tags": [
-          "modules/lockers"
-        ],
-        "operationId": "DebosModulesLockersInfrastructureEndpointsSynchronizeSpaceWithExternalIdEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          {
-            "name": "LockerId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "requestBody": {
-          "x-name": "SinchronizeSpaceAndExternalId",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SinchronizeSpaceAndExternalId"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {}
-              },
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
       }
     },
     "/v1/integrations/lockers/receive-package": {
@@ -7620,7 +8722,7 @@
         "tags": [
           "modules/lockers"
         ],
-        "operationId": "DebosModulesLockersInfrastructureEndpointsReceiveDeliveryEndpoint",
+        "operationId": "DebosModulesLockersInfrastructureEndpointsUpdatePackageEndpoint",
         "responses": {
           "200": {
             "description": "Success",
@@ -7636,12 +8738,166 @@
         }
       }
     },
-    "/v1/spaces/{SpaceId}/modules/lockers": {
+    "/v1/spaces/{SpaceId}/modules/lockers/cabinets/{CabinetId}/boxes": {
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsRegisterBoxEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CabinetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "RegisterBoxRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterBoxRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Box"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/cabinets/{CabinetId}": {
       "get": {
         "tags": [
           "modules/lockers"
         ],
-        "operationId": "DebosModulesLockersInfrastructureEndpointsGetLockerEndpoint",
+        "operationId": "DebosModulesLockersInfrastructureEndpointsReadCabinetEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CabinetId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cabinet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/boxes/{BoxId}": {
+      "get": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsReadBoxEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BoxId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Box"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/cabinets": {
+      "get": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsListCabinetsEndpoint",
         "parameters": [
           {
             "name": "SpaceId",
@@ -7658,11 +8914,13 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {}
-              },
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cabinet"
+                  }
+                }
               }
             }
           }
@@ -7673,6 +8931,96 @@
           }
         ]
       },
+      "post": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsInstallCabinetEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "InstallCabinetRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallCabinetRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cabinet"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers/boxes": {
+      "get": {
+        "tags": [
+          "modules/lockers"
+        ],
+        "operationId": "DebosModulesLockersInfrastructureEndpointsListBoxesEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Box"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/lockers": {
       "post": {
         "tags": [
           "modules/lockers"
@@ -7696,57 +9044,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnableModuleResponse2"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/spaces/{SpaceId}/modules/lockers/installation": {
-      "post": {
-        "tags": [
-          "modules/lockers"
-        ],
-        "operationId": "DebosModulesLockersInfrastructureEndpointsCreateLockerEndpoint",
-        "parameters": [
-          {
-            "name": "SpaceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "requestBody": {
-          "x-name": "CreateLockerRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateLockerRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateLockerResponse"
+                  "$ref": "#/components/schemas/Response"
                 }
               }
             }
@@ -7940,7 +9238,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/EnableModuleResponse3"
+                  "$ref": "#/components/schemas/EnableModuleResponse2"
                 }
               }
             }
@@ -8013,15 +9311,15 @@
         ]
       }
     },
-    "/v1/iot/devices/{DeviceId}/properties": {
-      "post": {
+    "/v1/spaces/{SpaceId}/modules/energy/circuits/{CircuitId}/breaker": {
+      "patch": {
         "tags": [
-          "modules/devices"
+          "modules/energy"
         ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterPropertyEndpoint",
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsSwitchBreakerEndpoint",
         "parameters": [
           {
-            "name": "DeviceId",
+            "name": "SpaceId",
             "in": "path",
             "required": true,
             "schema": {
@@ -8029,125 +9327,9 @@
               "type": "string",
               "format": "guid"
             }
-          }
-        ],
-        "requestBody": {
-          "x-name": "RegisterProperty",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterProperty"
-              }
-            }
           },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Device"
-                }
-              }
-            }
-          }
-        },
-        "security": [
           {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/iot/integrations": {
-      "post": {
-        "tags": [
-          "modules/devices"
-        ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterIntegrationEndpoint",
-        "requestBody": {
-          "x-name": "RegisterIntegration",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterIntegration"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Integration"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/iot/devices": {
-      "post": {
-        "tags": [
-          "modules/devices"
-        ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterDeviceEndpoint",
-        "requestBody": {
-          "x-name": "RegisterDevice",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterDevice"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Device"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/iot/devices/{DeviceId}/commands": {
-      "post": {
-        "tags": [
-          "modules/devices"
-        ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsRegisterCommandEndpoint",
-        "parameters": [
-          {
-            "name": "DeviceId",
+            "name": "CircuitId",
             "in": "path",
             "required": true,
             "schema": {
@@ -8155,15 +9337,25 @@
               "type": "string",
               "format": "guid"
             }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "ConcurrencyToken",
+              "type": "object",
+              "additionalProperties": false
+            }
           }
         ],
         "requestBody": {
-          "x-name": "RegisterCommand",
+          "x-name": "SwitchBreakerRequest",
           "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterCommand"
+                "$ref": "#/components/schemas/SwitchBreakerRequest"
               }
             }
           },
@@ -8176,7 +9368,75 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Device"
+                  "$ref": "#/components/schemas/Circuit_CircuitBreaker"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsChangeBreakerEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CircuitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "title": "ConcurrencyToken",
+              "type": "object",
+              "additionalProperties": false
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeBreakerRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeBreakerRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Circuit_CircuitBreaker"
                 }
               }
             }
@@ -8189,89 +9449,15 @@
         ]
       }
     },
-    "/v1/iot/integrations/{IntegrationId}": {
+    "/v1/spaces/{SpaceId}/modules/energy/circuits/{CircuitId}/meter/measurements": {
       "get": {
         "tags": [
-          "modules/devices"
+          "modules/energy"
         ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsReadIntegrationEndpoint",
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsReadMeasurementsEndpoint",
         "parameters": [
           {
-            "name": "IntegrationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Integration"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/iot/devices/{DeviceId}": {
-      "get": {
-        "tags": [
-          "modules/devices"
-        ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsReadDeviceEndpoint",
-        "parameters": [
-          {
-            "name": "DeviceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "title": "Guid",
-              "type": "string",
-              "format": "guid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Device"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "JWTBearerAuth": []
-          }
-        ]
-      }
-    },
-    "/v1/iot/devices/{DeviceId}/commands/{CommandId}/executions": {
-      "post": {
-        "tags": [
-          "modules/devices"
-        ],
-        "operationId": "DebosModulesDevicesInfrastructureEndpointsExecuteCommandEndpoint",
-        "parameters": [
-          {
-            "name": "DeviceId",
+            "name": "SpaceId",
             "in": "path",
             "required": true,
             "schema": {
@@ -8281,7 +9467,205 @@
             }
           },
           {
-            "name": "CommandId",
+            "name": "CircuitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "Granularity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "Granularity",
+              "type": "string",
+              "description": "",
+              "x-enumNames": [
+                "Hour",
+                "Day",
+                "Month"
+              ],
+              "enum": [
+                "Hour",
+                "Day",
+                "Month"
+              ]
+            }
+          },
+          {
+            "name": "StartDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "EndDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Time-Zone",
+            "in": "header",
+            "schema": {
+              "title": "TimeZoneInfo",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Id": {
+                  "type": "string"
+                },
+                "HasIanaId": {
+                  "type": "boolean"
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "StandardName": {
+                  "type": "string"
+                },
+                "DaylightName": {
+                  "type": "string"
+                },
+                "BaseUtcOffset": {
+                  "type": "string",
+                  "format": "duration"
+                },
+                "SupportsDaylightSavingTime": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Circuit_CircuitMeasurement"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy/circuits/{CircuitId}": {
+      "get": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsReadCircuitEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "CircuitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Circuit"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy/circuits": {
+      "get": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsListCircuitsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Circuit"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsInstallCircuitEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
             "in": "path",
             "required": true,
             "schema": {
@@ -8292,12 +9676,12 @@
           }
         ],
         "requestBody": {
-          "x-name": "ExecuteCommand",
+          "x-name": "InstallCircuitRequest",
           "description": "",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExecuteCommand"
+                "$ref": "#/components/schemas/InstallCircuitRequest"
               }
             }
           },
@@ -8308,11 +9692,532 @@
           "200": {
             "description": "Success",
             "content": {
-              "text/plain": {
-                "schema": {}
-              },
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/Circuit"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy": {
+      "post": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsEnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse3"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy/meter/{MeterId}/state": {
+      "get": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsReadStateEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "MeterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "StartDay",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "EndDay",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Granularity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Time-Zone",
+            "in": "header",
+            "schema": {
+              "title": "TimeZoneInfo",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Id": {
+                  "type": "string"
+                },
+                "HasIanaId": {
+                  "type": "boolean"
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "StandardName": {
+                  "type": "string"
+                },
+                "DaylightName": {
+                  "type": "string"
+                },
+                "BaseUtcOffset": {
+                  "type": "string",
+                  "format": "duration"
+                },
+                "SupportsDaylightSavingTime": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterStateResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy/meters/{MeterId}/state": {
+      "get": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsReadStateV2Endpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "MeterId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "StartDay",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "EndDay",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "DateOnly",
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "Granularity",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "title": "String",
+              "type": "string"
+            }
+          },
+          {
+            "name": "Time-Zone",
+            "in": "header",
+            "schema": {
+              "title": "TimeZoneInfo",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "Id": {
+                  "type": "string"
+                },
+                "HasIanaId": {
+                  "type": "boolean"
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "StandardName": {
+                  "type": "string"
+                },
+                "DaylightName": {
+                  "type": "string"
+                },
+                "BaseUtcOffset": {
+                  "type": "string",
+                  "format": "duration"
+                },
+                "SupportsDaylightSavingTime": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeterStateResponse2"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/energy/meters": {
+      "get": {
+        "tags": [
+          "modules/energy"
+        ],
+        "operationId": "DebosModulesEnergyInfrastructureEndpointsListMetersEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMetersResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/covers/blinds/{BlindId}": {
+      "get": {
+        "tags": [
+          "modules/covers"
+        ],
+        "operationId": "DebosModulesCoversInfrastructureEndpointsReadBlindEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BlindId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blind"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "modules/covers"
+        ],
+        "operationId": "DebosModulesCoversInfrastructureEndpointsChangeBlindEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          },
+          {
+            "name": "BlindId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "ChangeBlindRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeBlindRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blind"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/covers/blinds": {
+      "get": {
+        "tags": [
+          "modules/covers"
+        ],
+        "operationId": "DebosModulesCoversInfrastructureEndpointsListBlindsEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Blind"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "modules/covers"
+        ],
+        "operationId": "DebosModulesCoversInfrastructureEndpointsInstallBlindEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "requestBody": {
+          "x-name": "InstallBlindRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstallBlindRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blind"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "JWTBearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces/{SpaceId}/modules/covers": {
+      "post": {
+        "tags": [
+          "modules/covers"
+        ],
+        "operationId": "DebosModulesCoversInfrastructureEndpointsEnableModuleEndpoint",
+        "parameters": [
+          {
+            "name": "SpaceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "title": "Guid",
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnableModuleResponse4"
+                }
               }
             }
           }
@@ -8327,6 +10232,99 @@
   },
   "components": {
     "schemas": {
+      "GetSpaceDeepTreeReponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/SpaceTypeEnum"
+          },
+          "description": {
+            "type": "string"
+          },
+          "innerSpaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetSpaceDeepTreeReponse"
+            }
+          },
+          "secutiryGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SecurityGroup"
+            }
+          }
+        }
+      },
+      "SpaceTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Elevator",
+          "Gym"
+        ],
+        "enum": [
+          "Invalid",
+          "Undefined",
+          "SmartCommunity",
+          "Building",
+          "Floor",
+          "Apartment",
+          "SwimmingPool",
+          "Tennis",
+          "Padel",
+          "Football",
+          "Basketball",
+          "ParkingSpace",
+          "ParkingLot",
+          "StorageRoom",
+          "BuildingPart",
+          "Block",
+          "Stairs",
+          "Elevator",
+          "Gym"
+        ]
+      },
+      "SecurityGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfUpdateUserErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -8977,52 +10975,6 @@
           }
         }
       },
-      "SpaceTypeEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Elevator",
-          "Gym"
-        ],
-        "enum": [
-          "Invalid",
-          "Undefined",
-          "SmartCommunity",
-          "Building",
-          "Floor",
-          "Apartment",
-          "SwimmingPool",
-          "Tennis",
-          "Padel",
-          "Football",
-          "Basketball",
-          "ParkingSpace",
-          "ParkingLot",
-          "StorageRoom",
-          "BuildingPart",
-          "Block",
-          "Stairs",
-          "Elevator",
-          "Gym"
-        ]
-      },
       "AddressDto": {
         "type": "object",
         "additionalProperties": false,
@@ -9121,7 +11073,9 @@
           "Intercom",
           "AirConditioning",
           "Locker",
-          "Ticketing"
+          "Ticketing",
+          "Energy",
+          "Covers"
         ],
         "enum": [
           "Invalid",
@@ -9132,7 +11086,9 @@
           "Intercom",
           "AirConditioning",
           "Locker",
-          "Ticketing"
+          "Ticketing",
+          "Energy",
+          "Covers"
         ]
       },
       "ModuleStatusEnum": {
@@ -10057,15 +12013,7 @@
               "format": "guid"
             }
           },
-          "parentsOfGuestsGroup": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "string",
-              "format": "guid"
-            }
-          },
-          "parentsOfOnlyViewGroup": {
+          "membersOfAdminsGroup": {
             "type": "array",
             "nullable": true,
             "items": {
@@ -11238,6 +13186,61 @@
           }
         }
       },
+      "ErrorResponseOfEndpointErrorOfResendLastOperationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfResendLastOperationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfResendLastOperationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/ResendLastOperationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "ResendLastOperationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "GatewayAlreadyHasExternalBluetoothModuleAssociated",
+          "GatewayNotFound",
+          "GatewayNotSAB"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "GatewayAlreadyHasExternalBluetoothModuleAssociated",
+          "GatewayNotFound",
+          "GatewayNotSAB"
+        ]
+      },
       "ErrorResponseOfEndpointErrorOfChangeRelayStateErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -11548,6 +13551,231 @@
           "UART_2"
         ]
       },
+      "ErrorResponseOfEndpointErrorOfAdminQueryGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfAdminQueryGatewaysErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfAdminQueryGatewaysErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/AdminQueryGatewaysErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "AdminQueryGatewaysErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "InvalidParameter"
+        ]
+      },
+      "AdminQueryGatewaysResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IoTGatewayDtoBase"
+            }
+          },
+          "cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "IoTGatewayDtoBase": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "connectedLastStatus": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "locksWithAccessPointDto": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LockWithAccessPointDto"
+            }
+          }
+        }
+      },
+      "LockWithAccessPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "type": {
+            "$ref": "#/components/schemas/LockTypeEnum"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateEnum"
+          },
+          "lastStateChangeUTC": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ioTGatewayId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "disabled": {
+            "type": "boolean"
+          },
+          "accessPoint": {
+            "$ref": "#/components/schemas/LockWithAccessPointDto_AccessPointDto"
+          }
+        }
+      },
+      "LockTypeEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unknown",
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
+        ],
+        "enum": [
+          "Unknown",
+          "LegacyGatewayRelayLock",
+          "SABGatewayRelayLock"
+        ]
+      },
+      "StateEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
+        ],
+        "enum": [
+          "Created",
+          "Configuring",
+          "Operational",
+          "Maintenance",
+          "Error",
+          "Offline"
+        ]
+      },
+      "LockWithAccessPointDto_AccessPointDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "space": {
+            "$ref": "#/components/schemas/LockWithAccessPointDto_AccessPointDto_SpaceDto"
+          }
+        }
+      },
+      "LockWithAccessPointDto_AccessPointDto_SpaceDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfCreateSABGatewaysErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -11572,6 +13800,22 @@
             }
           }
         }
+      },
+      "IoTGatewayTypeDto": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "LegacyGateway",
+          "Shelly2PMGateway",
+          "SABGateway"
+        ],
+        "enum": [
+          "Invalid",
+          "LegacyGateway",
+          "Shelly2PMGateway",
+          "SABGateway"
+        ]
       },
       "EndpointErrorOfCreateSABGatewaysErrorCode": {
         "type": "object",
@@ -11638,9 +13882,51 @@
             "type": "string",
             "format": "guid"
           },
+          "name": {
+            "type": "string"
+          },
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "serialNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "fwVersionMajor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVersionMinor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwCompilation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fwVariant": {
+            "type": "string",
+            "nullable": true
+          },
+          "connected": {
+            "type": "boolean"
+          },
+          "connectedLastStatus": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": true
+          },
+          "locksWithAccessPointDto": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/LockWithAccessPointDto"
+            }
           },
           "ioTThingName": {
             "type": "string"
@@ -12642,12 +14928,14 @@
         "x-enumNames": [
           "Unspecified",
           "DatabaseError",
-          "ErrorGeneratingPermissions"
+          "ErrorGeneratingPermissions",
+          "GroupNotFound"
         ],
         "enum": [
           "Unspecified",
           "DatabaseError",
-          "ErrorGeneratingPermissions"
+          "ErrorGeneratingPermissions",
+          "GroupNotFound"
         ]
       },
       "CreateGroupResponse": {
@@ -12693,6 +14981,14 @@
             "type": "string",
             "format": "guid",
             "nullable": true
+          },
+          "parentsOfGroup": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string",
+              "format": "guid"
+            }
           }
         }
       },
@@ -12882,6 +15178,434 @@
           }
         }
       },
+      "ErrorResponseOfEndpointErrorOfUpdateBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfUpdateBookingConfigurationErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfUpdateBookingConfigurationErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/UpdateBookingConfigurationErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateBookingConfigurationErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "ConfigurationOverlapsWithAnother",
+          "TimeSlotsOverlapWithAnother",
+          "ParticipantsExceedsSpaceCapacity",
+          "PeopleCapacityNotDefinedInSpace"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "ConfigurationOverlapsWithAnother",
+          "TimeSlotsOverlapWithAnother",
+          "ParticipantsExceedsSpaceCapacity",
+          "PeopleCapacityNotDefinedInSpace"
+        ]
+      },
+      "UpdateBookingConfigurationResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "allowedGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDtoLite4"
+            }
+          },
+          "timeSlots": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotForConfigurationDto"
+            }
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "bookingIsByGroup": {
+            "type": "boolean"
+          },
+          "maxActiveBookingsPerUserOrGroup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveBookingsPeriod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
+              }
+            ]
+          },
+          "maxActiveTimeSlotsPerUserOrGroup": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxActiveTimeSlotsPeriod": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MaxActivePeriodEnum"
+              }
+            ]
+          },
+          "maxTimeSlotsPerBooking": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxBookingsPerSlot": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxExternalParticipants": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "participantsCanAutoEnroll": {
+            "type": "boolean"
+          },
+          "minCancellationTimeInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "leewayMinutesToAccess": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "generatePermissionAccess": {
+            "type": "boolean"
+          },
+          "generatedTimeSlotsEndDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "timeLimits": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TimeLimitOptionsDto"
+              }
+            ]
+          },
+          "bookingsSeparation": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BookingsSeparationOptionsDto"
+              }
+            ]
+          }
+        }
+      },
+      "GroupDtoLite4": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "associatedSpaceName": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "BookingTimeSlotForConfigurationDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "durationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          }
+        }
+      },
+      "CurrencyEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "EUR",
+          "USD",
+          "GBP"
+        ],
+        "enum": [
+          "Invalid",
+          "EUR",
+          "USD",
+          "GBP"
+        ]
+      },
+      "DayOfWeek": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ],
+        "enum": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday"
+        ]
+      },
+      "MaxActivePeriodEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Invalid",
+          "Day",
+          "Week",
+          "Month",
+          "Quarter",
+          "Year"
+        ],
+        "enum": [
+          "Invalid",
+          "Day",
+          "Week",
+          "Month",
+          "Quarter",
+          "Year"
+        ]
+      },
+      "TimeLimitOptionsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "hoursBookingIsPossible": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "alignToDayHourLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 24.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          },
+          "alignToDayMinutesLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          }
+        }
+      },
+      "BookingsSeparationOptionsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "minimumSeparationMinutes": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0.0,
+            "exclusiveMinimum": true
+          },
+          "alignToDayHourLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 24.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          },
+          "alignToDayMinutesLocal": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "nullable": true,
+            "exclusiveMaximum": true
+          }
+        }
+      },
+      "UpdateBookingConfigurationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "timeSlotGenerators"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "timeSlotGenerators": {
+            "type": "array",
+            "minLength": 1,
+            "nullable": false,
+            "items": {
+              "$ref": "#/components/schemas/BookingTimeSlotGeneratorDto"
+            }
+          },
+          "autoGenerateTimeSlots": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "BookingTimeSlotGeneratorDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endTimeHour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "endTimeMinute": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "slotDurationInMinutes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "currency": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyEnum"
+              }
+            ]
+          },
+          "daysOfWeek": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayOfWeek"
+            }
+          }
+        }
+      },
       "ErrorResponseOfEndpointErrorOfGetTimeSlotsErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -13038,26 +15762,6 @@
           }
         }
       },
-      "MaxActivePeriodEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "Day",
-          "Week",
-          "Month",
-          "Quarter",
-          "Year"
-        ],
-        "enum": [
-          "Invalid",
-          "Day",
-          "Week",
-          "Month",
-          "Quarter",
-          "Year"
-        ]
-      },
       "BookingTimeSlotDto": {
         "type": "object",
         "additionalProperties": false,
@@ -13118,44 +15822,6 @@
             "nullable": true
           }
         }
-      },
-      "CurrencyEnum": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Invalid",
-          "EUR",
-          "USD",
-          "GBP"
-        ],
-        "enum": [
-          "Invalid",
-          "EUR",
-          "USD",
-          "GBP"
-        ]
-      },
-      "DayOfWeek": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "enum": [
-          "Sunday",
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ]
       },
       "BookingLiteDto": {
         "type": "object",
@@ -13439,6 +16105,18 @@
             }
           }
         }
+      },
+      "SortDirectionEnum": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "asc",
+          "desc"
+        ],
+        "enum": [
+          "asc",
+          "desc"
+        ]
       },
       "EndpointErrorOfGetBookingConfigurationErrorCode": {
         "type": "object",
@@ -14046,107 +16724,10 @@
                 "$ref": "#/components/schemas/BookingsSeparationOptionsDto"
               }
             ]
-          }
-        }
-      },
-      "BookingTimeSlotGeneratorDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "startTimeHour": {
-            "type": "integer",
-            "format": "int32"
           },
-          "startTimeMinute": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endTimeHour": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "endTimeMinute": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "slotDurationInMinutes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price": {
-            "type": "number",
-            "format": "float",
-            "nullable": true
-          },
-          "currency": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/CurrencyEnum"
-              }
-            ]
-          },
-          "daysOfWeek": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DayOfWeek"
-            }
-          }
-        }
-      },
-      "TimeLimitOptionsDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "hoursBookingIsPossible": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0.0,
-            "exclusiveMinimum": true
-          },
-          "alignToDayHourLocal": {
-            "type": "integer",
-            "format": "int32",
-            "maximum": 24.0,
-            "minimum": 0.0,
-            "nullable": true,
-            "exclusiveMaximum": true
-          },
-          "alignToDayMinutesLocal": {
-            "type": "integer",
-            "format": "int32",
-            "maximum": 60.0,
-            "minimum": 0.0,
-            "nullable": true,
-            "exclusiveMaximum": true
-          }
-        }
-      },
-      "BookingsSeparationOptionsDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "minimumSeparationMinutes": {
-            "type": "integer",
-            "format": "int32",
-            "minimum": 0.0,
-            "exclusiveMinimum": true
-          },
-          "alignToDayHourLocal": {
-            "type": "integer",
-            "format": "int32",
-            "maximum": 24.0,
-            "minimum": 0.0,
-            "nullable": true,
-            "exclusiveMaximum": true
-          },
-          "alignToDayMinutesLocal": {
-            "type": "integer",
-            "format": "int32",
-            "maximum": 60.0,
-            "minimum": 0.0,
-            "nullable": true,
-            "exclusiveMaximum": true
+          "autoGenerateTimeSlots": {
+            "type": "boolean",
+            "default": true
           }
         }
       },
@@ -14773,8 +17354,7 @@
         "additionalProperties": false,
         "required": [
           "applicationType",
-          "email",
-          "password"
+          "email"
         ],
         "properties": {
           "email": {
@@ -14783,9 +17363,7 @@
             "nullable": false
           },
           "password": {
-            "type": "string",
-            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,128}$",
-            "nullable": false
+            "type": "string"
           }
         }
       },
@@ -15036,12 +17614,14 @@
         "x-enumNames": [
           "Unspecified",
           "UserNotFound",
-          "InvalidParameter"
+          "InvalidParameter",
+          "UserNotConfirmed"
         ],
         "enum": [
           "Unspecified",
           "UserNotFound",
-          "InvalidParameter"
+          "InvalidParameter",
+          "UserNotConfirmed"
         ]
       },
       "ForgotPasswordRequest": {
@@ -15440,6 +18020,19 @@
             "minLength": 1,
             "nullable": false
           }
+        }
+      },
+      "SendMessageRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "context": {
+            "type": "string"
+          },
+          "clrType": {
+            "type": "string"
+          },
+          "message": {}
         }
       },
       "ErrorResponseOfEndpointErrorOfUpdateAccessMeanErrorCode": {
@@ -16075,10 +18668,10 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/LockTypeEnum"
+            "$ref": "#/components/schemas/LockTypeEnum2"
           },
           "state": {
-            "$ref": "#/components/schemas/StateEnum"
+            "$ref": "#/components/schemas/StateEnum2"
           },
           "lastStateChangeUTC": {
             "type": "string",
@@ -16088,6 +18681,9 @@
             "type": "string",
             "format": "guid"
           },
+          "disabled": {
+            "type": "boolean"
+          },
           "keys": {
             "type": "array",
             "items": {
@@ -16096,7 +18692,7 @@
           }
         }
       },
-      "LockTypeEnum": {
+      "LockTypeEnum2": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -16110,7 +18706,7 @@
           "SABGatewayRelayLock"
         ]
       },
-      "StateEnum": {
+      "StateEnum2": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -16543,10 +19139,10 @@
             "nullable": true
           },
           "type": {
-            "$ref": "#/components/schemas/LockTypeEnum"
+            "$ref": "#/components/schemas/LockTypeEnum2"
           },
           "state": {
-            "$ref": "#/components/schemas/StateEnum"
+            "$ref": "#/components/schemas/StateEnum2"
           },
           "lastStateChangeUTC": {
             "type": "string",
@@ -16555,6 +19151,9 @@
           "ioTGatewayId": {
             "type": "string",
             "format": "guid"
+          },
+          "disabled": {
+            "type": "boolean"
           }
         }
       },
@@ -16843,6 +19442,63 @@
           "AccessKeyAlreadyDeleted"
         ]
       },
+      "ErrorResponseOfEndpointErrorOfDeleteAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "nullable": true
+          },
+          "operationError": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EndpointErrorOfDeleteAccessPointErrorCode"
+              }
+            ]
+          },
+          "requestFormatErrors": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ValidationFailure"
+            }
+          }
+        }
+      },
+      "EndpointErrorOfDeleteAccessPointErrorCode": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "errorCode": {
+            "$ref": "#/components/schemas/DeleteAccessPointErrorCode"
+          },
+          "errorMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "DeleteAccessPointErrorCode": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "AccessPointHasLock",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ],
+        "enum": [
+          "Unspecified",
+          "DatabaseError",
+          "AccessPointNotFound",
+          "AccessPointHasLock",
+          "PermissionServiceError",
+          "InvalidParameter"
+        ]
+      },
       "ErrorResponseOfEndpointErrorOfCreateSmartPhoneErrorCode": {
         "type": "object",
         "additionalProperties": false,
@@ -16898,7 +19554,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "smartPhoneId": {
+          "id": {
             "type": "string",
             "format": "guid"
           },
@@ -17063,7 +19719,7 @@
           },
           "lockType": {
             "nullable": false,
-            "$ref": "#/components/schemas/LockTypeEnum2"
+            "$ref": "#/components/schemas/LockTypeEnum3"
           },
           "sabRelayOptions": {
             "nullable": false,
@@ -17072,10 +19728,14 @@
           "legacyRelayOptions": {
             "nullable": false,
             "$ref": "#/components/schemas/LegacyRelayOptionsDto"
+          },
+          "disabled": {
+            "type": "boolean",
+            "default": true
           }
         }
       },
-      "LockTypeEnum2": {
+      "LockTypeEnum3": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -17729,6 +20389,234 @@
           }
         }
       },
+      "Permission": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "contextType": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          },
+          "actionObject": {
+            "type": "string",
+            "nullable": true
+          },
+          "resourceType": {
+            "type": "string"
+          },
+          "appHolder": {
+            "type": "string"
+          },
+          "grantee": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "timeRanges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission_TimeRange"
+            }
+          }
+        }
+      },
+      "Permission_TimeRange": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTime": {
+            "$ref": "#/components/schemas/Permission_TimeRecord"
+          },
+          "endTime": {
+            "$ref": "#/components/schemas/Permission_TimeRecord"
+          }
+        }
+      },
+      "Permission_TimeRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "minutes": {
+            "type": "string"
+          },
+          "hour": {
+            "type": "string"
+          },
+          "daysOfWeek": {
+            "type": "integer"
+          },
+          "dayOfMonth": {
+            "type": "string"
+          },
+          "month": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          }
+        }
+      },
+      "AssignPermissionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "destination": {
+            "$ref": "#/components/schemas/PermissionDestination"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PermissionGroup"
+            }
+          }
+        }
+      },
+      "PermissionDestination": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "PermissionGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "permissionTarget": {
+            "$ref": "#/components/schemas/PermissionTarget"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Permission2"
+            }
+          }
+        }
+      },
+      "PermissionTarget": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "Permission2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "contextType": {
+            "type": "string"
+          },
+          "context": {
+            "type": "string"
+          },
+          "resourceType": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "actionObject": {
+            "type": "string",
+            "nullable": true
+          },
+          "appHolder": {
+            "type": "string",
+            "nullable": true
+          },
+          "grantor": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Grantor"
+              }
+            ]
+          },
+          "extraParams": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ExtraParams"
+              }
+            ]
+          },
+          "timeRanges": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/TimeRange"
+            }
+          }
+        }
+      },
+      "Grantor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ExtraParams": {
+        "type": "object",
+        "x-abstract": true,
+        "additionalProperties": false
+      },
+      "TimeRange": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "startTime": {
+            "$ref": "#/components/schemas/TimeRecord"
+          },
+          "endTime": {
+            "$ref": "#/components/schemas/TimeRecord"
+          }
+        }
+      },
+      "TimeRecord": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "minutes": {
+            "type": "string"
+          },
+          "hour": {
+            "type": "string"
+          },
+          "daysOfWeek": {
+            "type": "string"
+          },
+          "dayOfMonth": {
+            "type": "string"
+          },
+          "month": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          }
+        }
+      },
       "Invitation": {
         "type": "object",
         "additionalProperties": false,
@@ -17845,23 +20733,57 @@
           "Rejected"
         ]
       },
-      "ReadThermostatStateResponse": {
+      "ShareSensorRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "sensorId",
+          "sharedWith"
+        ],
+        "properties": {
+          "sharedWith": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          }
+        }
+      },
+      "Thermostat": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
           "spaceId": {
             "type": "string",
             "format": "guid"
           },
-          "thermostatId": {
+          "sensorId": {
             "type": "string",
             "format": "guid"
           },
-          "sensorTemperature": {
-            "$ref": "#/components/schemas/TemperatureDto"
+          "name": {
+            "type": "string"
           },
+          "friendlyName": {
+            "type": "string"
+          }
+        }
+      },
+      "ThermostatState": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "setpointTemperature": {
-            "$ref": "#/components/schemas/TemperatureDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Temperature"
+              }
+            ]
           },
           "powerMode": {
             "$ref": "#/components/schemas/PowerMode"
@@ -17874,13 +20796,13 @@
           }
         }
       },
-      "TemperatureDto": {
+      "Temperature": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "value": {
             "type": "number",
-            "format": "double"
+            "format": "decimal"
           },
           "units": {
             "type": "string"
@@ -17907,17 +20829,286 @@
           "Auto",
           "Cooling",
           "Heating",
-          "Ventilation"
+          "Ventilation",
+          "Dehumidifier"
         ],
         "enum": [
           "Stop",
           "Auto",
           "Cooling",
           "Heating",
-          "Ventilation"
+          "Ventilation",
+          "Dehumidifier"
         ]
       },
       "FanSpeed": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Auto",
+          "Lowest",
+          "Low",
+          "Medium",
+          "Higher",
+          "Highest"
+        ],
+        "enum": [
+          "Auto",
+          "Lowest",
+          "Low",
+          "Medium",
+          "Higher",
+          "Highest"
+        ]
+      },
+      "Sensor": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "temperature": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Temperature"
+              }
+            ]
+          }
+        }
+      },
+      "InstallThermostatRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "sensorId",
+          "name",
+          "friendlyName",
+          "vendor",
+          "vendorId"
+        ],
+        "properties": {
+          "sensorId": {
+            "type": "string",
+            "format": "guid",
+            "nullable": false
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendor": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorProperties": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "InstallSensorRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "name",
+          "friendlyName",
+          "vendor",
+          "vendorId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendor": {
+            "nullable": false,
+            "$ref": "#/components/schemas/Vendor"
+          },
+          "vendorId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorProperties": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Vendor": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "WeatherApi",
+          "AirZone",
+          "Shelly"
+        ],
+        "enum": [
+          "WeatherApi",
+          "AirZone",
+          "Shelly"
+        ]
+      },
+      "EnableModuleResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ChangeThermostatStateRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "thermostatId"
+        ],
+        "properties": {
+          "setpointTemperature": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Temperature"
+              }
+            ]
+          },
+          "powerMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PowerMode"
+              }
+            ]
+          },
+          "thermostatMode": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ThermostatMode"
+              }
+            ]
+          },
+          "fanSpeed": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/FanSpeed"
+              }
+            ]
+          }
+        }
+      },
+      "ReadThermostatStateResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "thermostatId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "sensorTemperature": {
+            "$ref": "#/components/schemas/TemperatureDto"
+          },
+          "setpointTemperature": {
+            "$ref": "#/components/schemas/TemperatureDto"
+          },
+          "powerMode": {
+            "$ref": "#/components/schemas/PowerMode2"
+          },
+          "thermostatMode": {
+            "$ref": "#/components/schemas/ThermostatMode2"
+          },
+          "fanSpeed": {
+            "$ref": "#/components/schemas/FanSpeed2"
+          }
+        }
+      },
+      "TemperatureDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "units": {
+            "type": "string"
+          }
+        }
+      },
+      "PowerMode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "On",
+          "Off"
+        ],
+        "enum": [
+          "On",
+          "Off"
+        ]
+      },
+      "ThermostatMode2": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation",
+          "Dehumidifier"
+        ],
+        "enum": [
+          "Stop",
+          "Auto",
+          "Cooling",
+          "Heating",
+          "Ventilation",
+          "Dehumidifier"
+        ]
+      },
+      "FanSpeed2": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -17969,83 +21160,6 @@
           }
         }
       },
-      "InstallThermostatResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "spaceId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "friendlyName": {
-            "type": "string"
-          },
-          "thermostatId": {
-            "type": "string",
-            "format": "guid"
-          }
-        }
-      },
-      "InstallThermostatRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "spaceId",
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": false
-          },
-          "friendlyName": {
-            "type": "string",
-            "nullable": true
-          },
-          "vendorProperties": {
-            "$ref": "#/components/schemas/ThermostatVendorPropertiesDto"
-          }
-        }
-      },
-      "ThermostatVendorPropertiesDto": {
-        "type": "object",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "vendor": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "credentials": {
-            "$ref": "#/components/schemas/ThermostatVendorCredentialsDto"
-          }
-        }
-      },
-      "ThermostatVendorCredentialsDto": {
-        "type": "object",
-        "x-abstract": true,
-        "additionalProperties": false,
-        "properties": {
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "EnableModuleResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "spaceId": {
-            "type": "string",
-            "format": "guid"
-          }
-        }
-      },
       "ChangeThermostatStateResponse": {
         "type": "object",
         "additionalProperties": false,
@@ -18070,7 +21184,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/PowerMode2"
+                "$ref": "#/components/schemas/PowerMode3"
               }
             ]
           },
@@ -18078,7 +21192,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ThermostatMode2"
+                "$ref": "#/components/schemas/ThermostatMode3"
               }
             ]
           },
@@ -18086,7 +21200,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/FanSpeed2"
+                "$ref": "#/components/schemas/FanSpeed3"
               }
             ]
           }
@@ -18098,14 +21212,14 @@
         "properties": {
           "value": {
             "type": "number",
-            "format": "double"
+            "format": "decimal"
           },
           "units": {
             "type": "string"
           }
         }
       },
-      "PowerMode2": {
+      "PowerMode3": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -18117,7 +21231,7 @@
           "Off"
         ]
       },
-      "ThermostatMode2": {
+      "ThermostatMode3": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -18125,17 +21239,19 @@
           "Auto",
           "Cooling",
           "Heating",
-          "Ventilation"
+          "Ventilation",
+          "Dehumidifier"
         ],
         "enum": [
           "Stop",
           "Auto",
           "Cooling",
           "Heating",
-          "Ventilation"
+          "Ventilation",
+          "Dehumidifier"
         ]
       },
-      "FanSpeed2": {
+      "FanSpeed3": {
         "type": "string",
         "description": "",
         "x-enumNames": [
@@ -18155,7 +21271,7 @@
           "Highest"
         ]
       },
-      "ChangeThermostatStateRequest": {
+      "ChangeThermostatStateRequest2": {
         "type": "object",
         "additionalProperties": false,
         "required": [
@@ -18175,7 +21291,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/PowerMode2"
+                "$ref": "#/components/schemas/PowerMode3"
               }
             ]
           },
@@ -18183,7 +21299,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ThermostatMode2"
+                "$ref": "#/components/schemas/ThermostatMode3"
               }
             ]
           },
@@ -18191,106 +21307,180 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/FanSpeed2"
+                "$ref": "#/components/schemas/FanSpeed3"
               }
             ]
           }
         }
       },
-      "SinchronizeSpaceAndExternalId": {
+      "Box": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "spaceAndExternalIds": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "cabinetId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "openingCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "receivedPackages": {
             "type": "array",
-            "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/SpaceAndExternalId"
+              "$ref": "#/components/schemas/Package"
+            }
+          },
+          "collectedPackages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Package"
             }
           }
         }
       },
-      "SpaceAndExternalId": {
+      "Package": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "innerSpaceId": {
-            "type": "string",
-            "format": "guid"
+          "vendorId": {
+            "type": "string"
           },
-          "receiverExternalId": {
+          "receivedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "collectedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "RegisterBoxRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "cabinetId",
+          "name",
+          "friendlyName",
+          "vendorId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "openingCode": {
             "type": "string",
             "nullable": true
           }
         }
       },
-      "EnableModuleResponse2": {
+      "Cabinet": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "vendor": {
+            "type": "string"
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "vendorProperties": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "InstallCabinetRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "name",
+          "friendlyName",
+          "vendor",
+          "vendorId"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendor": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorProperties": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Response": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "spaceId": {
             "type": "string",
             "format": "guid"
-          }
-        }
-      },
-      "CreateLockerResponse": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "lockerId": {
-            "type": "string",
-            "format": "guid"
-          },
-          "spaceId": {
-            "type": "string",
-            "format": "guid"
-          }
-        }
-      },
-      "CreateLockerRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "properties": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Properties"
-              }
-            ]
-          }
-        }
-      },
-      "Properties": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "arregui": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LockerArreguiPropertiesRequestDto"
-              }
-            ]
-          }
-        }
-      },
-      "LockerArreguiPropertiesRequestDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "serviceUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "apiKey": {
-            "type": "string",
-            "nullable": true
-          },
-          "installationId": {
-            "type": "string",
-            "nullable": true
           }
         }
       },
@@ -18356,7 +21546,7 @@
           }
         }
       },
-      "EnableModuleResponse3": {
+      "EnableModuleResponse2": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -18413,258 +21603,468 @@
           }
         }
       },
-      "Device": {
+      "Circuit_CircuitBreaker": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
+          "switchedOn": {
+            "type": "boolean"
           },
-          "integration": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
+          "vendor": {
             "type": "string"
           },
-          "type": {
+          "vendorId": {
             "type": "string"
           },
-          "commands": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Command"
-            }
-          },
-          "properties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Property"
-            }
-          }
-        }
-      },
-      "Command": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "arguments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CommandArgument"
-            }
-          }
-        }
-      },
-      "CommandArgument": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "Property": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "$ref": "#/components/schemas/ElementType"
-          },
-          "accessor": {
-            "$ref": "#/components/schemas/PropertyAccessor"
-          }
-        }
-      },
-      "ElementType": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Boolean",
-          "String"
-        ],
-        "enum": [
-          "Boolean",
-          "String"
-        ]
-      },
-      "PropertyAccessor": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "ReadOnly",
-          "WriteOnly",
-          "ReadWrite"
-        ],
-        "enum": [
-          "ReadOnly",
-          "WriteOnly",
-          "ReadWrite"
-        ]
-      },
-      "RegisterProperty": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "deviceId",
-          "name",
-          "type",
-          "accessor"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": false
-          },
-          "type": {
-            "nullable": false,
-            "$ref": "#/components/schemas/ElementType"
-          },
-          "accessor": {
-            "nullable": false,
-            "$ref": "#/components/schemas/PropertyAccessor"
-          }
-        }
-      },
-      "Integration": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "guid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      },
-      "RegisterIntegration": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name",
-          "type"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "nullable": false
-          },
-          "type": {
-            "nullable": false,
-            "$ref": "#/components/schemas/RegisterIntegration_IntegrationType"
-          }
-        }
-      },
-      "RegisterIntegration_IntegrationType": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Sab"
-        ],
-        "enum": [
-          "Sab"
-        ]
-      },
-      "RegisterDevice": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "name",
-          "integrationId",
-          "type"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "nullable": false
-          },
-          "integrationId": {
-            "type": "string",
-            "format": "guid",
-            "nullable": false
-          },
-          "type": {
-            "nullable": false,
-            "$ref": "#/components/schemas/RegisterDevice_DeviceType"
-          }
-        }
-      },
-      "RegisterDevice_DeviceType": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Relay"
-        ],
-        "enum": [
-          "Relay"
-        ]
-      },
-      "RegisterCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "deviceId",
-          "name"
-        ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1,
-            "nullable": false
-          },
-          "arguments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RegisterCommand_Argument"
-            }
-          }
-        }
-      },
-      "RegisterCommand_Argument": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "$ref": "#/components/schemas/ElementType"
-          }
-        }
-      },
-      "ExecuteCommand": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "arguments": {
+          "vendorProperties": {
             "type": "object",
             "additionalProperties": {}
+          }
+        }
+      },
+      "SwitchBreakerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "circuitId",
+          "switchedOn"
+        ],
+        "properties": {
+          "switchedOn": {
+            "type": "boolean",
+            "nullable": false
+          }
+        }
+      },
+      "ConcurrencyToken": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "Circuit_CircuitMeasurement": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      },
+      "ReadMeasurementsRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "circuitId",
+          "granularity",
+          "startDate",
+          "endDate"
+        ],
+        "properties": {
+          "timeZone": {
+            "$ref": "#/components/schemas/TimeZoneInfo"
+          }
+        }
+      },
+      "Granularity": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Hour",
+          "Day",
+          "Month"
+        ],
+        "enum": [
+          "Hour",
+          "Day",
+          "Month"
+        ]
+      },
+      "TimeZoneInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "Id": {
+            "type": "string"
+          },
+          "HasIanaId": {
+            "type": "boolean"
+          },
+          "DisplayName": {
+            "type": "string"
+          },
+          "StandardName": {
+            "type": "string"
+          },
+          "DaylightName": {
+            "type": "string"
+          },
+          "BaseUtcOffset": {
+            "type": "string",
+            "format": "duration"
+          },
+          "SupportsDaylightSavingTime": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Circuit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "meter": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Circuit_CircuitMeter"
+              }
+            ]
+          },
+          "breaker": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Circuit_CircuitBreaker"
+              }
+            ]
+          }
+        }
+      },
+      "Circuit_CircuitMeter": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "vendor": {
+            "type": "string"
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "vendorProperties": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "measurements": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Circuit_CircuitMeasurement"
+            }
+          }
+        }
+      },
+      "InstallCircuitRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "name",
+          "friendlyName"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "friendlyName": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "meter": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InstallCircuitRequest_CircuitMeter"
+              }
+            ]
+          },
+          "breaker": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/InstallCircuitRequest_CircuitSwitch"
+              }
+            ]
+          }
+        }
+      },
+      "InstallCircuitRequest_CircuitMeter": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "vendor",
+          "vendorProperties"
+        ],
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "vendorProperties": {
+            "type": "object",
+            "minLength": 1,
+            "nullable": false,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "InstallCircuitRequest_CircuitSwitch": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "vendor",
+          "vendorProperties"
+        ],
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string"
+          },
+          "vendorProperties": {
+            "type": "object",
+            "minLength": 1,
+            "nullable": false,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "EnableModuleResponse3": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "MeterStateResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number",
+              "format": "decimal"
+            }
+          }
+        }
+      },
+      "ReadState": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meterId",
+          "spaceId",
+          "startDay",
+          "endDay",
+          "granularity"
+        ],
+        "properties": {
+          "timeZone": {
+            "$ref": "#/components/schemas/TimeZoneInfo"
+          }
+        }
+      },
+      "MeterStateResponse2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "decimal"
+            }
+          }
+        }
+      },
+      "ReadState2": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "meterId",
+          "spaceId",
+          "startDay",
+          "endDay",
+          "granularity"
+        ],
+        "properties": {
+          "timeZone": {
+            "$ref": "#/components/schemas/TimeZoneInfo"
+          }
+        }
+      },
+      "ListMetersResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "meters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WibeeeMeterResponse"
+            }
+          }
+        }
+      },
+      "WibeeeMeterResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "buildingId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sid": {
+            "type": "string"
+          },
+          "meterId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ChangeBreakerRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "circuitId",
+          "vendor",
+          "vendorId",
+          "vendorProperties"
+        ],
+        "properties": {
+          "vendor": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorId": {
+            "type": "string",
+            "minLength": 1,
+            "nullable": false
+          },
+          "vendorProperties": {
+            "type": "object",
+            "nullable": false,
+            "additionalProperties": {}
+          }
+        }
+      },
+      "Blind": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          },
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "lastModifiedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "InstallBlindRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "friendlyName": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          }
+        }
+      },
+      "EnableModuleResponse4": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ChangeBlindRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "spaceId",
+          "blindId",
+          "position"
+        ],
+        "properties": {
+          "position": {
+            "type": "integer",
+            "format": "int32",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "nullable": false
           }
         }
       }
